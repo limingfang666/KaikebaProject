@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>选项卡切换_id</title>
+    <style>
+        .options .active {
+            background: red;
+        }
+        .cont div {
+            display: none;
+        }
+        .cont .show {
+            margin: 10px;
+            font-size: 40px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="options">
+        <button id="1" class="active">选卡一</button>
+        <button id="2">选卡二</button>
+        <button id="3">选卡三</button>
+    </div>
+    <div class="cont">
+        <div class="show">选卡一对应内容</div>
+        <div>选卡二对应内容</div>
+        <div>选卡三对应内容</div>
+    </div>
+</div>  
+<script>
+    var btns = document.querySelectorAll(".options button");
+    var conts = document.querySelectorAll(".cont div");
+    for(var i=0;i<btns.length;i++){
+        //使用id的方式需要手动在btn上加入id，当选卡过多时不适用
+        btns[i].id = i;
+        btns[i].onmouseover = function(){
+            //conts个数和btns个数一样，所以可以借助同一个循环(**)
+            for(var i=0;i<btns.length;i++){
+                //点击某个选卡时，清除其他所有选卡选中状态active，给当前选卡加上active
+                btns[i].classList.remove("active");
+                //给当前选项卡对应的div内容区添加show
+                conts[i].classList.remove("show");
+            }
+            this.classList.add("active"); 
+            //第0个按钮对应第0个div,第1个按钮对应的第1个div,第2个按钮对应的第2个div
+            //所以拿到当前的按钮的id（this.id）就能得到当前应该是第几个div
+            conts[this.id].classList.add("show");
+
+        };
+    }
+</script>  
+</body>
+</html>

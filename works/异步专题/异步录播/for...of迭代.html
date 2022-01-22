@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    // for ...of 迭代的是数组的value值
+    var arr = [1,2,3,4,5];
+    for(var val of arr){
+        console.log(val);//1,2,3,4,5
+    }
+
+    //对象使用for ...of循环
+    let obj = {
+        a:1,
+        b:2
+    };
+    for(let val of obj){
+        console.log(val);//for...of迭代.html:22 Uncaught TypeError: obj is not iterable
+    }
+</script>
+</body>
+</html>

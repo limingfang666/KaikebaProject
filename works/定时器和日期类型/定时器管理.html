@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>定时器管理</title>
+</head>
+<body>
+<style>
+        div {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+    <button>自动改变颜色</button>
+    <button>停止</button>
+    <div class="box"></div>
+<script>
+    'use strict';
+    (function(){
+        /*
+        定时器管理：
+            1.每次开启新定时器之前，先把旧的定时器关闭；
+            2.判断当前定时器是否执行，如果在执行就先不开启
+        */
+
+        var colors = ['green','purple','blue','yellow','pink','peru'];
+        var btns = document.querySelectorAll("button");
+        var box = document.querySelector(".box");
+        var num = 0;//记录当前颜色
+        var timer = 0;//记录定时器编号
+        btns[0].onclick = function(){
+            //定时器管理1:发现如果点击多次改变颜色按钮，会重新开启定时器，所以在开启之前应关闭之前的定时器
+            //clearInterval(timer);
+            //定时器管理2:判断当前定时器是否执行，如果在执行就先不开启
+            if(timer){
+                return;//判断timer为true即非0时就表示定时器已开启，直接return，则后面的代码都不会再执行
+            }
+            timer = setInterval(function(){
+                //使用%arr.length循环获取数组值
+                console.log(colors[num%colors.length]);
+                num++;
+                box.style.backgroundColor = colors[num%colors.length];
+            },1000);
+        };
+        //点击停止按钮，关闭计时器
+        btns[1].onclick = function(){
+            //使用%arr.length循环获取数组值
+            clearInterval(timer);
+        };
+    })();
+</script>   
+</body>
+</html>

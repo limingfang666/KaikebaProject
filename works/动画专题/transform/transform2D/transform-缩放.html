@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #wrap {
+            width: 600px;
+            height: 600px;
+            border: 1px solid black;
+            margin: 0 auto;
+        }
+        #box {
+            width: 200px;
+            height: 200px;
+            background: red;
+            margin: 200px auto;
+            font: 140px/200px "宋体";
+            text-align: center;
+            color: white;
+            transition: 1s;
+        }
+        #wrap:hover #box{
+            /* scale(x,y)缩放X 和 Y轴 */
+            /* transform: scale(.5); */
+            /* scaleX()缩放X轴 */
+            /* transform: scaleX(.5); */
+            /* scaleY()缩放Y轴 */
+            transform: scaleY(.5);
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <div id="box">上</div>
+    </div>
+</body>
+</html>

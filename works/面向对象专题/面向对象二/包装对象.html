@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    //包装对象：String Number Boolean    
+    let str = "a b c";
+
+    //基本数据类型调用包装对象的方法时，原理分析
+    function mySplit(str,method,arg){
+        let temp = new String(str);
+        //最终包装完后系统会销毁包装对象
+        return temp[method](arg);
+    }
+
+    let res = mySplit(str,"split"," ");
+    console.log(res);//(3) ["a", "b", "c"]
+    
+}
+</script>
+</body>
+</html>

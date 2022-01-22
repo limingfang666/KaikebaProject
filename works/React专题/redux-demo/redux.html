@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redux</title>
+</head>
+
+<body>
+    <!-- 引入redux -->
+    <script src="https://cdn.bootcss.com/redux/4.0.5/redux.js"></script>
+    <script>
+        console.log(Redux);
+        //创建一个纯函数：用来生成和维护数据
+        /*
+        纯函数第一个参数state对象:
+            1，纯函数的第一个参数是原state对象；
+            2，Reducer纯函数不能直接修改原state对象，而需要返回一个新的state；
+            3，第二个参数是一个action对象，包含要执行的操作和数据
+            4，如果没有操作匹配，就返回原state对象
+        */
+        /*
+         纯函数第二个参数action对象:
+             1，Reducer纯函数的state对象不能直接修改，而是通过action来执行具体的操作（增删改查）
+             2，action是一个对象，type属性表示要操作的动作（增删改查）,payload属性表示操作state同时传入的数据
+             3，Reducer纯函数不是直接调用的，而是通过store对象的dispatch()方法进行调用
+             4，action对象有初始值： {type: "@@redux/INITv.c.9.6.j.o"}
+             5，Reducer纯函数会根据每次提交（store.dispatch()的调用）过来的action进行不同的操作
+         */
+        function todo(state, action) {
+            /*
+            没有调用dispatch()方法，会返回action对象的初始化type即{type: "@@redux/INITv.c.9.6.j.o"}；
+            调用后会返回dispatch()方法中传入的对象，如{type: "ADD", payload: "MT"}
+            */
+            console.log(action);
+            switch (action.type) {
+                case 'ADD':
+                    //Reducer纯函数不能修改原始state，所以只能返回修改后的state，如[...state]
+                    return [...state, action.payload]
+                case 'DELETE':
+                    return [...state].filter(v=>v!==action.payload);
+                case 'UPDATE':
+                    return;
+                case 'SELECT':
+                    return;
+                //没有任何修改，可以直接返回原始数据
+                default:
+                    return state;
+
+            }
+            return state;
+        }
+
+        /*
+            1,通过Redux.createStore()方法创建一个Redux仓库，用于生成和维护数据
+            2,Redux.createStore()的第一个参数，是一个reducer纯函数;通过reducer纯函数的返回值作为数据（state）来创建仓库；
+                reducer纯函数的作用是用来接受原始（第一次）的state数据，并返回一个新的state数据
+            3，Redux.createStore()第二个参数是仓库的初始化数据
+        */
+        let store = Redux.createStore(todo, [1, 2, 3]);
+
+        //store.getState()获取Store中的state
+        console.log(store);//{dispatch: ƒ, subscribe: ƒ, getState: ƒ, replaceReducer: ƒ, Symbol(observable): ƒ}
+        // console.log(store.getState());//[1, 2, 3]
+
+
+        //subscribe() 方法
+        /*
+        可以通过 subscribe 方法注册监听器（类似事件），每次 dispatch action 的时候都会执行监听函数，该方法返回一个函数，通过该函数可以取消当前监听器
+        如，可以监听store.getState()，只要state发生更改，就会返回更改的动作和提交的数据，即dispatch()中的对象
+        */
+        let unsubscribe = store.subscribe(() => {
+            console.log(store.getState());
+        });
+
+        //store.dispatch()用于提交修改数据，
+        /*
+            1，每次调用store.dispatch()方法时，Redux内部就会去执行reducer纯函数（todo）,store会将上一次的数据传递给state，
+                然后把dispatch()方法中的对象传递给action;
+            2，type属性表示要操作的动作（增删改查），payload属性表示操作state同时传入的数据；
+            3，type和payload属性名可以更改，只是约定俗成叫type和payload；
+        */
+        store.dispatch({
+            type: 'ADD',
+            payload: 'MT'
+        });
+        // console.log(store.getState());//[1, 2, 3, "MT"]
+
+        //多次调用subscribe()方法都能监听到，每次监听返回更改的动作和提交的数据，即dispatch()中的对象{type: "ADD", payload: "MT"}
+        store.dispatch({
+            type: 'ADD',
+            payload: 'MT'
+        });
+
+        //subscribe()方法返回一个函数，通过该函数可以取消当前监听器
+        // unsubscribe();
+        store.dispatch({
+            type: 'ADD',
+            payload: 'MT'
+        });
+
+        //action函数：用于生成特定action对象的函数。每次修改state都要在调用dispatch()方法时传入同样的修改对象，所以可以将此对象进行封装，之后直接调用即可
+        function add(payload) {
+            return {
+                type: 'ADD',
+                payload: payload
+            };
+        }
+        function remove(payload) {
+            return {
+                type: 'DELETE',
+                payload: payload
+            };
+        }
+
+        store.dispatch(add("Mouse"));
+        store.dispatch(add("Baoge"));
+        store.dispatch(remove("MT"));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html >
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>选项卡套选项卡</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+    <div class="wrap">
+        <div id="box">
+            <ul class="navs">
+                <li class="active">暖色调</li>
+                <li>金色夕阳</li>
+                <li>灰色格调</li>
+                <li>baby</li>
+            </ul>
+            <div style="display: block;">
+                <img src="images/1.png" style="display: block">
+                <img src="images/2.png">
+                <img src="images/3.png">
+                <img src="images/4.png">
+                <ul>
+                    <li class="active">暖色键盘</li>
+                    <li>惬意时光</li>
+                    <li>午后</li>
+                    <li>一杯苦咖啡</li>
+                </ul>
+            </div>
+            <div>
+                <img src="images/5.png" style="display: block">
+                <img src="images/1.png">
+                <ul>
+                    <li class="active">街边夕阳</li>
+                    <li>金色稻草</li>
+                </ul>
+            </div>
+            <div>
+                <img src="images/2.png" style="display: block">
+                <img src="images/3.png">
+                <img src="images/4.png">
+                <img src="images/5.png">
+                <ul>
+                    <li class="active">灰色通讯</li>
+                    <li>咖啡'配'饼干</li>
+                    <li>孤单键盘</li>
+                    <li>枯树</li>
+                </ul>
+            </div>
+            <div>
+                <img src="images/1.png" style="display: block">
+                <img src="images/2.png">
+                <ul>
+                    <li class="active">baby素材一</li>
+                    <li>baby素材二</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+<script>
+    /*
+        嵌套选项卡需求：
+        1.页面定时不断切换选卡（一级切换同时，二级也进行切换）
+        2.鼠标移入选卡区域时：
+            - 自动切换选卡停止，鼠标移出时，选卡继续切换
+            - 鼠标移入二级选卡时，二级选卡样式改变
+        嵌套选项卡思路：
+        1.找到所有的一级li，对一级li设置定时器，定间隔显示不同选卡
+        2.一级当前选卡显示时，显示出当前选卡所在的二级选卡，并设置定时器，间隔显示不同选卡
+        3.间隔定时器第一次刷新后，需要间隔一段时间才开始执行，所以需要手动调用一次才能开启第一个选卡
+        4.设置一级li鼠标移入事件，当鼠标移入时，也可以切换选卡，但鼠标移入时，一二级定时器都需要关闭
+        5.设置移入整个选卡区域时，自动切换选卡停止，鼠标移出时，选卡继续切换
+
+        使用两个定时器方式的问题：
+            外层选项卡定时器执行和内层定时器执行时间控制不了
+    */
+(function(){
+    var wrap = document.querySelector(".wrap");
+    var box = wrap.querySelector("#box");
+    var lis = box.querySelectorAll(".navs li");
+    var tab_first = box.querySelectorAll("div");
+
+    var timer = 0;
+    var timer2 = 0;//控制第二个tab选卡的播放
+    var num = 0;
+
+    //设置定时器，间隔显示各个选卡
+    auto();
+    function auto(){
+        //每次定时器执行之前关闭已存在的定时器
+        if(timer){
+            clearInterval(timer);
+            //每次清除一级tab的定时器时同时清除二级tab的定时器
+            clearInterval(timer2);
+        }
+        timer = setInterval(function(){
+            num++;
+            //只在4张选卡中切换
+            num = num%lis.length;
+            changeFirstTab();
+        },2000);
+    }
+
+    //第一次刷新时，也需要切换二级tab
+    changeFirstTab();
+
+    //点击或者定时器都会切换一级tab样式
+    function changeFirstTab(){
+         //将所有的li样式全清除
+        for (var j = 0; j < lis.length; j++) {
+                lis[j].classList.remove("active");
+                tab_first[j].style.display = "none";
+        }
+        //给当前li加上active
+        lis[num].classList.add("active");
+        tab_first[num].style.display = "block";
+
+        //一级tab切换的同时，设置定时器切换二级tab
+        changeSecondTab();
+    }
+
+    //获取到当前显示div下的所有li(num即当前显示的div的索引),再设置定时器控制li的切换
+    function changeSecondTab(){
+        //获取到当前显示div下的所有li(num即当前显示的div的索引)
+        var secondLis = tab_first[num].querySelectorAll("li");
+
+        //二级tab有鼠标移入事件
+        secondLis.forEach(function(item,index){
+            secondLis[index].onmouseover = function(){
+                changeSecondStyle(secondLis,index);
+            }
+        });
+
+        var count = 0;//二级tab切换的索引
+        //每次设置第一个li为active且清除其他li的active
+        changeSecondStyle(secondLis,count);
+
+        //设置定时器控制二级tab的切换
+        clearInterval(timer2);
+        timer2 = setInterval(function(){
+            count++;
+            count = count%secondLis.length;
+            changeSecondStyle(secondLis,count);
+        },500);
+    }
+
+    //切换二级tab样式
+    function changeSecondStyle(secondLis,count){
+         for (var i = 0; i < secondLis.length; i++) {
+            secondLis[i].classList.remove("active");
+        }
+        secondLis[count].classList.add("active");
+    }
+
+    for (var i = 0; i < lis.length; i++) {
+        lis[i].index = i;
+        //选卡点击效果
+        lis[i].onmouseover = function(){
+            //记录下更改后的num,以便定时器质性
+            num = this.index;
+            changeFirstTab();
+        };
+    }
+
+    //当鼠标移入tab区域时，切换暂停，移出时，继续切换
+    box.onmouseover = function(){
+        clearInterval(timer);
+        //每次清除一级tab的定时器时同时清除二级tab的定时器
+        clearInterval(timer2);
+    };
+    box.onmouseout = function(){
+        //鼠标移出时定时器继续执行
+        auto();
+    };
+
+})();
+</script>
+</body>
+</html>

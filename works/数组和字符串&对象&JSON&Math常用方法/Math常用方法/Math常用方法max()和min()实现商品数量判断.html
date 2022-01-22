@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button>-</button>
+    <span>0</span>
+    <button>+</button>
+    <script>
+        var btn = document.querySelectorAll("button");
+        var span = document.querySelector("span");
+        var num = Number(span.innerHTML);
+        btn[0].onclick = function(){
+            num--;
+            //判断商品不能小于0件
+            // if(num<=0){
+            //     num = 0;
+            // }
+            //通过max实现判断商品不能小于0件
+            //当num小于0时，取最大值就会一直是0，如果大于0，就会取值num
+            num = Math.max(num,0);
+            span.innerHTML = num;
+            
+        };
+        btn[1].onclick = function(){
+            num++;
+            //判断商品不能大于10件
+            // if(num>=10){
+            //     num = 10;
+            // }
+            //通过min实现判断商品不能大于10件
+            //当商品数量<10时，取num；当商品数量>10时，取最小值即为10
+            num = Math.min(num,10);
+            span.innerHTML = num;
+        };
+    </script>
+</body>
+</html>

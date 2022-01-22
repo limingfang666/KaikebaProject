@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button>点击发送post请求</button>
+    <script>
+        {
+            //通过/get/3的方式进行传参，后台通过/get/:id进行获取，ctx.params得到具体参数值
+            document.querySelector("button").onclick = function(){
+                let xhr = new XMLHttpRequest();
+                xhr.open("post","/getPostInfo");
+                xhr.onload = function(){
+                    console.log(xhr.responseText);//{"status":1,"msg":"请求成功"}
+                    //获取所有头部信息
+                    console.log(xhr.getAllResponseHeaders());
+                    //获取某个头部信息
+                    console.log(xhr.getResponseHeader("content-type"));
+                }
+                //设置正文请求头
+                // xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");//默认编码
+                // xhr.setRequestHeader("content-type","multipart/form-data");//二进制编码，上传文件时使用
+                // let data = "username=zs&age=20";
+                //正文请求头设置为json时，传输数据也需要是JSON格式
+                xhr.setRequestHeader("content-type","application/json; charset=utf-8");//json编码：传输数据也需要时JSON格式
+                // 传输数据也需要是json格式，必须使用JSON.stringify()将数据转为json格式
+                let data = JSON.stringify({
+                    username:'zs',
+                    age:12
+                });
+                xhr.send(data);
+            };
+        }
+    </script>
+</body>
+</html>

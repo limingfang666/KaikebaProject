@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>bind原理分析</title>
+</head>
+<body>
+<script>
+//为什么调用bind生成的新函数，this指向被绑定后就不能再绑定了
+//自己实现bind方法的原理
+//fn要绑定的新函数，_this给新函数绑定的this指向，...arg传参（展开运算符ES6新增）
+function bind(fn,_this,...arg){
+    return function(...args2){
+        fn.call(_this,...arg,...args2);
+    };
+}
+
+function fn(){
+    console.log(this,arguments);
+}
+//调用bind方法，返回新的函数function(){ fn.call(_this); };
+var fn2 = bind(fn,document,11);
+//执行fn2()即执行返回的新函数，并给新的函数绑定this指向
+fn2(2,3);//document
+fn();
+
+//重新调用绑定函数，并返回新的函数同时给其绑定this执行
+var fn3 = bind(fn,document.body,12);
+fn3(4,5);//this
+</script>   
+</body>
+</html>

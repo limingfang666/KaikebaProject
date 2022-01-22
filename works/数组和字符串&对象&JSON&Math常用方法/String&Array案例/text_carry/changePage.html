@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>更换字母</title>
+    <style>
+        div {
+            display: flex;
+            width: 600px;
+            margin: 100px auto;
+        }
+        div p {
+            margin: auto;
+            border: 2px solid #FFF;
+            width: 100px;
+            height: 200px;
+            background: #000;
+            font: 100px/200px "宋体";
+            color: #fff;
+            text-align: center;
+            border-radius: 20px;  
+        }
+        button {
+            margin: auto;
+            flex: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;    
+        }
+    </style>
+</head>
+<body>
+<div>
+    <button>prev</button>
+    <p>A</p>
+    <p>B</p>
+    <p>C</p>
+    <p>D</p>
+    <button>next</button>
+</div>    
+<script>
+(function(){
+    //shift()删除数组第一个元素
+    //pop()删除数组最后一个元素
+    //unshift()添加数组第一个元素
+    //push()添加数组最后一个元素
+    var allP = document.querySelectorAll("p");
+    var btn = document.querySelectorAll("button");
+    var arr = [];
+    for (var i = 0; i < allP.length; i++) {
+        arr.push(allP[i].innerHTML);
+    }
+    //prev 将第一张放到最后一张 
+    btn[0].onclick = function(){
+        //不能进行打印
+        arr.push(arr.shift());// ["B", "C", "D", "A"]
+        for (var i = 0; i < allP.length; i++) {
+            allP[i].innerHTML = arr[i];
+        }
+    };
+    //next 将最后一张放到第一张
+    btn[1].onclick = function(){
+        //不能进行打印
+        arr.unshift(arr.pop());//["D", "A", "B", "C"]
+        for (var i = 0; i < allP.length; i++) {
+            allP[i].innerHTML = arr[i];
+        }
+    };
+})();    
+</script>
+</body>
+</html>

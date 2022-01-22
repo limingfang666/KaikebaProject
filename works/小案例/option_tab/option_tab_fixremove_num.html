@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>选项卡切换——定点清除——num记录</title>
+    <style>
+        .options .active {
+            background: red;
+        }
+        .cont div {
+            display: none;
+        }
+        .cont .show {
+            margin: 10px;
+            font-size: 40px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="options">
+        <button class="active">选卡一</button>
+        <button>选卡二</button>
+        <button>选卡三</button>
+    </div>
+    <div class="cont">
+        <div class="show">选卡一对应内容</div>
+        <div>选卡二对应内容</div>
+        <div>选卡三对应内容</div>
+    </div>
+</div>  
+<script>
+    //思路：通过num记录当前选中的在第几个btn（并对应cont）；点击其他btn后直接对选中的btn清除选中，再给当前选中的设置选中；同步记录到当前选中的btn，cont
+    var btns = document.querySelectorAll(".options button");
+    var conts = document.querySelectorAll(".cont div");
+
+    var num = 0;//通过num记录当前选中的在第几个btn
+
+    for(var i=0;i<btns.length;i++){
+        btns[i].index = i;
+        btns[i].onmouseover = function(){
+            //点击其他btn后直接对选中的btn清除选中
+            btns[num].classList.remove("active");
+            conts[num].classList.remove("show");
+
+            //再给当前选中的btn,div设置选中active,show
+            this.classList.add("active"); 
+            conts[this.index].classList.add("show");
+
+            //**同步记录到当前选中的btn，cont
+            num = this.index;
+        };
+    }
+</script>  
+</body>
+</html>

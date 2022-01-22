@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button>跳转</button>
+<script>
+{
+    let btn = document.querySelector("button");
+    btn.onclick = ()=>{
+        //获取href信息
+        console.log(location.href);//file:///E:/StudyFile/kaikeba/works/BOM%E4%B8%93%E9%A2%98/location.href.html
+        location.href = "https://www.baidu.com/s?wd=开课吧"
+    };
+
+}
+</script>
+</body>
+</html>

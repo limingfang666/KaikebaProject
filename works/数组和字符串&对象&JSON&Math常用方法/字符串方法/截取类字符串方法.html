@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>截取类字符串方法</title>
+</head>
+<body>
+<script>
+    //slice()方法
+    // begin表示从该索引开始提取字符形成新的字符串
+    //begin如果是负数（负数一旦超出lenth，默认从0开始），则会从右向左查找字符截取；
+    //end表示结束截取的位置，如果省略不写，默认到字符串最后一位，如果是负数，同样从右向左查找最后一位字符位置；
+    //如果超出最大索引值，或者end大于begin，或者end等于begin，都会返回空字符串。
+    var str = "kaikeba";
+    //包前不包后；
+    console.log("2,5:"+str.slice(2,5));//ike
+    //begin如果是负数（负数一旦超出lenth，默认从0开始），则会从右向左查找字符截取；
+    console.log("begin为负数："+str.slice(-2));//ba
+
+    //begin如果遇到了负数,length+(begin)=>length-begin。如var str = "kaikeba"; str.slice(-5); 即为7-5=2，从索引2开始
+    console.log("-5:"+str.slice(-5));//ikeba
+
+    //负数一旦超出lenth，默认从0开始   kaikeba
+    console.log("begin负数超出lenth："+str.slice(-8));//kaikeba
+    //end如果是负数，同样从右向左查找最后一位字符位置；
+    console.log("end为负数："+str.slice(2,-1));//-1的位置为从后往前的b  ikeb
+
+    //如果超出最大索引值，或者end大于begin，都会返回空字符串。
+    console.log("超出最大索引值："+str.slice(9));
+    console.log("end大于begin："+str.slice(-2,5));
+
+    
+
+</script>    
+</body>
+</html>

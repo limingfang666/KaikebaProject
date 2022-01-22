@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background: red;
+            margin: 100px auto;
+            font: 80px/100px "宋体";
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">上</div>
+    <script>
+        (function(){
+            // matrix(1,0,0,1,0,0);
+            var a = 1;
+            var b = 0;
+            var c = 0;
+            var d = 1;
+            var e = 0;
+            var f = 0;
+            //matrix(a,b,c,d,e,f)
+            var box = document.querySelector("#box");
+            
+            // 位移 x轴位移: e=e+x
+            function translateX(x){
+                e += x;
+                box.style.transform = 'matrix('+a+','+b+','+c+','+d+','+e+','+f+')';//matrix(a,b,c,d,e,f)
+            }
+
+            // 位移 y轴位移: f=f+y
+            function translateY(y){
+                f += y;
+                box.style.transform = 'matrix('+a+','+b+','+c+','+d+','+e+','+f+')';
+            }
+            //缩放 x轴缩放 a=x*a    c=x*c     e=x*e;
+            function scaleX(x){
+                a=x*a;
+                c=x*c;
+                e=x*e;
+                box.style.transform = 'matrix('+a+','+b+','+c+','+d+','+e+','+f+')';
+            }
+            //缩放 y轴缩放 b=y*b   d=y*d     f=y*f;
+            function scaleY(y){
+                b=y*b;
+                d=y*d;
+                f=y*f;
+                box.style.transform = 'matrix('+a+','+b+','+c+','+d+','+e+','+f+')';
+            }
+            // 通过矩阵实现倾斜 
+            // x轴倾斜 c=Math.tan(xDeg/180*Math.PI)
+            function skewX(xDeg){
+                c=Math.tan(xDeg/180*Math.PI);
+                box.style.transform = 'matrix('+a+','+b+','+c+','+d+','+e+','+f+')';
+            }
+            // y轴倾斜: b=Math.tan(yDeg/180*Math.PI)
+            function skewY(yDeg){
+                b=Math.tan(yDeg/180*Math.PI);
+                box.style.transform = 'matrix('+a+','+b+','+c+','+d+','+e+','+f+')';
+            }
+            //通过矩阵实现旋转
+            function rotate(deg){
+                a=Math.cos(deg/180*Math.PI); 
+                b=Math.sin(deg/180*Math.PI);
+                c=Math.sin(deg/180*Math.PI);
+		        d=Math.cos(deg/180*Math.PI);
+                box.style.transform = 'matrix('+a+','+b+','+c+','+d+','+e+','+f+')';
+            }
+
+            box.onclick = function(){
+                //x轴位移
+                // translateX(10);
+
+                //y轴位移
+                // translateY(20);
+
+                //x轴缩放
+                // scaleX(.5);
+
+                //y轴缩放
+                // scaleY(.5);
+
+                //x轴倾斜
+                // skewX(40);
+
+                //y轴倾斜
+                // skewY(60);
+
+                rotate(60);
+            };
+        })();
+    </script>
+</body>
+</html>

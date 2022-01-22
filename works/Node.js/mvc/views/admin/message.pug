@@ -1,0 +1,27 @@
+meta(charset='UTF-8')
+meta(name='viewport', content='width=device-width,initial-scale=1')
+meta(http-equiv='X-UA-Compatible', content='ie=edge')
+title 添加成功
+| #{res.msg}
+br
+span 5 
+| 秒后自动跳转...
+br
+//- 跳转到新闻列表页
+//- a(href='/admin/newsList?p='+res.p) 点击我直接跳转
+//- 仍然返回到添加新闻也是不需要p页码
+a(href='/admin/addNews') 点击我直接跳转
+//- 添加成功后直接跳转到新闻列表页面最后一页
+script(type='text/javascript').
+  let timer = document.querySelector("span").innerText;
+      timer = parseInt(timer);
+      setInterval(() => {
+          timer--;
+          document.querySelector("span").innerText = timer;
+          if (timer < 1) {
+            //-   window.location.href = '/admin/newsList?p='+ #{res.p};
+            //- 仍然返回到添加新闻也是不需要p页码
+            window.location.href = '/admin/addNews';
+          }
+      }, 1000)
+  

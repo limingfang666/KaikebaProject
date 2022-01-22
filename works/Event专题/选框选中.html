@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #bucket {
+            border: 1px solid black;
+            height: 240px;
+        }
+        li {
+            display: block;
+            width: 100px;
+            height: 100px;
+            background: yellow;
+            border: 1px solid black;
+            list-style: none;
+            float: left;
+            margin: 10px;
+        }
+        .box {
+            border: 1px solid peru;
+            position: absolute;
+            background: rgba(0,0,255,.4);
+        }
+        .active {
+            background: green;
+        }
+    </style>
+</head>
+<body>
+<ul id="bucket"></ul>
+<ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+    <li>9</li>
+    <li>10</li>
+    <li>11</li>
+    <li>12</li>
+    <li>13</li>
+</ul>
+<script>
+{
+    //需求：鼠标按下后，显示div用于放置所有的li；当鼠标框选住li，并抬起鼠标时，所有的li放进div中
+    //获取/设置元素的样式
+    function css(el,attr,val){
+        if(arguments.length == 3){
+            el.style[attr] = val+'px';
+        }else{
+            return parseInt(getComputedStyle(el)[attr]);
+        }
+    }
+
+    //元素碰撞
+    let isConcat = (el1,el2) =>{
+        //判断是否碰撞
+        let div1Dis = el1.getBoundingClientRect();
+        let div2Dis = el2.getBoundingClientRect();
+        if(div1Dis.right > div2Dis.left &&
+            div1Dis.bottom > div2Dis.top &&
+            div1Dis.left < div2Dis.right &&
+            div1Dis.top < div2Dis.bottom){
+                
+                el2.classList.add("active");
+                return el2;
+        }else{
+            //注意：必须给没有碰到的清除active。否则当操作时，先往前拉，后往后拉，会给往前拉的所有li都加上active，这样再往后拉后会全部加到div里
+            el2.classList.remove("active");
+        }
+    }
+
+    document.addEventListener("mousedown",function(e){
+        let div = document.createElement("div");
+        let startPos = {};
+        startPos.x = e.clientX;
+        startPos.y = e.clientY;
+        let li = null;
+        function move(e){
+            let curPos = {};
+            curPos.x = e.clientX;
+            curPos.y = e.clientY;
+            
+            //移动时画框
+            div.classList.add("box");
+            //设置div的宽高及top/left
+            css(div,"width",Math.abs(curPos.x-startPos.x));
+            css(div,"height",Math.abs(curPos.y-startPos.y));
+            css(div,"left",Math.min(curPos.x,startPos.x));
+            css(div,"top",Math.min(curPos.y,startPos.y));
+            
+            document.body.appendChild(div);
+
+            let lis = document.querySelectorAll("ul li");
+            //将框住的li放进div中(div和多个元素碰撞)
+            lis.forEach(item=>{
+                // 将每个li和div进行碰撞测试,如果碰到了，就设置active
+                //注意：不能直接碰撞时，直接appendChild到div中，会将后面的li全部添加进去
+                isConcat(div,item);
+            });
+        }
+        //获取鼠标移动时位置
+        document.addEventListener("mousemove",move);
+        document.addEventListener("mouseup",function(){
+            document.removeEventListener("mousemove",move);
+            let bucket = document.querySelector("#bucket"); 
+            //获取到所有样式为active的li
+            let lis = document.querySelectorAll("ul .active");
+            lis.forEach(item=>{
+                item.classList.remove("active");
+                bucket.appendChild(item);
+            });
+            
+            //鼠标放下时清除上一个div
+            div.remove();//使用removeChild有可能还未创建div
+        },{
+            once:true
+        });
+        e.preventDefault();
+    });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>3D炫酷幻灯效果</title>
+    <script src="./js/mTween.js"></script>
+    <style id="style">
+        body {
+            margin: 0;
+        }
+
+        html {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            background: url(img/bg.jpg) no-repeat center center;
+            background-size: cover;
+            height: 100%;
+        }
+
+        .view {
+            width: 1000px;
+            margin: 150px auto;
+            height: 600px;
+            perspective: 800px;
+        }
+
+        .bigbox {
+            height: 600px;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .box {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            transform-style: preserve-3d;
+        }
+
+        .box span {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 200px;
+            height: 200px;
+            border: 1px solid #000;
+            text-align: center;
+            font-size: 100px;
+            line-height: 200px;
+            color: #fff;
+        }
+
+        .box span:nth-of-type(1) {
+            transform: rotateY(0deg) translateZ(100px);
+        }
+
+        .box span:nth-of-type(2) {
+            transform: rotateY(90deg) translateZ(100px);
+        }
+
+        .box span:nth-of-type(3) {
+            transform: rotateY(180deg) translateZ(100px);
+        }
+
+        .box span:nth-of-type(4) {
+            transform: rotateY(270deg) translateZ(100px);
+        }
+
+        .box span:nth-of-type(5) {
+            transform: rotateX(90deg) translateZ(100px);
+        }
+
+        .box span:nth-of-type(6) {
+            transform: rotateX(-90deg) translateZ(100px);
+        }
+        .boxZ1{
+            background: red;
+        }
+
+        .btns {
+            outline: none;
+            cursor: pointer;
+            width: 100px;
+            height: 100px;
+            background: url(img/button-001.png);
+            border: none;
+            position: absolute;
+            background-size: 100%;
+            bottom: -140px;
+            opacity: 0;
+            transition: 1s;
+        }
+
+        .rightBtn {
+            right: 300px;
+        }
+
+        .leftBtn {
+            left: 300px;
+            transform: scale(-1);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="view">
+        <div class="bigbox">
+        </div>
+        <input type="button" name="" class="btns leftBtn" value="">
+        <input type="button" name="" class="btns rightBtn" value="">
+    </div>
+<script>
+// 布局生成
+createLayout(200,200,200);
+function createLayout(boxW,boxH,boxZ){
+    var bigBox = document.querySelector(".bigbox");
+    var bigBoxH = css(bigBox,"height");
+    var bigBoxW = css(bigBox,"width");
+    var rows = Math.ceil(bigBoxH/boxH);
+    var ceils = Math.ceil(bigBoxW/boxW);
+    var inner = "";
+    for(var i = 0; i <rows*ceils*3;i++){
+        inner += '<div class="box"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>';
+    }
+    bigBox.innerHTML = inner;
+    var boxs = bigBox.querySelectorAll(".box");
+    boxs.forEach(function(box,index){
+        box.z = Math.floor(index/(rows*ceils));//
+        box.x = index%ceils;
+        box.y = Math.floor((index%(rows*ceils))/ceils);
+        css(box,"left",box.x*boxW);
+        css(box,"top",box.y*boxH);
+        css(box,"translateZ",(box.z-3+1)*boxZ);
+        // (0-3)+1 -400
+        // (1-3)+1 -200
+        // 2 0
+    });
+}
+</script>
+</body>
+
+</html>

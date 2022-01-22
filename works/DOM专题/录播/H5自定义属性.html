@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box" class="box" data-kkb="kaikeba">
+        <div></div>
+    </div>
+<script>
+{
+    let box = document.querySelector("#box");
+    console.log(box.dataset.kkb);//kaikeba
+    box.dataset.kkb = "miaov";
+    console.log(box.dataset.kkb);//miaov
+
+}    
+</script>
+</body>
+</html>

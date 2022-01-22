@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .cont div {
+            display: none;
+        }
+        .active {
+            background: red;
+        }
+        .cont .show {
+            display: block;
+        }
+        .next {
+            margin: 20px 0 50px 0;
+        }
+    </style>
+</head>
+<body>
+<div id="wrap1">
+    <div class="btns">
+        <button class="active">选卡一</button>
+        <button>选卡二</button>
+        <button>选卡三</button>
+    </div>
+    <div class="cont">
+        <div class="show">内容一</div>
+        <div>内容二</div>
+        <div>内容三</div>
+    </div>
+    <button class="next">第一个选项卡实现下一页</button>
+</div>
+<div id="wrap2">
+        <div class="btns">
+            <button class="active">选卡一</button>
+            <button>选卡二</button>
+            <button>选卡三</button>
+        </div>
+        <div class="cont">
+            <div class="show">内容一</div>
+            <div>内容二</div>
+            <div>内容三</div>
+        </div>
+    </div>
+<script>
+{
+    //需求：第一个选项卡实现下一页功能
+    let wrap1 = document.querySelector("#wrap1");
+
+    //第二个参数用于实现第一个选项卡的下一页功能，pager=false不传第二个参数时第二个参数默认为false
+    function tab(el,pager=false){
+        let btns = el.querySelectorAll(".btns button");
+        let cont = el.querySelectorAll(".cont div");
+        btns.forEach((item,index)=>{
+            item.onclick = function(){
+                btns.forEach((item,index)=>{
+                    item.classList.remove("active");
+                    cont[index].classList.remove("show");
+                });
+                item.classList.add("active");
+                cont[index].classList.add("show");
+            };
+        });
+
+        //判断为真时需要实现第一个选项卡的下一页功能
+        if(pager){
+            let next = el.querySelector(".next");
+            let num = 0;
+            next.onclick = function(){
+                btns.forEach((item,index)=>{
+                    btns[num].classList.remove("active");
+                    cont[num].classList.remove("show");
+                });
+                num++;
+                if(num>btns.length-1){
+                    num=0;
+                }
+                btns[num].classList.add("active");
+                cont[num].classList.add("show");
+            };
+        }
+    }
+    tab(wrap1,true);
+    
+    let wrap2 = document.querySelector("#wrap2");
+    tab(wrap2);
+}
+</script>
+</body>  
+</html>

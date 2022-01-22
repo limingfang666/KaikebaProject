@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li>列表1</li>
+        <li>列表2</li>
+        <li>列表3</li>
+    </ul>
+<script>
+{
+    let lis = document.querySelectorAll("li");
+    // for (let i = 0; i < lis.length; i++) {//循环几次就代表开启了几个代码块
+    //     lis[i].onclick = ()=>{
+    //         console.log(i);//打印0，1，2
+    //     };
+    // }
+
+    {
+        let i = 0;
+        lis[i].onclick = ()=>{
+            console.log(i);//打印0
+        };
+    }
+    {
+        let i = 1;
+        lis[i].onclick = ()=>{
+            console.log(i);//打印1
+        };
+    }
+    {
+        let i = 2;
+        lis[i].onclick = ()=>{
+            console.log(2);//打印2
+        };
+    }
+
+
+
+
+
+    // for (var i = 0; i < lis.length; i++) {
+    //     lis[i].onclick = ()=>{
+    //         console.log(i);//打印3，3，3
+    //     };
+    // }
+}
+</script>
+</body>
+</html>

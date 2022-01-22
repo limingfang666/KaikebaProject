@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>过滤器</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 局部过滤器只能在局部定义 -->
+        {{title|toUpperCase|substr(1,5)|slice(2)}}
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        // 全局过滤器
+        Vue.filter('toUpperCase',function(val){
+            // 注意需要return
+            return val.toUpperCase();
+        });
+
+        // 如果过滤器传入了参数substr(1,5)，则接收时，第一个值默认原字符串val ,其他参数依次排列
+        Vue.filter('substr',function(val,start,end){
+            // 注意需要return
+            return val.substring(start,end);
+        });
+
+        let app = new Vue({
+            el: "#app",
+            data: {
+                title:'hello word!!!'
+            },
+            // 局部过滤器
+            filters: {
+                slice(val, n) {
+                    return val.slice(n);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

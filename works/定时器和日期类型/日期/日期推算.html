@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>日期推算</h1>
+    年：<input type="text">
+    月：<input type="text">
+    日：<input type="text">
+    <br>
+    时间间隔：<input type="text" value="100">
+    <br>
+    <button>计算</button>
+    <hr>
+    日期结果为：<span></span>
+    <script>
+        (function(){
+            //获取当前系统日期，显示在页面上
+            var date = new Date();
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var day = date.getDate();
+
+                //获取显示的年月日，将日期设置进去
+                var input = document.querySelectorAll("input");
+            init();
+            function init(){
+                input[0].value = year;
+                input[1].value = month;
+                input[2].value = day;
+            }
+            //点击计算后，获取修改后的时间，时间间隔进行计算
+            var btn = document.querySelector("button");
+            btn.onclick = function(){
+                //获取表单的值
+                var newYear = input[0].value;
+                var newMonth = input[1].value;
+                var newDay = input[2].value;
+                //将时间间隔计算成毫秒设置到时间里
+                var time = input[3].value * 1000 * 60 * 60 * 24;
+                date.setFullYear(newYear);
+                date.setMonth(newMonth-1);
+                date.setDate(newDay);
+                date.setMilliseconds(time);
+
+                var span = document.querySelector("span");
+                span.innerHTML = date.getFullYear() + "年" + (date.getMonth()+1) + "月" + date.getDate() + "日";
+            };
+
+        })();
+    </script>
+</body>
+</html>

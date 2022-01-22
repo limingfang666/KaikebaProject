@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            考察对象中的this指向
+        */
+        var myObject = {
+            foo: "bar",
+            func: function() {
+                var self = this;
+                console.log(this.foo);//作为对象的属性调用，this指向该对象，所以打印bar
+                console.log(self.foo);//将this赋值给了self，所以self也指向对象，所以打印bar
+                (function() {//函数自执行this都是指向window
+                    console.log(this.foo);//this 指向window，所以打印undefined
+                    console.log(self.foo);//在外层已经将this赋值给了self，所以此处self指向对象本身，所以打印bar
+                }());
+            }
+        };
+        myObject.func();
+    </script>
+</body>
+</html>

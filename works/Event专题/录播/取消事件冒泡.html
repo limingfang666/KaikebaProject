@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+        p {
+            width: 50px;
+            height: 50px;
+            background: blue;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <p></p>
+    </div>
+<script>
+{
+    //需求：元素有自身的事件，不想执行父级的的事件
+    let div = document.querySelector("div");
+    let p = document.querySelector("p");
+    div.addEventListener('click',function(e){
+        console.log("div");
+    });
+    p.addEventListener('click',function(e){
+        //在子级中取消冒泡事件，就不会执行父级中的事件了
+        //最开始只有IE中能使用，现在高级浏览器版本也可以使用了
+        // e.cancelBubble = true;
+
+        //w3c中标准的取消冒泡事件方法
+        e.stopPropagation();
+        console.log("p");
+    });
+
+}
+</script>
+</body>
+</html>

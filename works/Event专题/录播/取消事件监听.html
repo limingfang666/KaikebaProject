@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 200px;
+            height: 200px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+    <button>取消事件</button>
+<script>
+{
+    let div = document.querySelector("div");
+    let btn = document.querySelector("button");
+    // div.addEventListener('click',()=>{
+    //     console.log("div");
+    // });
+    // //发现这种方式取消不了div上的事件，因为div添加和取消监听里的函数虽然很像，但是不是同一个对象，所以取消不了
+    // btn.addEventListener('click',()=>{
+    //     div.removeEventListener('click',()=>{
+    //         console.log("div");
+    //     });
+    // });
+
+    //正确取消监听事件，必须添加和取消监听时都使用有名函数
+    function fn(){
+        console.log("div");
+    }
+    div.addEventListener('click',fn);
+    //发现这种方式取消不了div上的事件，因为div添加和取消监听里的函数虽然很像，但是不是同一个对象，所以取消不了
+    btn.addEventListener('click',()=>{
+        div.removeEventListener('click',fn);
+    });
+
+}
+</script>
+</body>
+</html>

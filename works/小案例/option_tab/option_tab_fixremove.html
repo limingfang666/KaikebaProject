@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>选项卡切换——定点清除</title>
+    <style>
+        .options .active {
+            background: red;
+        }
+        .cont div {
+            display: none;
+        }
+        .cont .show {
+            margin: 10px;
+            font-size: 40px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="options">
+        <button class="active">选卡一</button>
+        <button>选卡二</button>
+        <button>选卡三</button>
+    </div>
+    <div class="cont">
+        <div class="show">选卡一对应内容</div>
+        <div>选卡二对应内容</div>
+        <div>选卡三对应内容</div>
+    </div>
+</div>  
+<script>
+    //思路：直接找到样式为active的进行清除，再将当前点击的设置为active即可
+    var btns = document.querySelectorAll(".options button");
+    var conts = document.querySelectorAll(".cont div");
+
+    for(var i=0;i<btns.length;i++){
+        //自定义属性index
+        btns[i].index = i;
+        btns[i].onmouseover = function(){
+            //直接找到样式为active，show的btn和div进行清除(需要操作DOM性能不太好)
+            var activeBtn = document.querySelector(".options .active");
+            var showDiv = document.querySelector(".cont .show");
+
+            activeBtn.classList.remove("active");
+            showDiv.classList.remove("show");
+
+            //再将当前点击的btn和对应的div设置为active,show即可
+            this.classList.add("active"); 
+            conts[this.index].classList.add("show");
+
+        };
+    }
+</script>  
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue监听拦截问题</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>姓名：{{user.username}}</div>
+        <div>性别：{{user.gender}}</div>
+
+        <div>0：{{arr[0]}}</div>
+        <div>1：{{arr[1]}}</div>
+        <div>2：{{arr[2]}}</div>
+        <div>3：{{arr[3]}}</div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let app = new Vue({
+            el: "#app",
+            data: {
+                user: {
+                    username: "lmf"
+                },
+                arr: ['a', 'b' ,'c']
+            }
+        });
+
+        // Vue.set(app.user,'gender','男');
+        app.$set(app.user,'gender','女')
+        console.log(app.user.gender);
+
+        //数组
+        // app.arr.push('aaa');//Vue中对数组的push方法进行了封装，所以也能监听到push添加的值
+        // app.arr[3]='bbb';
+
+    </script>
+</body>
+
+</html>

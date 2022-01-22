@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    //对象：根据属性进行解构
+    //需求：想要使用变量把对象中的数据存起来，方便之后使用
+    let obj = {
+        a:1,
+        b:2
+    };
+    //按照之前的赋值方式
+    // let a = obj.a;
+    // let b = obj.b;
+    // console.log(a,b);//1,2
+
+    //a,b的名字必须和对象中的key一一对应
+    //如果解构时使用了obj中没有的key值，会返回undefined
+    let {a,b,c} = obj;
+    console.log(a,b,c);//1 2 undefined
+    
+</script> 
+</body>
+</html>

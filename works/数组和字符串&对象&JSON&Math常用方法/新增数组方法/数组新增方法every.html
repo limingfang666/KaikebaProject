@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+            div { width:200px; height:200px; margin: 100px auto;}
+        </style>
+    </head>
+    <body>
+    <div>
+        <input type="checkbox" name="" class="goods">薯片
+        <br>
+        <input type="checkbox" name="" class="goods">水果
+        <br>
+        <input type="checkbox" name="" class="goods">衣服
+        <br><br>
+        <input type="checkbox" name="" id="allCheck">全选
+        <!-- &nbsp;&nbsp;<button type="submit" disabled>去支付</button> -->
+        <br>
+    </div>
+    <script>
+        //需求：当全部选中后，全选按钮自动被选中，否则全选按钮不被选中
+        //通过JS实现
+        var inputs = document.querySelectorAll(".goods");
+        var allCheck = document.querySelector("#allCheck");
+
+        //通过JS实现
+        // for (var i = 0; i < inputs.length; i++) {
+        //     //通过num++记录是否至少有一个checked被选中
+        //     var num = 0;
+        //     inputs[i].onclick = function(){
+        //         this.checked ? num++:num--;
+        //         //通过num判断所有checkbox被选中才能选中全选按钮
+        //         console.log(num,inputs.length);
+        //         allCheck.checked = num == inputs.length?true:false;
+        //     };
+        // }
+        //通过every实现
+        var arr = [];
+        for (var i = 0; i < inputs.length; i++) {
+            arr.push(inputs[i]);
+        }
+        console.log(arr);
+        arr.forEach(function(ele,index){
+            ele.onclick = function(){
+                var isChecked = arr.every(function(ele,index){
+                        return ele.checked;
+                });
+                allCheck.checked = isChecked ? true:false;
+            };
+            
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//h2D XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/h2D/xhtml1-transitional.h2d">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>超酷数码钟表 - 妙味课堂 - www.miaov.com</title>
+<link href="miaov_style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div id="clock" class="date">
+    <h2><img src="images/title.png" /></h2>
+    <div class="year">
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com" />
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com" />
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com" />
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com" />
+        <img src="images/year.png" alt="year" longdesc="http://www.miaov.com" />
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com" />
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com" />
+        <img src="images/month.png" alt="month" longdesc="http://www.miaov.com" />
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com" />
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com" />
+        <img src="images/seven.png" alt="seven" longdesc="http://www.miaov.com" />
+    </div>
+    <div class="time">
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com" />
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com" />
+        <img src="images/sign.png" alt="sign" longdesc="http://www.miaov.com" />
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com" />
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com" />
+        <img src="images/sign.png" alt="sign" longdesc="http://www.miaov.com" />
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com" />
+        <img class="num" src="images/0.png" alt="0" longdesc="http://www.miaov.com" />
+        <img class="pos2" src="images/week.png" alt="week" longdesc="http://www.miaov.com" />
+        <img class="num2" src="images/one.png" alt="1" longdesc="http://www.miaov.com" />
+    </div>
+    <div class="url" title="妙味课堂-超酷时钟"><a href="http://www.miaov.com/"><img src="images/miaov.png" alt="妙味课堂" longdesc="http://www.miaov.com" /></a></div>
+</div>
+<script>
+(function(){
+    //setInterval()刷新时，会等待间隔时间后再执行，如果需要一开始就执行，要手动再调用一次
+    setClockTime();
+    timer = setInterval(function(){
+        setClockTime();
+    },1000);
+
+    //获取并设置时间
+    //将年月日时分秒14位字符串获取，分别对应14张图片
+    function setClockTime(){
+        //获取的是本地计算机的系统时间
+        var date = new Date();
+        //获取年
+        var year = date.getFullYear();
+
+        //获取月,月份从0开始，所以必须+1
+        var mon = fill0(date.getMonth()+1);
+        //获取日
+        var day = fill0(date.getDate());
+        //获取时
+        var hour = fill0(date.getHours());
+        //获取分
+        var min = fill0(date.getMinutes());
+        //获取秒
+        var second = fill0(date.getSeconds());
+        //获取星期
+        var week = date.getDay();
+
+        //所有时间相加成14位字符串
+        var dateStr = year + mon + day + hour + min + second;
+
+        var weeks = ['images/seven.png','images/one.png','images/two.png','images/three.png','images/four.png','images/five.png','images/six.png'];
+        var nums = ['images/0.png','images/1.png','images/2.png','images/3.png','images/4.png','images/5.png','images/6.png','images/7.png','images/8.png','images/9.png'];
+
+        //获取所有num,并将dateStr和14个num对应上
+        var img = document.querySelectorAll(".num");
+        var weekImg = document.querySelector(".num2");
+        for (var i = 0; i < img.length; i++) {
+            img[i].src = nums[dateStr[i]];
+        }
+        weekImg.src = weeks[week];
+    }
+
+    //月日时分秒都有可能只有一位数，需要在前面补0
+    function fill0(date){
+        return date < 10 ? "0" + date : "" + date;
+    }
+
+})();
+</script>
+</body>
+</html>

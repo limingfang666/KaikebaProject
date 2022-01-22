@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #div1 {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            top: 20px;
+            left: 50px;
+        }
+        #div2 {
+            width: 100px;
+            height: 100px;
+            background: blue;
+            position: absolute;
+            top: 200px;
+            left: 400px;
+        }
+    </style>
+</head>
+<body>
+<div id="div1"></div>
+<div id="div2"></div>
+<script>
+{
+    //需求：面向过程方法实现拖拽
+    let div1 = document.querySelector("#div1");
+    div1.addEventListener("mousedown",function(ev){
+        //浏览器兼容
+        let e = ev || window.event;
+
+        //获取初始化鼠标坐标
+        let startPos = {};
+        startPos.x = e.clientX;
+        startPos.y = e.clientY;
+
+        //获取初始left和top
+        let left = div1.offsetLeft;
+        let top = div1.offsetTop;
+        // console.log(startPos);
+        function move(ev){
+            let e = ev || window.event;
+            let curPos = {};
+            curPos.x = e.clientX;
+            curPos.y = e.clientY;
+            // console.log(curPos);
+            console.log(curPos.x - startPos.x + div1.offsetLeft);
+            console.log(curPos.y - startPos.y + div1.offsetTop);
+            
+            div1.style.left = curPos.x - startPos.x + left + 'px';
+            div1.style.top = curPos.y - startPos.y + top + 'px';
+        }
+        document.addEventListener("mousemove",move);
+        document.addEventListener("mouseup",function(){
+            document.removeEventListener("mousemove",move);
+        },{
+            once:true
+        });
+        
+    });
+    
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>单向数据流</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" :value="title">
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 创建根组件
+        let app = new Vue({
+            el: '#app',
+            data: {
+                title:'我的标题'
+            }
+        });
+    </script>
+</body>
+
+</html>

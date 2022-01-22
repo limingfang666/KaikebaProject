@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JS预解析</title>
+</head>
+<body>
+<script>
+    //JS var变量的预解析
+    console.log("var变量的预解析："+a);//undefined
+    var a = 0;
+
+    //JS函数体的预解析
+    console.log("函数体的预解析:"+fn);
+    function fn(){
+        console.log("函数");
+    }
+    //JS函数表达式的预解析
+    console.log("函数表达式的预解析:"+fnn);
+    var fnn = function(){
+        console.log("函数表达式");
+    };
+</script>
+</body>
+</html>

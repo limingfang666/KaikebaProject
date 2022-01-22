@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    let prototype = {
+        //原型中的预定义属性constructor，执行构造函数本身
+        constructor:"构造函数"
+    };
+    //使用追加
+    prototype.hobby = function(){
+        console.log("打篮球");
+    }
+    //通过追加方式，会保留原有的constructor 构造函数
+    console.log(prototype);//{constructor: "构造函数", hobby: ƒ}
+
+    //直接覆盖
+    prototype = function(){
+        hobby = function(){
+            console.log("打篮球");
+        }
+    }
+    //会覆盖构造函数的原有属性或方法
+    console.log(prototype);//ƒ (){hobby = function(){console.log("打篮球");}}
+    
+    //create创建对象
+    let obj = Object.create({
+        name:'lmf',
+        age:18
+    });
+    console.log(obj);
+    
+}
+</script>
+</body>
+</html>

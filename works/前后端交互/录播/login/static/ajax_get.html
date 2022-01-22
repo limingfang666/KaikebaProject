@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button>点击发送get请求</button>
+    <script>
+        {
+            //通过/get/3的方式进行传参，后台通过/get/:id进行获取，ctx.params得到具体参数值
+            document.querySelector("button").onclick = function(){
+                let xhr = new XMLHttpRequest();
+                xhr.open("get","/getInfo/1");
+                xhr.onload = function(){
+                    console.log(xhr.responseText);//{"status":1,"msg":"请求成功"}
+                }
+                xhr.send();
+            };
+        }
+    </script>
+</body>
+</html>

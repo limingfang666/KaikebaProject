@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>typeof 小例子</title>
+</head>
+<body>
+<div class="box" style="width: 100px; height: 100px; background: red; position: absolute; left:0; top:0; transition: .5s;"></div>
+<script>
+    //每次点击div,整个div往右移动100px(将div的left+100)
+    var box = document.querySelector("div");
+    //元素的with必须通过元素.offsetWidth进行获取，直接使用元素.style.width是获取不到的
+    // var w = box.offsetWidth;
+    box.onclick = function(){
+        //如果样式写在style标签中，或者css样式文件中，是不能通过style.left获取到的
+        var l = this.style.left;
+        console.log(typeof l);//String
+        console.log(typeof parseInt(l));
+
+        //需要将其转为Number才能进行计算
+        this.style.left = parseInt(l) + 100 + 'px';
+    };
+</script>
+</body>
+</html>

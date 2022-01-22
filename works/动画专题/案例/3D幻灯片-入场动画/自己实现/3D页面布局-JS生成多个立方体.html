@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+         body {
+            margin: 0;
+            padding: 0;
+            background: url(img/bg.jpg);
+        }
+        #view {
+            width: 1000px;
+            height: 600px;
+            margin: 100px auto;
+            perspective: 800px;
+        }
+        .box {
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        span {
+            font: 80px/100px "宋体";
+            text-align: center;
+            color: white;
+            display: block;
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            opacity: .8;
+            top: 0;
+            left: 0;
+        }
+        /* 将6个span面生成一个立方体 */
+        .box span:nth-of-type(1){
+            background: red;
+            transform: rotateX(0deg) translateZ(100px);
+        }
+        .box span:nth-of-type(2){
+            background: blue;
+            transform: rotateX(90deg) translateZ(100px);
+        }
+        .box span:nth-of-type(3){
+            background: black;
+            transform: rotateX(180deg) translateZ(100px);
+        }
+        .box span:nth-of-type(4){
+            background: rebeccapurple;
+            transform: rotateX(270deg) translateZ(100px);
+        }
+        .box span:nth-of-type(5){
+            background: rebeccapurple;
+            transform: rotateY(90deg) translateZ(100px);
+        }
+        .box span:nth-of-type(6){
+            background: rebeccapurple;
+            transform: rotateY(-90deg) translateZ(100px);
+        }
+    </style>
+</head>
+<body>
+<div id="view">
+    <!-- <div class="box">
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+        <span>4</span>
+        <span>5</span>
+        <span>6</span>
+    </div> -->
+</div>
+<script src="js/mTween.js"></script>
+<script>
+{
+    let view = document.querySelector("#view");
+    //动态获取几层(固定3层)，几行，几列
+    let viewW = css(view,"width");
+    let viewH = css(view,"height");
+
+    let spanW = 200;
+    let spanH = 200;
+    let spanZ = 200;
+    let rows = Math.ceil(viewH/spanH);
+    let cells = Math.ceil(viewW/spanW);
+    let level = 3;
+    // console.log(rows,cells,level);
+    
+    let inner = '';
+    //给每层每行每列添加立方体
+    
+
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            result的结果为f2,即函数f2() { alert(n);}
+                result()执行，alert(n)中的n自身作用域没有，于是使用父级作用域的100，于是打印100；
+                nAdd()执行时，会执行 function() { n += 1 }，因为也是调用的父级作用域的n,所以会将n的值+1；但是nAdd()并没有进行打印
+                result()再次执行时，此时n已经变为101，所以会alert 101
+                所以会打印两次，结果分别为 100 101
+
+        */
+        function f1() {
+            var n = 100;
+            nAdd = function() {
+                n += 1
+            }
+            function f2() {
+                alert(n);
+            }
+            return f2;
+        }
+        var result = f1();
+        result();
+        nAdd();
+        result();
+    </script>
+</body>
+</html>

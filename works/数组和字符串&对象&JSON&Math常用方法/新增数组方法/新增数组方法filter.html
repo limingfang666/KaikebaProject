@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //需求：将数组中大于50的元素进行返回
+        var arr = [34,67,32,23,78];
+
+        //通过for循环实现:需要定义接收的数组，需要有if判断
+        var num = [];
+        for (var i = 0; i < arr.length; i++) {
+            if(arr[i]>50){
+                num.push(arr[i]);
+            }
+        }
+        console.log(num);//[67, 78]
+
+        //通过filter实现
+        var newArr = arr.filter(function(ele,index){
+            return ele>50;//会将满足条件的所有元素返回到一个新数组中
+        });
+        console.log(newArr);//[67, 78]
+
+        arr.filter(function(ele,index){
+            console.log(this);//Window {postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, parent: Window, …}
+            return ele>50;
+        });
+
+        arr.filter(function(ele,index){
+            console.log(this);//<body>...</body>
+            return ele>50;
+        },document.body);
+        
+        
+    </script>
+</body>
+</html>

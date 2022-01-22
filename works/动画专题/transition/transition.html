@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+        .hover {
+            width: 400px;
+            height: 200px;
+            background: blue;
+            /* transition: .5s;transition-delay动画延迟多长时间执行 */
+            /* transition: .5s 1s; transition-duration动画用多长时间完成 */
+            /* transition: .5s 1s width; transition-property:要动画的样式,默认all是给所有样式加过渡效果*/
+            /* transition: 1s .5s width ease-in-out;  */
+            /*
+            transition-timing-function:动画形式:
+                linear 匀速
+                ease 缓冲（默认值）
+                ease-in 加速
+                ease-out 减速
+                ease-in-out 先加速再减速
+                cubic-bezier()贝塞尔曲线 https://cubic-bezier.com/
+            */
+            transition: 1s .5s width cubic-bezier(0,1.42,.83,.67);
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+    <script>
+        //设置鼠标移入移出事件，然后加上transition效果
+        var div = document.querySelector("div");
+        div.onmouseover = function(){
+            this.classList.add("hover");
+        };
+        div.onmouseout = function(){
+            this.classList.remove("hover");
+        };
+    </script>
+</body>
+</html>

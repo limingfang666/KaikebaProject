@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>new Proxy()</title>
+</head>
+<body>
+    <script>
+        let obj = {
+            x: 1,
+            y: 1,
+            z: 1
+        }
+        let o = new Proxy(obj,{
+            set(){
+                console.log('代理了');
+            },
+            get(){
+                console.log('代理了');
+                return obj;
+            }
+        });
+        console.log(o.x);
+    </script>
+</body>
+</html>

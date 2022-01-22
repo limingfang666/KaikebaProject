@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="myJq.js"></script>
+    <title>myJq</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px; 
+        }
+        #mydiv1 {
+            background-color: red;
+        }
+        #mydiv2 {
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="mydiv1"></div>
+    <div id="mydiv2"></div>
+    <script>
+        // console.log($("div"));
+        // 传入参数为原生节点：参数个数可为一个/多个/数组
+        // console.log($(document.querySelectorAll("div")));//NodeList(2) [div#mydiv1, div#mydiv2]
+        // $(function(){
+        //     console.log("函数");
+        // });
+        
+        // click
+        // $("div").click(function(){
+        //     console.log("click div");
+            
+        // });
+
+        // on
+        // $("div").on("mouseOver         moUseout",function(){
+        //     console.log("执行on");
+        // });
+
+        //end
+        // console.log($("div").eq(1).end());//Jq {0: div#mydiv1, 1: div#mydiv2, length: 2}
+
+         // jquery对象上css()方法：有三种方式css("width","200px")设置一个样式 css("width")获取样式  css({"width:100px","height:100px"}})设置多个样式
+        //  console.log($("div").eq(0).css("width"));
+
+        //  $("div").eq(1).css("width","200px");
+        //  $("div").eq(1).css({"background-color":"yellow","height":"200px"});
+
+        // $.cssNumber 开闭原则：对外扩展开发，修改关闭
+        console.log($.cssNumber);
+        
+        $("div").eq(1).css("width",200);
+        $("div").eq(1).css("opacity",0.2);
+        
+        // 要自己扩展时，使用$.cssNumber.自定义属性=true即可
+        // $.cssNumber.px = true;
+
+        // cssHooks设置：自定义扩展
+        $.cssHooks["wh"] = {
+            get(ele){
+                return "width=" + getComputedStyle(ele)["width"] + ";height=" + getComputedStyle(ele)["height"];
+            },
+            set(ele,value){
+                console.log(ele,value);
+                ele.style["width"] = value;
+                ele.style["height"] = value;
+            }
+        }
+        // console.log($("#mydiv1").css("wh"));
+        // console.log($("#mydiv1").css("width"));
+
+        // $("#mydiv1").css("wh","200px")
+        // $("div").eq(1).css("width","200px");
+        // $("div").eq(1).css({"wh":"300px"});
+    </script>
+</body>
+</html>

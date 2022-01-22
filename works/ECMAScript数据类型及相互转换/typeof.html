@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>typeof运算符</title>
+</head>
+<body>
+    <div class="boxs"></div>
+    <div class="ele"></div>
+<script>
+    // typeof运算符用于检测数据的类型（注意：typeof的检测结果和标准规定略有差异）
+    var num = 100;
+    console.log("num的类型是："+typeof num);//Number 数字
+    
+    var str = 'abc';
+    console.log("str的类型是："+typeof str);//String 字符串
+
+    var b = true;
+    console.log("b的类型是："+typeof b);//Boolean 布尔值
+
+    var a;
+    console.log("a的类型是："+typeof a);//undefined 未定义(定义了未赋值)
+
+    var s = Symbol();
+    console.log("s的类型是："+typeof s);//Symbol 唯一值
+
+    var obj = {};
+    console.log("obj对象的类型是："+typeof obj);//Object对象：object对象
+
+    var arr = ['a','b'];
+    console.log("arr数组的类型是："+typeof arr);//Object对象:数组
+
+    var ele = document.querySelector(".ele");
+    console.log("ele一个元素的类型是："+typeof arr);//Object对象:一个元素
+
+    var boxs = document.querySelectorAll(".boxs");
+    console.log("boxs一组元素的类型是："+typeof boxs);//Object对象:一组元素
+
+    //typeof检测的数据类型和标准规定的差异
+    console.log("---------------typeof检测的数据类型和标准规定的差异--------------");
+    var box = document.querySelector(".box");
+    console.log("没有box元素时的类型是："+typeof box);//Object:标准定义中获取不到元素属于null类型，但是typeof是object类型
+
+    var func = function (){};
+    console.log("func函数的类型是："+typeof func);//function:标准定义中函数时Object对象类型，但typeof是function类型
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<div id="box"></div>
+<script>
+{
+    let box = document.querySelector("#box");
+    //事件绑定方式:通过事件绑定方式写多个事件，后面的事件会覆盖前面的事件
+    // box.onclick = () =>{
+    //     console.log(1);
+    // }
+    // box.onclick = () =>{
+    //     console.log(2);
+    // }
+
+    //事件监听方式:事件不能写on，多个事件都会执行
+    box.addEventListener('click',()=>{
+        console.log(1);
+    });
+    box.addEventListener('click',()=>{
+        console.log(2);
+    });
+
+}
+</script>
+</body>
+</html>

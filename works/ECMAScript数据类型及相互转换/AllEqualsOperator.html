@@ -1,0 +1,21 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>全等</title>
+  </head>
+  <body>
+    <script>
+        //全等：首先必须类型一致，其次必须值一致，才会返回true;一旦出现NaN，返回false
+        //类型不一致
+        console.log("null==undefined结果为："+(null==undefined));//true
+        console.log("null===undefined结果为："+(null===undefined));//false
+
+        //当类型一致时，比较值是否相等
+        console.log("2===3结果为："+(2===3));
+        console.log("'abc'==='abd'结果为："+('abc'==='abd'));
+    </script>  
+  </body>
+  </html>

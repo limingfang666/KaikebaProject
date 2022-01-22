@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="box">
+    <p class="pAll"></p>
+    <p class="pAll"></p>
+    <p class="pAll"></p>
+</div>
+<script>
+{
+    let box = document.querySelector("#box");
+    let childNode = box.childNodes;
+    console.log(childNode);//NodeList(7) [text, p.pAll, text, p.pAll, text, p.pAll, text]
+    let qsAll = box.querySelectorAll("p");
+    console.log(qsAll);//NodeList(3) [p.pAll, p.pAll, p.pAll]
+
+    let eBClass = box.getElementsByClassName("pAll");
+    console.log(eBClass);//HTMLCollection(3) [p.pAll, p.pAll, p.pAll]
+
+    let eBTagName = box.getElementsByTagName("p");
+    console.log(eBTagName);//HTMLCollection(3) [p.pAll, p.pAll, p.pAll]
+
+    let childs = box.children;
+
+    console.log("动态获取-----------------");
+    //所有HTMLCollection的都可以进行动态获取
+    box.innerHTML = '';
+    console.log(qsAll);// querySelectorAll里面的P标签并没有被清空NodeList(3) [p.pAll, p.pAll, p.pAll]
+    //只有重新进行querySelectorAll手动获取才能动态更新
+    console.log(box.querySelectorAll("p"));//手动获取后得到的是被清空后的内容NodeList []
+
+    //childNodes、getElementsByClassName、getElementsByTagName都会进行自动动态获取
+    console.log(childNode);//NodeList []
+    console.log(eBClass);//HTMLCollection []
+    console.log(eBTagName);//HTMLCollection []
+    
+
+}
+</script>
+</body>
+</html>

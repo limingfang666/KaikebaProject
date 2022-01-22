@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    function*fn(){
+        yield new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                console.log("a");
+                resolve(1);
+            },500);
+        });
+        yield new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                console.log("b");
+                resolve(2);
+            },500);
+        });
+        yield new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                console.log("c");
+                resolve(3);
+            },500);
+        });
+    }
+
+    co(fn);
+    function co(fn){
+        let f = fn();
+        next();
+        function next(msg){
+            let result = f.next();
+            if(!result.done){//done为true时表示走完了
+                result.value.then(info=>{
+                    console.log(info,msg);//data表示上一步的返回信息
+                    //上一个异步走完了，再执行下一个异步
+                    next(info);
+                });
+            }
+            
+        }
+        
+    }
+}
+</script>
+</body>
+</html>

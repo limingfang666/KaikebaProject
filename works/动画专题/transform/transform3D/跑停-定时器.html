@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background: red;
+            margin-bottom: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <button>跑</button>
+    <button>停</button>
+    <script>
+        var box = document.querySelector("#box");
+        var l = 0;
+        var btns = document.querySelectorAll("button");
+        var timer = null;
+        btns[0].onclick = function(){
+            clearInterval(timer);
+            timer = setInterval(function(){
+                l +=10;
+                box.style.transform = 'translateX('+ l +'px)';
+            },50);
+        };
+        btns[1].onclick = function(){
+            clearInterval(timer);
+        };
+    </script>
+</body>
+</html>

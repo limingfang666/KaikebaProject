@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>广告弹窗</title>
+    <style>
+        div {
+            height: 200px;
+            border: 1px solid red;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div>这是一个广告弹窗</div> 
+<script>
+    'use strict';
+    //匿名函数自执行，避免全局污染
+    (function(){
+        var div = document.querySelector("div");
+        //2秒显示弹窗
+        setTimeout(function(){
+            div.style.display = "block";
+            //弹窗显示完，3秒后隐藏弹窗
+            setTimeout(function(){
+                div.style.display = "none";
+            },3000);
+        },2000);
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #div1 {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            top: 20px;
+            left: 50px;
+        }
+
+        #div2 {
+            width: 100px;
+            height: 100px;
+            background: blue;
+            position: absolute;
+            top: 200px;
+            left: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="div1"></div>
+    <div id="div2"></div>
+    <script>
+        {
+            //需求：ES6的继承,class实现继承没有原型的浅拷贝问题
+            class Drag {
+                constructor(ele) {
+                    this.ele = ele;
+                    this.mouseDown();
+                }
+                mouseDown() {
+                    this.ele.addEventListener("mousedown", ev => {
+                        //浏览器兼容
+                        let e = ev || window.event;
+
+                        //获取初始化鼠标坐标，直接求出初始化时鼠标坐标和left/top的值，以免要传递多个参数
+                        let x = e.clientX - this.ele.offsetLeft;
+                        let y = e.clientY - this.ele.offsetTop;
+
+                        this.mouseMove(x, y);
+                        this.mouseUp();
+                    });
+                }
+                setStyle(l, t) {
+                    this.ele.style.left = l + 'px';
+                    this.ele.style.top = t + 'px';
+                }
+                mouseMove(x, y) {
+                    document.onmousemove = ev => {
+                        let e = ev || window.event;
+                        let left = e.clientX - x;
+                        let top = e.clientY - y;
+                        this.setStyle(left, top);
+                    };
+                }
+                mouseUp() {
+                    document.onmouseup = function () {
+                        document.onmousemove = "";
+                    }
+                }
+            }
+            let div1 = document.querySelector("#div1");
+            let drag1 = new Drag(div1);
+
+            //给第二个div创建子类继承父类
+            class Div2Drag extends Drag {
+                constructor(ele) {
+                    super(ele);
+                }
+                mouseMove = function (x, y) {
+                    document.onmousemove = ev => {
+                        let e = ev || window.event;
+                        let left = e.clientX - x;
+                        let top = e.clientY - y;
+                        //限定边界
+                        left = Math.max(0, left);
+                        top = Math.max(0, top);
+                        left = Math.min(document.documentElement.clientWidth - this.ele.offsetWidth, left);
+                        top = Math.min(document.documentElement.clientHeight - this.ele.offsetHeight, top);
+                        this.setStyle(left, top);
+                    };
+                }
+            }
+            
+            let div2Drag = new Div2Drag(div2);
+        }
+    </script>
+</body>
+
+</html>

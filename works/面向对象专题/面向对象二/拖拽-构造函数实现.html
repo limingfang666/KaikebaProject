@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #div1 {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            top: 20px;
+            left: 50px;
+        }
+        #div2 {
+            width: 100px;
+            height: 100px;
+            background: blue;
+            position: absolute;
+            top: 200px;
+            left: 400px;
+        }
+    </style>
+</head>
+<body>
+<div id="div1"></div>
+<div id="div2"></div>
+<script>
+{
+    //需求：面向对象方法实现拖拽
+
+    //构造函数一般只写属性
+    function Drag(ele){
+        this.ele = ele;
+        this.mouseDown();
+    }
+    Drag.prototype.mouseDown = function(){
+        //需要将this传递到事件里：赋值或者箭头函数
+        this.ele.addEventListener("mousedown",ev=>{
+            //浏览器兼容
+            let e = ev || window.event;
+
+            //获取初始化鼠标坐标，直接求出初始化时鼠标坐标和left/top的值，以免要传递多个参数
+            let x = e.clientX - this.ele.offsetLeft;
+            let y = e.clientY - this.ele.offsetTop;
+
+            this.mouseMove(x,y);
+            this.mouseUp(x,y);
+        });
+    }
+    //由于move方法也需要共用，所以也写在原型上
+    Drag.prototype.setStyle = function(l,t){
+        this.ele.style.left = l + 'px';
+        this.ele.style.top = t + 'px';
+    }
+    Drag.prototype.mouseMove = function(x,y){
+        //如果将onmousemove加在document上并使用监听和匿名函数，则在move方法中的this会指向document，所以需要加在this.ele
+        //使用监听时不好传递参数
+        document.onmousemove = ev=>{
+            let e = ev || window.event;
+            let left = e.clientX - x;
+            let top = e.clientY - y;
+
+            this.setStyle(left,top);
+        };
+    }
+    Drag.prototype.mouseUp = function(x,y){
+        document.onmouseup = ev=>{
+            //清除鼠标移动事件可以直接使this.ele.onmousemove = "";
+            document.onmousemove = "";
+        };
+    }
+    let div1 = document.querySelector("#div1");
+    let div2 = document.querySelector("#div2");
+    let drag1 = new Drag(div1);
+    let drag2 = new Drag(div2);
+    
+}
+</script>
+</body>
+</html>

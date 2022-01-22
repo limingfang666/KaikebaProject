@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 组件传入自己的半径值 ，注意自定义组件使用时不能使用自结束标签，只能用标签对-->
+        <kkb-circle :r="n1"></kkb-circle>
+        <kkb-circle :r="n2"></kkb-circle>
+        <!-- 如传入的值为表达式或变量必须使用v-bind格式，如果直接传入值则可直接传入 -->
+        <kkb-circle r="20"></kkb-circle>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        let kkbCircle = {
+            // 组件传入半径值
+            props: ['r'],
+            // 注意：局部组件的data必须是一个函数，且返回对象
+            // 注意：局部组件的props里的key和data中的key不能重复（因为都是在实例中）
+            data(){
+                return { pi: 3.14 };
+            },
+            // 在template中画圆
+            template:`
+                <div>r: {{r}} -> {{pi * r * r}}</div>
+            `
+
+        };
+
+        let app = new Vue({
+            el: "#app",
+            data: {
+                // 两个圆的半径
+                n1:10,
+                n2:100
+            },
+            // 自定义局部组件kkb-circle
+            components: {
+                // 这里定义成kkbCircle，组件使用时必须使用kkb-circle连字符形式（HTML更规范）
+                kkbCircle 
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>元素的事件扩展</title>
+</head>
+<body>
+   <script>
+       //事件时元素本身就具有的特征，只不过，触发事件后，默认没有相关的一些处理。这种操作其实就是给元素的某个事件添加一个事件处理函数。
+       //可以通过console.dir()把对象的所有属性和方法打印出来
+       document.onclick = function(){
+           console.log("事件的处理函数");
+       };
+       //当事件被触发后，判断到属于该事件类型，就触发该事件函数的处理函数
+       if(typeof document.onclick == "function"){
+         document.onclick();
+       }
+   </script> 
+</body>
+</html>

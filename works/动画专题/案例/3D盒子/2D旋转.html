@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* 旋转条件：要旋转的div在旋转之前先位移；要旋转的div需要设置绝对定位 */
+        /* 元素 translate 移动之后，并不修改元素本身的变换源点 */
+        #box {
+            width: 400px;
+            height: 400px;
+            border: 1px solid black;
+            padding: 50px;
+            margin: 150px auto;
+            position: relative;
+        }
+        #div1 {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            top: 200px;
+            left: 200px;
+            border-radius: 50%;
+        }
+        #div2 {
+            width: 100px;
+            height: 100px;
+            background: blue;
+            position: absolute;
+            top: 200px;
+            left: 200px;
+            transition: 3s ease-in;
+            transform: rotate(0deg) translateX(100px);
+        }
+
+        #box:hover #div2 {
+            transform: rotate(360deg) translateX(100px);
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div id="div1"></div>
+        <div id="div2"></div>
+    </div>
+</body>
+</html>

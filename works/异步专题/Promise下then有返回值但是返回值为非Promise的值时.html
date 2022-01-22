@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    let p = new Promise((resolve,reject)=>{
+        resolve("成功");
+    });
+
+    //then返回值二：当then方法有返回值，但返回值时非promise对象时，直接将返回值传递给下一个then
+    p.then(success=>{
+        console.log(success);//成功
+        return success;
+    },error=>{
+        console.log(error);
+    }).then(info=>{
+        console.log(info);//成功 当then方法有返回值，但返回值时非promise对象时，直接将返回值传递给下一个then，所以这里的then方法得到的信息时第一个then的返回值
+    });
+}
+</script>
+</body>
+</html>

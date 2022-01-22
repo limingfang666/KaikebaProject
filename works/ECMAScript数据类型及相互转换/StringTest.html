@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class="box"></div>
+    <div class="boxs"></div>
+    <div class="boxs"></div>
+    <script>
+        // - 数字类型，直接转换数据类型原样返回
+        var num = 11.02;
+        console.log("数字类型11.02通过String类型转换后为："+String(num)); //11.02
+               
+        // - undefined ，直接返回字符串 undefined
+        console.log("undefined通过String类型转换后为："+String(undefined)); //undefined
+
+        // - null，直接返回字符串 null
+        console.log("null通过String类型转换后为："+String(null)); //null
+
+        // - 布尔值，直接返回字符串 true 或者 false
+        console.log("布尔值通过String类型转换后为："+String(true)); //true
+        console.log("布尔值通过String类型转换后为："+String(false)); //false
+
+        // - 函数，直接把整个函数变成字符串 返回
+        var f = function(){ var a=1; alert(a);};
+        console.log("函数通过String类型转换后为："+String(f));//function(){ var a=1; alert(a);}
+
+        // - 对象，直接调用对象的 toString 方法
+        //  对象1-{} [object,object]  
+        var obj = {};
+        console.log("空对象obj通过String类型转换后为："+String(obj));//[object Object]
+
+        //  对象2-元素对象 [object HTMLDivElement]
+        var box = document.querySelector(".box");
+        console.log("单个元素对象box通过String类型转换后为："+String(box));//[object HTMLDivElement]
+
+        //  对象3-一组元素 [object NodeList]
+        var boxs = document.querySelectorAll(".box");
+        console.log("一组元素对象boxs通过String类型转换后为："+String(boxs));//[object NodeList]
+
+        //  对象4-数组：直接去掉方括号，把里面的值转为字符串。空数组，直接返回空字符串；一个元素，直接返回该元素；多个元素去掉[],返回所有元素且带有逗号“，”
+        var arr1 = [];
+        var arr2 = [1];
+        var arr3 = ['1'];
+        var arr4 = ['1','2'];
+        var arr5 = ['a','2'];
+        console.log("空数组对象[]通过String类型转换后为："+String(arr1));
+        console.log("数组对象[1]通过String类型转换后为："+String(arr2));
+        console.log("数组对象['1']通过String类型转换后为："+String(arr3));
+        console.log("数组对象['1','2']通过String类型转换后为："+String(arr4));
+        console.log("数组对象['a','2']通过String类型转换后为："+String(arr5));
+    </script>
+</body>
+</html>

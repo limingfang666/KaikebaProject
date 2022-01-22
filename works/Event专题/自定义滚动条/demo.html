@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义滚动条</title>
+    <style>
+        body {
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            background: url(./imgs/bg.png) no-repeat;
+            background-size: 100% 100%;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            position: absolute;
+        }
+
+        .wrap {
+            width: 100px;
+            height: 360px;
+            background-color: #fdfdfd;
+            position: relative;
+            border-radius: 10px;
+            margin: 200px auto;
+            padding-top: 11px;
+            padding-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .scroll-wrap {
+            width: 13px;
+            height: 363px;
+            background-color: #dedede;
+            position: absolute;
+            border: 1px solid #dedede;
+            top: 11px;
+            right: 7px;
+            border-radius: 10px;
+        }
+
+        .scroll {
+            width: 13px;
+            height: 30px;
+            background-color: #fcfcfc;
+            border-radius: 10px;
+            position: absolute;
+        }
+
+        li {
+            line-height: 36px;
+            text-indent: 21px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <ul class="list"></ul>
+        <div class="scroll-wrap">
+            <div class="scroll"></div>
+        </div>
+    </div>
+    <script>
+        let arr = ['河北', '山西', '辽宁', '吉林', '黑龙江', '江苏', '浙江', '安徽', '福建', '江西','山东', '河南', '湖北', '湖南', '广东', '海南', '四川', '贵州', '云南', '陕西', '甘肃', '青海', '台湾',
+            '北京', '天津', '上海', '重庆'
+        ];
+
+{
+    /*
+        数据渲染
+        拖拽滚动条：计算出滚动条动态高度
+        限制范围
+        计算比例
+        支持滚轮
+    */
+   let wrap = document.querySelector(".wrap");
+   let list = wrap.querySelector(".list");
+   let scrollWrap = wrap.querySelector(".scroll-wrap");
+   let scroll = scrollWrap.querySelector(".scroll");
+
+    //设置和获取div计算后样式
+    function css(el,attr,val){
+        if(arguments.length == 3){
+            el.style[attr] = val + 'px';
+        }else{
+            return parseInt(getComputedStyle(el)[attr]);
+        }
+    }
+
+    //封装鼠标滚轮事件
+    function toWheel(el,upFn,downFn){
+        //Chrome和IE下
+        el.addEventListener("mousewheel",function(e){
+            if(e.wheelDelta > 0){
+                upFn&&upFn.call(this);
+            }else{
+                downFn&&downFn.call(this);
+            }
+             //清除鼠标滚轮默认事件
+            e.preventDefault();
+        });
+        //FireFox下
+        el.addEventListener("DOMMouseScroll",function(e){
+            if(e.detail > 0){
+                downFn&&downFn.call(this);
+            }else{
+                upFn&&upFn.call(this);
+            }
+             //清除鼠标滚轮默认事件
+            e.preventDefault();
+        });
+    }
+
+   //数据渲染：显示省份
+   let renderList = () =>{
+       let inner = '';
+       arr.forEach(item=>{
+           inner += `<li>${item}</li>`;
+       });
+       list.innerHTML = inner;
+   }
+   renderList();
+
+   //求出滚动条的动态高度：数据显示区域高度/数据总高度  = 滚动条高度/滚动条区域总高度，即wrapHeight/listHeight = scrollH / scrollWrapH
+   let scrollH = css(wrap,"height") / css(list,"height") * css(scrollWrap,"height");
+   
+   //拖拽滚动条
+   let drag = () =>{
+        //设置滚动条高度
+        css(scroll,"height",scrollH)
+
+        //鼠标拖拽事件
+        scroll.addEventListener("mousedown",function(e){
+            //获取鼠标按下时的位置
+            let startPos = e.clientY;
+
+            //获取scroll的top并在mousemove过程中不断改变scroll的top值
+            let scrollT = css(scroll,"top");
+
+            function move(e){
+                //获取鼠标当前位置
+                let curPos = e.clientY;
+                //鼠标当前位置 - 鼠标按下时的位置 = 滚动条移动的高度
+                //滚动条当前的top值 = 滚动条移动的高度 + 最初的scroll的top值scrollT
+                let curTop = scrollT + curPos-startPos;
+
+                //边界处理
+                curTop = Math.max(0,curTop);
+                //curTop不能超过滚动条区域高 - 滚动条高
+                let isScrollH = css(scrollWrap,"height") - scrollH;
+                curTop = Math.min(isScrollH,curTop);
+
+                //设置拖拽过程中滚动条的高度
+                css(scroll,"top",curTop);
+
+                //设置拖拽过程中内容高度
+                //滚动条高度/滚动区域高度 = 滚动条top / list内容top，但是因为两者滚动方向相反，所以 要让比例大于1，所以使用 滚动区域高度/滚动条高度
+                let listT = - curTop * css(scrollWrap,"height") / scrollH + css(wrap,"padding-top");
+                css(list,"top",listT);
+
+                //鼠标移动时，取消默认事件，如选中等
+                e.preventDefault();
+            }
+            document.addEventListener("mousemove",move);
+            //鼠标放开时，清除拖拽事件
+            document.addEventListener("mouseup",function(){
+                //取消mousedown和取消mousemove是一样的
+                document.removeEventListener("mousemove",move);
+            });
+        });
+   }
+   drag();
+
+   //鼠标滚轮事件
+   toWheel(document,function(){
+        //鼠标滚轮滚动时,每滚动一下滚动条top-10
+        //获取scroll的top并在mousemove过程中不断改变scroll的top值
+        let scrollT = css(scroll,"top");
+        
+        //边界处理
+        scrollT = Math.max(0,scrollT-10);
+        css(scroll,"top",scrollT);
+    
+        //同时设置list内容的top。要加上父级wrap的padding-top，否则，向上时会超出原有高度
+        let listT = - scrollT * css(scrollWrap,"height") / scrollH + css(wrap,"padding-top");
+        css(list,"top",listT);
+        
+   },function(){
+        //鼠标滚轮滚动时,每滚动一下滚动条top+10
+        //获取scroll的top并在mousemove过程中不断改变scroll的top值
+        let scrollT = css(scroll,"top");
+
+        //边界处理:curTop不能超过滚动条区域高 - 滚动条高
+        let isScrollH = css(scrollWrap,"height") - scrollH;
+        scrollT = Math.min(isScrollH,scrollT+10);
+        css(scroll,"top",scrollT);
+
+        //同时设置list内容的top
+        let listT = - scrollT * css(scrollWrap,"height") / scrollH + css(wrap,"padding-top");
+        css(list,"top",listT);
+   });
+}
+    </script>
+</body>
+
+</html>

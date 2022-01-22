@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    let arr = [
+        ["小明",12],
+        ["小芳",23,
+            [
+                "JS",
+                ["javaSE","javaME"]
+            ]
+        ]
+    ];
+    //arr.flat(depth)对多维数组进行扁平化处理，返回一个包含数组与子数组中所有元素的新数组
+    //depth深度，即提取数组的层数，默认1层
+    let arr2 = arr.flat();
+    console.log(arr2);//(5) ["小明", 12, "小芳", 23, Array(2)]
+
+    //提取多层需要写depth
+    let arr3 = arr.flat(3);
+    console.log(arr3);//(7) ["小明", 12, "小芳", 23, "JS", "javaSE", "javaME"]
+    
+}
+    
+</script>
+</body>
+</html>

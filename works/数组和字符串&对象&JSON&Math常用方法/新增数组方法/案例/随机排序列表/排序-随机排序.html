@@ -1,0 +1,103 @@
+<!DOCTYPE html >
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>排序-随机排序</title>
+    <link rel="stylesheet" href="./index.css">
+
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="nav">
+            <a href="javascript:;">从小到大</a>
+            <a href="javascript:;">打乱顺序</a>
+        </div>
+        <ul>
+            <li><img src="images/8.png" alt="">
+                <p>8-指尖社区</p>
+            </li>
+            <li><img src="images/1.png" alt="">
+                <p>1-温馨办公</p>
+            </li>
+            <li><img src="images/2.png" alt="">
+                <p>2-游戏桌面</p>
+            </li>
+            <li><img src="images/3.png" alt="">
+                <p>3-汽车摇滚</p>
+            </li>
+            <li><img src="images/4.png" alt="">
+                <p>4-狭路相逢</p>
+            </li>
+            <li><img src="images/5.png" alt="">
+                <p>5-棒球小子</p>
+            </li>
+            <li><img src="images/6.png" alt="">
+                <p>6-球鞋动力</p>
+            </li>
+            <li><img src="images/7.png" alt="">
+                <p>7-游戏官网</p>
+            </li>
+            
+        </ul>
+    </div>
+    <script type="text/javascript">
+    /*
+        思路：
+        1.将所有图片路径，和文字title放到数组中，通过数组的map方法，用新建的数组中的数据替换页面原有的图片路径和title，重新渲染li
+        2.通过图片的title中的数字进行排序
+    */
+    (function(){
+        var wrap = document.querySelector(".wrap");
+        var ul = wrap.querySelector("ul");
+        var navA = wrap.querySelectorAll("a");
+
+        var isReverse = true;
+
+        //将所有图片路径，和文字title放到数组中,数组里再放对象(要分开img和title)
+        var data = [{img:"images/1.png",title:"1-温馨办公"},{img:"images/2.png",title:"2-游戏桌面"},
+            {img:"images/3.png",title:"3-汽车摇滚"},{img:"images/4.png",title:"4-狭路相逢"},
+            {img:"images/5.png",title:"5-棒球小子"},{img:"images/6.png",title:"6-球鞋动力"},
+            {img:"images/7.png",title:"7-游戏官网"},{img:"images/8.png",title:"8-指尖社区"}];
+
+        function render(){
+            var dataArr = data.map(function(li){
+                return '<li><img src="'+li["img"]+'" alt=""><p>'+li["title"]+'</p></li>';
+            });
+
+            ul.innerHTML = dataArr.join("");//将数组使用join("")再转为字符串
+        }
+        render();
+
+        //第一个按钮既可以从大到小，也可以从小到大排序。所以需要通过开关进行控制点击时是从大到小还是从小到大
+        navA[0].onclick = function(){
+            //对数组data进行排序，并重新渲染页面
+            data.sort(function(n1,n2){
+                //将title第一位取出来作为排序用
+                n1 = n1["title"].substring(0,1);
+                n2 = n2["title"].substring(0,1);
+                
+                return isReverse?n2-n1:n1-n2;
+            });
+            
+            isReverse = !isReverse;
+            navA[0].innerHTML = isReverse?"从大到小":"从小到大";
+            render();
+        };
+
+        //第二个按钮，随机排序
+        navA[1].onclick = function(){
+            //对数组data进行随机排序，并重新渲染页面
+            data.sort(function(n1,n2){
+                //Math.random()的范围在0-1之间不包括1，-0.5后则返回正负数的几率相等
+                //因为sort()方法中排序是有n1-n2大于0，等于0和小于0三种情况决定
+                return Math.random() - .5;
+            });
+            render();
+        };
+    })();
+    </script>
+</body>
+
+</html>

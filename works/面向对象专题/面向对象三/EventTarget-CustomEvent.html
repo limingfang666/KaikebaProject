@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<button>点击</button>
+
+<body>
+    <script>
+        {
+            //需求：使用CustomEvent获取事件回调
+            // add an appropriate event listener
+            let btn = document.querySelector("button");
+            btn.addEventListener("cat", function (e) { console.log(e.detail) });
+
+            // create and dispatch the event
+            let event = new CustomEvent("cat", {
+                detail: {
+                    hazcheeseburger: true
+                }
+            });
+            btn.dispatchEvent(event);
+
+            // Will return an object contaning the hazcheeseburger property
+            let myDetail = event.detail;
+        }
+    </script>
+</body>
+
+</html>

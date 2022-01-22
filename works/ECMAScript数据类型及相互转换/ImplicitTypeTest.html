@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>隐式类型转换测试</title>
+</head>
+<body>
+    <script>
+        //隐式类型转换：本身v和v1不是同一类型，应该不相等，但是JS会自动将其进行类型转换，因此最终结果为true
+        var v = 100;
+        var v1 = "100";
+        console.log("v == v1结果为："+(v == v1));//true
+        console.log("v + v1结果为："+(v+v1));//true
+    </script>
+</body>
+</html>

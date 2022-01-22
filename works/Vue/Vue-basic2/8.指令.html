@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>指令</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{title}}!!!</h1>
+        <h1 v-text="title">!!!</h1>
+        <h1 v-cloak>{{title}}!!!</h1>
+        <div>{{content}}</div>
+        <div v-html="content"></div>
+
+        <h1 v-once>{{title}}</h1>
+
+        <h1 v-pre>vue的v-pre测试，原样输出{{title}}</h1>
+
+        <h1 v-show="show">控制是否显示，为真则显示</h1>
+
+        <h1 v-if="tab===1">h1</h1>
+        <h1 v-else-if="tab===2">h2</h1>
+        <h1 v-else="tab===3">h3</h1>
+
+        <ul>
+            <li v-for="user in users" :key="user.id">{{user.name}}</li>
+        </ul>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        // 创建根组件
+        let app = new Vue({
+            el: '#app',
+            data: {
+                title: '数据标题',
+                content:'<div>这是v-html测试div</div>',
+                show:true,
+                tab:1,
+                users:[
+                    {id:1,name:'lmf'},
+                    {id:2,name:'yy'},
+                    {id:3,name:'ll'},
+                ],
+            }
+        });
+    </script>
+</body>
+
+</html>

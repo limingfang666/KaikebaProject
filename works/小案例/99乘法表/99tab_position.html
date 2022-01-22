@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>九九乘法表-position定位方式</title>
+    <style>
+        body,ul,li,div { margin: 0; padding: 0; }
+        img { vertical-align: top; border: none; }
+        ul,li { list-style: none; }
+
+        .bg { width: 1600px; height: 1067px; background: url('img/99tab_bg.jpg') no-repeat; margin: 0 auto; }
+        .tab99 { width:1156px; height: 436px; background: #e8e5fc; top: 436px; left: 250px; padding: 30px 0 0 30px; border-radius: 12px; position: relative; }
+        .tab99 div { width: 120px; height: 40px; line-height: 40px; background: #78cc64; color: white; text-align: center; border-radius: 4px; margin: 0 2px 2px 0; position: absolute; }
+    </style>
+</head>
+<body>
+      <div class="bg">
+        <div class="tab99"></div>
+      </div>  
+      <script>
+        var colors = ['#78cc64','#58cd7e','#4fcdad','#4cc7dd','#469ee8','#465de8','#5846e8','#8346e8','#9e46e8'];
+        //position方式需要设置div样式：position定位top,left
+        var tab99 = document.querySelector(".tab99");
+        var divStr = '';
+        for(var i=1;i<10;i++){
+          for(var j=1;j<=i;j++){
+            var txt = j + " * " + i + " = " + i*j;
+            //因为i,j初始化为1，但是定位是从0，0开始，所以需要使用i-1和j-1。本身需要上下margin 30所以需要再+30
+            var topStr = (i-1)*42 + 30;
+            var leftStr = (j-1)*122 + 30;
+            divStr += '<div style="top:'+ topStr +'px;left:'+ leftStr +'px;background:'+ colors[i-1] +'">'+ txt +'</div>';
+          }
+        }
+        tab99.innerHTML = divStr;
+      </script>
+</body>
+</html>

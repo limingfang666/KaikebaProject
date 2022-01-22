@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+   <script>
+       /*
+        fn1()执行结果为fn2,即fn2的函数体fn2() { ++a; alert(a); }，fn1()()即调用执行了fn2()函数里面的内容。而a在fn2自身作用域里没有，所以就调用父级作用域的a = 0,执行++a后，结果为1
+        newFn的结果也为fn2()的函数体，但是newFn的执行和fn1()()相当于两次函数调用，每次函数调用之间没有任何关系
+        newFn()两次调用都相当于，在fn1()中执行了两次 所以第一次执行newFn()，结果为1，第二次执行结果为2
+        最终结果为1 1 2
+       */
+        function fn1() {
+            var a = 0;
+            function fn2() { 
+                ++a; 
+                alert(a); 
+            }
+            return fn2;
+        }
+        fn1()();
+        var newFn = fn1();
+        newFn();
+        newFn();
+
+   </script> 
+</body>
+</html>

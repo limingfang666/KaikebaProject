@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //需求：将所有的key和value获取出来分别组成数组
+        var obj = {
+            name:'lmf',
+            age:18,
+            gender:"female"
+        };
+
+        var allKeys = [];
+        var allVals = [];
+
+        allKeys.push(Object.keys(obj));
+        allVals.push(Object.values(obj));
+
+        console.log(allKeys);
+        console.log(allVals);
+        
+    </script>
+</body>
+</html>

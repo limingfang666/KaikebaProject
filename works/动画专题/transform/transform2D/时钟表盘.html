@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>时钟表盘</title>
+    <style>
+        ul,ul li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        #time {
+            width: 200px;
+            height: 200px;
+            margin: 100px auto;
+            border: 4px solid rgb(196, 13, 13);
+            position: relative;
+            border-radius: 50%;
+        }
+        #time li {
+            width: 4px;
+            height: 10px;
+            background: rgba(255, 0, 0, 0.637);
+            position: absolute;
+            left: 98px;
+            top: 0px;
+            /* 源点：是以本元素为基点进行旋转 */
+            transform-origin: 2px 100px;
+        }
+        /* 指定了父级元素下是 5 的倍数的第一个 li 背景色 */
+        #time li:nth-of-type(5n+1){
+            background: rgba(160, 20, 20, 0.863);
+            height: 12px;
+        }
+        /* 给li设置的旋转样式 */
+        .time_rotate {
+            transform: rotate(0deg);
+        }
+        /* 2.设置时分秒针样式 */
+        .hour {
+            width: 6px;
+            height: 50px;
+            background: #000000;
+            position: absolute;
+            top: 50px;
+            left: 97px;
+            /* 设置上面两个角圆角时针 */
+            border-radius:10px 10px 0 0 /50px;
+            /* 设置所有角圆角 */
+            /* border-radius:10/50px; 
+            border-top-left-radius:10px/50px;
+            border-top-right-radius:10px/50px; */
+            transform-origin: 3px 50px;
+        }
+        .minute {
+            width: 4px;
+            height: 60px;
+            background: #d15f2a;
+            position: absolute;
+            top: 40px;
+            left: 98px;
+            border-radius:10px 10px 0 0 /50px;
+            transform-origin: 2px 60px;
+        }
+        .second {
+            width: 2px;
+            height: 70px;
+            background: #e0d20c;
+            position: absolute;
+            top: 30px;
+            left: 99px;
+            border-radius:10px 10px 0 0 /50px;
+            transform-origin: 1px 70px;
+        }
+        .circle {
+            width: 10px;
+            height: 10px;
+            background: #000000;
+            position: absolute;
+            top: 95px;
+            left: 95px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+<div id="time">
+    <ul>
+        <!-- <li style="transform: rotate(0deg);"></li>
+        <li style="transform: rotate(6deg);"></li>
+        <li style="transform: rotate(12deg);"></li>
+        <li style="transform: rotate(18deg);"></li>
+        <li style="transform: rotate(24deg);"></li> -->
+    </ul>
+    <div class="hour"></div>    
+    <div class="minute"></div>    
+    <div class="second"></div> 
+    <div class="circle"></div>   
+</div>
+<script>
+//1.使用JS生成表盘刻度 总共有360度，和60和刻度，所以每个刻度代表6度
+var time = document.querySelector("#time");
+var ul = time.querySelector("ul");
+var hour = time.querySelector(".hour");
+var minute = time.querySelector(".minute");
+var second = time.querySelector(".second");
+
+var len = 360/6;
+var lis = '';
+var timer = null;
+
+for (var i = 0; i < len; i++) {
+    lis +='<li style="transform: rotate('+ i*6 +'deg);"></li>';
+}
+ul.innerHTML = lis;
+
+//3.通过定时器，让时分秒中动起来
+setTime();
+//每次开启定时器之前先关闭
+clearInterval(timer);
+timer = setInterval(setTime,1000);
+function setTime(){
+    var date = new Date();
+    var seconds = date.getSeconds();
+    var minutes = date.getMinutes() + seconds/60;
+    var hours = date.getHours() + minutes/60;
+    //4.时针和分针不能一次跳一大格，需要有小数点
+    second.style.transform = 'rotate('+ seconds*6 +'deg)';
+    minute.style.transform = 'rotate('+ minutes*6 +'deg)';
+    //一个小时30度
+    hour.style.transform = 'rotate('+ hours*30 +'deg)';
+}
+</script>    
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="css/index.css" rel="stylesheet" />
+</head>
+<body>
+<h1 id="logo">
+    <img src="img/miaov.png" />
+</h1> 
+<div class="wrap">
+    <ul class="shopList">
+        <li>
+            <header>
+                <input type="datetime-local" class="datetime" />
+                <a class="btn">确定</a>
+            </header>
+            <p class="remainingTime">剩余<time><span>0</span><span>0</span>:<span>0</span><span>0</span>:<span>0</span><span>0</span></time></p>
+            <div class="shop-img">
+                <img src="img/shop0.jpg" />
+            </div>
+            <h2 class="shop-title">Apple iPhone 7 Plus 64g</h2>
+            <p class="shop-price">抢购价：<span>￥5799</span></p>
+            <div class="over"></div>
+        </li>
+        <li>
+            <header>
+                <input type="datetime-local" class="datetime" />
+                <a class="btn">确定</a>
+            </header>
+            <p class="remainingTime">剩余<time><span>0</span><span>0</span>:<span>0</span><span>0</span>:<span>0</span><span>0</span></time></p>
+            <div class="shop-img">
+                <img src="img/shop1.jpg" />
+            </div>
+            <h2 class="shop-title">27 英寸配备 Retina 5K显示屏</h2>
+            <p class="shop-price">抢购价：<span>￥15999</span></p>
+            <div class="over"></div>
+        </li>
+        <li>
+            <header>
+                <input type="datetime-local" class="datetime" />
+                <a class="btn">确定</a>
+            </header>
+            <p class="remainingTime">剩余<time><span>0</span><span>0</span>:<span>0</span><span>0</span>:<span>0</span><span>0</span></time></p>
+            <div class="shop-img">
+                <img src="img/shop2.jpg" />
+            </div>
+            <h2 class="shop-title">iPad mini 4</h2>
+            <p class="shop-price">抢购价：<span>¥1799</span></p>
+            <div class="over"></div>
+        </li>
+        <li>
+            <header>
+                <input type="datetime-local" class="datetime" />
+                <a class="btn">确定</a>
+            </header>
+            <p class="remainingTime">剩余<time><span>0</span><span>0</span>:<span>0</span><span>0</span>:<span>0</span><span>0</span></time></p>
+            <div class="shop-img">
+                <img src="img/shop3.jpg" />
+            </div>
+            <h2 class="shop-title">Apple Watch</h2>
+            <p class="shop-price">抢购价：<span>￥3799</span></p>
+            <div class="over"></div>
+        </li>
+    </ul>
+    <section class="overList">
+        <header>
+            <h3>商品名称</h3>
+            <h3>价格</h3>
+        </header>
+        <ul class="list">
+            <!-- <li>
+                <p>Apple iPhone 7 Plus 64g </p>
+                <p>¥5799</p>
+                <div class="shop-img">
+                    <img src="img/shop0.jpg" />
+                </div>
+            </li>
+             -->
+        </ul>
+    </section>
+</div>
+<script src="js/mTween.js"></script>
+<script>
+/*
+    1. 布局
+    2. 设置默认到期时间
+    3. 倒计时:页面一开始刷新和修改时间后都需要进行倒计时
+    4. 修改到期时间
+    5. 到期之后，下架动画
+        1. 显示遮罩
+        2. 抖动
+        3. 下落消失
+        4. 生成内容
+*/   
+{
+    let wrap = document.querySelector(".wrap");
+    let shopList = wrap.querySelector(".shopList");
+    let overList = wrap.querySelector(".overList");
+    let lis = shopList.querySelectorAll("li");
+    let list = wrap.querySelector(".list");
+
+    let timer = null;//用于管理定时器
+    let flag = false;//用于控制默认倒计时和手动设置倒计时，必须只有一个可用
+
+    let fillZero = (date) =>{
+        return date<10?"0"+date:""+date;
+    }
+    
+    //设置默认事件
+    let setTime =(time)=>{
+        //获取默认时间的年月日
+        let date = new Date(time);//Tue Aug 06 2019 15:48:18 GMT+0800 (中国标准时间)
+        let year = date.getFullYear();
+        let mon = fillZero(date.getMonth() + 1);
+        let nowDate = fillZero(date.getDate());
+        let hour = fillZero(date.getHours());
+        let minute = fillZero(date.getMinutes());
+
+        //将时间设置到默认时间区域 2014-06-01T10:55
+        //注意：datetime-local的时间格式为：2017-06-01T08:30
+        return year+'-'+mon+'-'+nowDate+'T'+hour+':'+minute;
+    }
+    //商品下架
+    let fullDownGoods = (li)=>{
+        let over = li.querySelector(".over");
+        over.style.display = "none";
+        li.style.opacity = "0";
+        
+        let shopPrice = li.querySelector(".shop-price span").innerHTML;
+        let shopTitle = li.querySelector(".shop-title").innerHTML;
+        list.innerHTML += `
+            <li>
+                <p>${shopTitle}</p>
+                <p>${shopPrice}</p>
+                <div class="shop-img">
+                    <img src="img/shop0.jpg" />
+                </div>
+            </li>
+        `;
+    }
+
+    //商品下架动画
+    let fullDownAnimation = (li)=>{
+        let over = li.querySelector(".over");
+        over.style.display = "block";
+        //要设置transform相关属性，必须先手动获取
+        css(over,"translateX",0);
+        css(over,"scale",1);
+        //设置抖动动画
+        //注意mTween()和shake()方法返回的不是同一个Promise对象，所以不能通过异步执行
+        mTween({
+            el:over,
+            attr:{
+                scale:1.1
+            },
+            duration:10,
+            fx:'backIn',
+            cb:function(){
+                shake({
+                    el:over,
+                    attr:'translateX',
+                    shakeLength:20,
+                    cb:function(){
+                        // 下架：并添加到下架商品处
+                        fullDownGoods(li);
+                    }
+                });
+            }
+        });
+    }
+
+    //设置倒计时span
+    let countDown = (li,time)=>{
+        let overTime = time - Date.now();
+        let timeSpan = li.querySelector(".remainingTime time");
+
+        //把剩余的时间转成时分秒
+        let h = 60*60*1000;
+        let m = 60*1000;
+        let s = 1000;
+        //注意：取模是用总时间戳%对应时间的毫秒数,不足的需要补零
+        let hour = fillZero(parseInt(overTime/h)).split("");
+        let min = fillZero(parseInt(overTime%h/m)).split("");
+        let sec = fillZero(parseInt(overTime%m/s)).split("");
+        
+        //时间的小时数可能不设置的很大，会超过4位，因此需要获取到各个时间，根据位数动态设置span个数
+        hourSpan = "<span>"+hour.join("</span><span>")+"</span>:";
+        minSpan = "<span>"+min.join("</span><span>")+"</span>:";
+        secSpan = "<span>"+sec.join("</span><span>")+"</span>";
+        timeSpan.innerHTML = hourSpan+minSpan+secSpan;
+    }
+    
+    //设置剩余时间
+    let setOverTime = (li,time)=>{
+        countDown(li,time);
+        clearInterval(li.timer);
+        //设置定时器：如果剩余时间小于等于0就直接下架商品，如果大于0继续倒计时
+        li.timer = setInterval(()=>{
+            let overTime = time - Date.now();
+            if(overTime<=0){
+                clearInterval(li.timer);
+                //如果到时间了直接执行下架动画
+                fullDownAnimation(li);
+            }else{
+                countDown(li,time);
+            }
+        },1000);
+    }
+
+    let setDefaultTime =()=>{
+        //有多个不同的li所以需要循环设置
+        lis.forEach((item,index)=>{
+            //默认设置10分钟以内的随机事件
+            // Math.random()+1让倒计时至少有1分钟 再*就至少有5分钟
+            mins = Math.round(Math.random()*2) * 60 * 1000;
+
+            //计算出默认时间毫秒数        
+            let defaultTime = Date.now() + mins;
+            setTime(defaultTime);
+
+            let datetime = item.querySelector(".datetime");
+            datetime.value = setTime(defaultTime);
+
+            //将获得的时间设置到剩余时间中
+            let time = item.querySelector(".remainingTime time");
+            
+            if(defaultTime-Date.now()<=0){
+                defaultTime=defaultTime+1000;
+            }
+            //页面刷新时就需要设置剩余时间
+            setOverTime(lis[index],defaultTime);
+        });
+    };
+        
+    setDefaultTime();
+
+    //点击确定按钮修改时间
+    let updateTime = () =>{
+        lis.forEach((item,index)=>{
+            let btn = item.querySelector(".btn");
+            let datetime = item.querySelector(".datetime");
+            btn.onclick = () =>{
+                //获取设置的时间的时间戳
+                let updateTime = new Date(datetime.value);//2019-08-06T16:42  
+                
+                //将获得的时间设置到剩余时间中
+                let time = item.querySelector(".remainingTime time");
+
+                //将设置的时间戳减去当前时间的时间戳，即为倒计时需要的时间
+                overTime = updateTime.getTime() - Date.now();//90162
+                // 如果时间戳小于0就代表设置的时间在当前时间以前，就不能进行设置
+                if(overTime<0){
+                    alert("设置时间必须在现在以后");
+                    return;
+                }
+                //设置过期时间,lis[index]传入的是具体的某个li 
+                setOverTime(lis[index],updateTime.getTime());
+            };
+        });
+    }
+    updateTime();
+
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            width: 600px;
+            height: 600px;
+            border: 1px solid red;
+        }
+        div {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+        p {
+            width: 50px;
+            height: 50px;
+            background: blue;
+        }
+    </style>
+</head>
+<body style="height:3000px">
+    <div>
+        <p></p>
+    </div>
+<script>
+{
+    //需求：获取鼠标位置
+    let div = document.querySelector("div");
+    let p = document.querySelector("p");
+
+    document.addEventListener('click',function(e){
+        //获取鼠标相对于可视区的坐标位置
+        console.log(e.clientX,e.clientY);//452 566
+
+        //获取鼠标相对于页面左上角的坐标位置
+        console.log(e.pageX,e.pageY);//452 1666
+    });
+     
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    let a = 1;
+    let b = 2;
+    //原本的方法表示
+    // let obj = {
+    //     a,
+    //     b,
+    //     c:function(){
+    //         return a+b;
+    //     }
+    // };
+    // console.log(obj);//{a: 1, b: 2, c: ƒ}
+
+    //方法简洁表示法:方法名(){}即可
+    let obj = {
+        a,
+        b,
+        c(){
+            return a+b;
+        }
+    };
+    console.log(obj);//{a: 1, b: 2, c: ƒ}
+    
+    
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //需求：想要得到n-m之间的值
+        /*  
+            n~m:
+            如果是5~10：
+            Math.random() * 10 会得到 0 - 10之间的值，有问题：解决
+                首先得到0-5的值；Math.random() * 5   0~5；
+                要想得到5-10之间的值，就将Math.random() * 5整体+5即可；
+
+            如想得到2-17的值
+            0-15   Math.random() * 15
+            2-17   Math.random() * 15 + 2
+        */
+
+        function getRandom(min,max){
+            return Math.round(Math.random() * (max-min) + min);
+        }
+
+        var num1 = getRandom(2,17);
+        console.log(num1);
+    </script>
+</body>
+</html>

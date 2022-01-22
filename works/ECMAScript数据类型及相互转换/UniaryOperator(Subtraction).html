@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>一元运算符之一元减运算符</title>
+</head>
+<body>
+    <script>
+        // 如果操作数是Number类型时，负号放在数值前，表示负数；
+        console.log("-5的结果为："+(-5));
+        // 如果操作数不是Number类型，即String，true，false，null，undefined，则（根据对应规则Number）转为数字类型（隐式类型转换），再进行运算；
+        console.log("-'5'的结果为："+(-'5'));//Number('-5')=-5
+        console.log("-'abc'的结果为："+(-'abc'));//NaN
+        console.log("-true的结果为："+(-true));//-1
+        console.log("-false的结果为："+(-false));//0
+        console.log("-null的结果为："+(-null));//0
+        console.log("-undefined的结果为："+(-undefined));//NaN
+
+        // 无论正号还是负号对NaN，都是没有影响的，结果都为NaN；
+        console.log("-NaN的结果为："+(-NaN));//NaN
+    </script>
+</body>
+</html>

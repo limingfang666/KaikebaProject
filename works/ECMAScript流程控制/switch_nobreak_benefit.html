@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>switch穿透性的好处</title>
+</head>
+<body>
+    <input type="text">
+    <button>今天是工作日吗？</button>
+    <Script>
+            //当输入是工作日时输出“今天是工作日”，当输入是周末时输出“今天是周末”
+            var txt = document.querySelector("input");
+            var btn = document.querySelector("button");
+            btn.onclick = function(){
+                var txtVal = txt.value;
+                //switch是将括号里面的内容和case后面的条件进行全等判断，因此类型和数值都必须相等
+                switch(txtVal){
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                        console.log("今天是工作日");
+                        break;
+                    case '6':
+                    case '7':
+                        console.log("今天是周末");
+                        break;
+                    default:
+                        console.log("您输入的日期不合法！");
+                        break;
+                }
+            };
+        </Script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React数据拦截方式</title>
+</head>
+<body>
+    <div>div中x的值为：</div>
+    <button>button中x的值为：</button><br>
+    <input type="text" value="input中x的值为：">
+    <script>
+        let div = document.querySelector("div");
+        let btn = document.querySelector("button");
+        let input = document.querySelector("input");
+
+        let obj = {
+            x:1
+        }
+
+        function setObj(){
+            obj.x++;
+
+            div.innerHTML = `div中x的值为：${obj.x}`;
+            btn.innerHTML = `button中x的值为：${obj.x}`;
+            input.value = `input中x的值为：${obj.x}`;
+        }
+
+        document.onclick = function(){
+         setObj();
+        }
+
+    </script>
+</body>
+</html>

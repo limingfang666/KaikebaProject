@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>选项卡封装——传参</title>
+    <style>
+        body { margin: 0; padding: 0; }
+        .tab .active { background: red; }
+        .cont div { display: none; }
+        .cont .show { background: #000; font-size: 60px; color: white; width: 220px; height: 220px; display: block;  }
+    </style>
+</head>
+<body>
+<div class="wrap1">
+    <div class="tab">
+        <button class="active">选项卡一</button>
+        <button>选项卡二</button>
+        <button>选项卡三</button>
+    </div>
+    <div class="cont">
+        <div class="show">内容一</div>
+        <div>内容二</div>
+        <div>内容三</div>
+    </div>
+</div>
+
+<div class="wrap2">
+        <div class="tab">
+            <button class="active">选项卡一</button>
+            <button>选项卡二</button>
+            <button>选项卡三</button>
+        </div>
+        <div class="cont">
+            <div class="show">内容一</div>
+            <div>内容二</div>
+            <div>内容三</div>
+        </div>
+</div>
+<div class="wrap3">
+        <div class="tab">
+            <button class="active">选项卡一</button>
+            <button>选项卡二</button>
+            <button>选项卡三</button>
+        </div>
+        <div class="cont">
+            <div class="show">内容一</div>
+            <div>内容二</div>
+            <div>内容三</div>
+        </div>
+</div>
+<script>
+    var wrap1 = document.querySelector(".wrap1");
+    var wrap2 = document.querySelector(".wrap2");
+    var wrap3 = document.querySelector(".wrap3");
+
+    tab(wrap1);
+    tab(wrap2);
+    tab(wrap3);
+    function tab(wrap){
+        var btn = wrap.querySelectorAll(".tab button");
+        var divs = wrap.querySelectorAll(".cont div");
+
+        var num = 0;//记录当前样式
+        for (var i = 0; i < btn.length; i++) {
+            btn[i].index = i;
+            btn[i].onclick = function(){
+                //清除当前样式
+                btn[num].classList.remove("active");
+                divs[num].classList.remove("show");
+
+                this.classList.add("active");
+                divs[this.index].classList.add("show");
+
+                num = this.index;
+            };
+        }
+    }
+</script>
+</body>
+</html>

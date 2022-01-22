@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>全局作用域</title>
+</head>
+<body>
+<script>
+    //声明在全局中的变量
+    var a = 0;
+    console.log(a);//在全局任意地方调用
+    function fn(){
+        console.log(a);//可在函数中调用
+        a = 10;//可在任意地方修改全局中的变量
+    }
+    fn();
+    console.log(a);
+
+</script>   
+</body>
+</html>

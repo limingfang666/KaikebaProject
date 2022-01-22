@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>请求百度接口</title>
+</head>
+<body>
+    <input type="text">
+    <div class="exchange"></div>
+    <script type="module">
+        import ajax from './js/ajax_jsonp.js'
+        document.querySelector("input").onblur = function(){
+            ajax({
+                url:"https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su",
+                data:{
+                    wd:this.value
+                },
+                jsonp:"cb",
+                dataType:"jsonp",
+                success(res){
+                    console.log(res.s);
+                    let exchange = document.querySelector(".exchange");
+                    let inner = "<ul>"
+                    res.s.forEach(s => {
+                        inner += `<li>${s}</li>`;
+                    });
+                    exchange.innerHTML = inner + "</ul>";
+                }
+            });
+        }
+    </script>
+</body>
+</html>

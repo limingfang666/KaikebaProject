@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            position: absolute;
+            left: 0;
+            top: 100px;
+            width: 100px;
+            height: 100px;
+            background: red;
+            transform: translateX(20px);
+        }
+    </style>
+</head>
+<body>
+<div id="box"></div>
+<script src="mTween.js"></script>
+<script>
+(function(){
+    var box = document.querySelector("#box");
+    //获取样式
+    console.log(css(box,"width"));//100注意没有单位，mTween框架已经对单位进行了处理
+    //设置样式
+    css(box,"height",400);
+
+    //非数值类样式只能获取，不能设置,但是颜色可以设置
+    css(box,"background","blue");
+    console.log(css(box,"background"));//rgb(0, 0, 255) none repeat scroll 0% 0% / auto padding-box border-box
+    css(box,"float","left");
+    console.log(css(box,"float"));//none
+
+    //transform不能获取计算后样式,所以所有操作必须通过css()方法进行。且需要先设置再获取
+    console.log(css(box,"translateX"));//undefined
+    css(box,"translateX",20);
+    console.log(css(box,"translateX"));//20
+
+    //同时设置多个样式,需要传入一个对象
+    css(box,{
+        "width":200,
+        "height":200,
+        "background":"blue",
+        "translateX":200
+    });
+})();    
+</script>    
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        img {
+            vertical-align: top;
+        }
+
+        #wrap {
+            margin: 40px auto;
+            position: relative;
+            width: 600px;
+            height: 400px;
+            border: 2px solid #000;
+            overflow: hidden;
+        }
+
+        #pics {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: flex;
+            height: 400px;
+            z-index: 1;
+        }
+
+        #pics li {
+            width: 600px;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        #pics img {
+            width: 600px;
+            height: 400px;
+        }
+
+        .btn {
+            position: absolute;
+            top: 170px;
+            z-index: 2;
+            width: 60px;
+            font: 40px/60px "宋体";
+            text-align: center;
+            background: rgba(255, 255, 255, .6);
+            text-decoration: none;
+            color: #000;
+        }
+
+        .btn:hover {
+            background: #fff;
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+        }
+
+        #navs {
+            position: absolute;
+            left: 0;
+            bottom: 10px;
+            z-index: 3;
+            width: 100%;
+            text-align: center;
+        }
+
+        #navs a {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+        }
+
+        #navs .active {
+            background: #f60;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap">
+        <ul id="pics">
+            <li>
+                <img src="img2/img (1).jpg" />
+            </li>
+            <li>
+                <img src="img2/img (2).jpg" />
+            </li>
+        </ul>
+        <a href="javascript:;" class="btn prev">
+            <</a> <a href="javascript:;" class="btn next">>
+        </a>
+        <nav id="navs">
+            <a class="active"></a>
+            <a></a>
+            <a></a>
+            <a></a>
+            <a></a>
+        </nav>
+    </div>
+<script src="mTween.js"></script>
+<script>
+    /*
+        无缝滚动幻灯片思路二：
+            总共只有两张图片，一张为当前显示的图片，另一张为要切换的图片；
+            每次点击后，当前显示图片序号设置为原本下一张图片的序号，而下一张的序号设置为原本下下张的图片序号;
+            注意不是累加nowIndex和nextIndex,而是依次将nextIndex的值赋给nowIndex;
+            图片index只有0和1，图片位置只有0和-600px,并通过mTween设置位置及动画效果;
+            快速点击时会有跳跃感：因为点击下一张时，上一张动画还没有执行完，可以设置标识，动画还没执行完时，不能结束，当再回调函数中cb 中执行完后才能切换下一张；
+            优化封装各个方法；
+        步骤：
+            1：实现上一张和下一张；
+                下一张：
+                    设置当前显示的图片nowIndex和下一张要显示的图片nextIndex；
+                    两张图片显示顺序为：nowIndex  nextIndex；(nextIndex表示下一张，nowIndex表示当前张)
+                    每次点击下一张时，nowIndex变为nextIndex,而nextIndex则在nowIndex基础上+1;
+                    当nextIndex显示的为最后一张图片时，将nextIndex设置为0，从头开始；
+                    将所有图片设置在数组中，并通过innerHTML显示图片。再通过mTween设置位置及动画效果-600px-0;(**注意通过transform设置需先获取再设置，因为transform的值时无法直接获取的)
+                    注意这里的动画是设置在父级ul上的，而不是li上
+                    注意动画效果不要弄反了-600px-0，-600会显示，0会不显示。所以下一张时，是ul从-600到0，而上一张是ul从0到-600
+                上一张：
+                    设置当前显示的图片nowIndex和下一张要显示的图片nextIndex；
+                    两张图片显示顺序为：nextIndex nowIndex；(nextIndex表示上一张，nowIndex表示当前张)
+                    每次点击下一张时，nowIndex变为nextIndex,而nextIndex则在nowIndex基础上-1;
+                    当nextIndex显示的为第0张图片时，将nextIndex设置为最后一张，从最后再开始；
+                    将所有图片设置在数组中，并通过innerHTML显示图片。再通过mTween设置位置及动画效果0-600px;
+            2：实现点击a标签切换对应图片
+                点击nav时，会实现a标签样式变化，且切换到对应图片；
+                上一张下一张切换时，a标签也要对应改变；注意：需要nowIndex = nextIndex;后，即当前图片已经切换到nowIndex后再改变才能改变到当前的样式；
+                实现点击a标签时同步切换图片:
+                    因为切换图片时同样要往前或者往后走，所以可以将点击a标签时的index传递给nextIndex,再传给上一张下一张切换即可；
+                    所以需要封装上一张和下一张方法；
+                通过判断nextIndex nowIndex之间的大小(注意：需要将index传递给nextIndex)，判断点击的按钮是在当前页的上一页还是下一页，再调用对应的方法。
+                如果nextIndex>nowIndex说明要切换到当页后面，反之相反；
+            3：快速切换上一张和下一张时，图片之间有跳动
+                原因：每次切换时，前一张的动画还没有执行完成，就开始执行下一张的动画，就会产生跳动
+                解决：设置标识，判断如果动画已经执行完成，才能执行下一张的动画。
+                执行完成需在动画效果回调函数cb中设置
+
+    */
+{
+    let wrap = document.querySelector("#wrap");
+    let pics = wrap.querySelector("#pics");
+
+    let lis = wrap.querySelectorAll("#pics li");
+    let navs = wrap.querySelectorAll("#navs a");
+
+    let prev = wrap.querySelector(".prev");
+    let next = wrap.querySelector(".next");
+
+    let picW = css(lis[0],"width");
+    let picAll = [
+    "img2/img (1).jpg",
+    "img2/img (2).jpg",
+    "img2/img (3).jpg",
+    "img2/img (4).jpg",
+    "img2/img (5).jpg"
+    ];
+
+    let nowIndex = 0;//当前显示的图片
+    let nextIndex = 0;//下一张要显示的图片
+
+    let isMove = false;//用于判断动画是否已经执行完成，并可以开始执行下一张的动画
+
+    // 封装上一张方法
+    let toPrev =()=>{
+        if(isMove){
+            return;
+        }
+        isMove = true;
+        //设置并显示图片
+        lis[0].innerHTML = '<img src="'+ picAll[nextIndex] +'" />';
+        lis[1].innerHTML = '<img src="'+ picAll[nowIndex] +'" />';
+
+        // //设置图片的位置及动画效果
+        css(pics,"translateX",-picW);
+        mTween({
+            el:pics,
+            attr:{
+                translateX:0
+            },
+            cb:function(){
+                //动画执行完成后，将标识设置为false，才开始执行下一张的动画
+                isMove = false;
+            }
+        });
+        nowIndex = nextIndex;
+
+        //切换时，改变a标签样式
+        //首先清除所有的item样式
+        navs.forEach((item,index)=>{
+            item.classList.remove("active");
+        });
+        //给当前a标签加上active
+        navs[nowIndex].classList.add("active");
+    }
+
+    //封装下一张方法
+    let toNext =()=>{
+        if(isMove){
+            return;
+        }
+        isMove = true;
+
+        //设置并显示图片
+        lis[0].innerHTML = '<img src="'+ picAll[nowIndex] +'" />';
+        lis[1].innerHTML = '<img src="'+ picAll[nextIndex] +'" />';
+
+        //设置图片的位置及动画效果
+        css(pics,"translateX",0);
+        mTween({
+            el:pics,
+            attr:{
+                translateX:-picW
+            },
+            cb:function(){
+                //动画执行完成后，将标识设置为false，才开始执行下一张的动画
+                isMove = false;
+            }
+        });
+
+        nowIndex = nextIndex;
+
+        //切换时，改变a标签样式
+        //首先清除所有的item样式
+        navs.forEach((item,index)=>{
+            item.classList.remove("active");
+        });
+        //给当前a标签加上active
+        navs[nowIndex].classList.add("active");
+    }
+
+    //实现上一张
+    prev.onclick = () =>{
+        // 每次点击上一张时，nextIndex在nowIndex基础上-1;
+        nextIndex = nowIndex - 1;
+        // 当nextIndex显示的为最后一张图片时，将nextIndex设置为0，从头开始；
+        nextIndex = nextIndex < 0 ? navs.length-1:nextIndex;
+
+        //实现上一张切换
+        toPrev();
+    };
+
+    //实现下一张
+    next.onclick = () =>{
+        // 每次点击下一张时，nextIndex在nowIndex基础上+1;
+        nextIndex = nowIndex + 1;
+        // 当nextIndex显示的为最后一张图片时，将nextIndex设置为0，从头开始；
+        nextIndex = nextIndex > navs.length-1?0:nextIndex;
+        
+        //实现下一张切换
+        toNext();
+    };
+
+    //nav点击事件
+    navs.forEach((item,index)=>{
+        item.onclick =()=>{
+            // //首先清除所有的item样式
+            // navs.forEach((item,index)=>{
+            //     item.classList.remove("active");
+            // });
+            // //给当前a标签加上active
+            // item.classList.add("active");
+            nextIndex = index;
+            //nextIndex>nowIndex说明要切换到当前页后面
+            if(nextIndex>nowIndex){
+                // console.log("切换到下一张");
+                toNext();
+            }else if(nextIndex<nowIndex){
+                // console.log("切换到上一张");
+                toPrev();
+            }
+        };
+    });
+}
+</script>
+</body>
+
+</html>

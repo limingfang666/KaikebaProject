@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box" class="box" kkb="DOM"></div>
+<script>
+{
+    /*
+    - el.attributes 元素所有属性名的集合（不包括属性值）
+    - el.getAttribute("attr") 获取属性
+    - el.setAttribute("attr","val") 设置属性
+    - el.removeAttribute("attr") 移出属性
+    - el.hasAttribute("attr") 判断是否有这个属性
+    */
+    let box = document.querySelector("div");
+    //el.attributes元素所有属性的集合
+    console.log(box.attributes);//NamedNodeMap {0: id, 1: class, 2: kkb, id: id, class: class, kkb: kkb, length: 3}
+
+    //el.getAttribute("attr") 获取属性
+    console.log(box.getAttribute("class"));//box
+    //也可以获取非w3c的属性
+    console.log(box.getAttribute("kkb"));//DOM
+
+    //el.setAttribute("attr","val") 设置属性
+    box.setAttribute("miaov","kaikeba");
+    console.log(box.attributes);//NamedNodeMap {0: id, 1: class, 2: kkb, 3: miaov, id: id, class: class, kkb: kkb, miaov: miaov, length: 4}
+    
+    // el.removeAttribute("attr") 移出属性
+    box.removeAttribute("kkb");
+    console.log(box.attributes);//NamedNodeMap {0: id, 1: class, 2: miaov, id: id, class: class, miaov: miaov, length: 3}
+
+    //el.hasAttribute("attr") 判断是否有这个属性 返回布尔值
+    console.log(box.hasAttribute("kkb"));//false
+
+}    
+</script>
+</body>
+</html>

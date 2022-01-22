@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{title}}</h1>
+        <button @click="getBoxHeight">获取 box 的高度</button>
+        <button @click="getKkbCompoment">获取自定义组件的实例及其内部方法</button>
+        <hr>
+        <div ref="box">
+            这是内容<br>这是内容<br>这是内容<br>这是内容<br>这是内容<br>
+        </div>
+        <hr>
+        <!-- 1.子组件自己控制隐藏 -->
+        <!-- <kkb-component :t="title"></kkb-component> -->
+        <!-- 3.获取自定义组件的实例及其内部方法：根组件控制子组件隐藏 -->
+        <kkb-component ref="kkb" :t="title"></kkb-component>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        const kkbComponent = {
+            props: ['t'],
+            data() {
+                return {
+                    isShow: true
+                }
+            },
+            template: `
+                <div>
+                    <button @click="hide">隐藏</button>
+                    <h1 v-if="isShow">kkbComponent - {{t}}</h1>
+                </div>
+            `,
+            methods: {
+                hide() {
+                    this.isShow = !this.isShow;
+                }
+            }
+        }
+
+        let app = new Vue({
+            el: '#app',
+            data: {
+                title: '开课吧'
+            },
+            components: {
+                'kkb-component': kkbComponent
+            },
+            mounted(){
+                // 根组件mounted方法执行之前，子组件会先执行mounted方法渲染DOM结构，所以在根组件mounted方法中已经能调用到this.$refs.kkb
+                console.log(this.$refs.kkb);
+                
+            },
+            methods: {
+                getBoxHeight() {
+                    // 2.根组件获取自身组件下div的高度
+                    console.log( this.$refs.box.clientHeight );
+                },
+                getKkbCompoment(){
+                    // 获取到的是整个子组件的实例（包括所有实例上的数据方法等）
+                    console.log(this.$refs.kkb);
+                    // 调用子组件实例上的hide()即可控制子组件显示隐藏
+                    this.$refs.kkb.hide();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

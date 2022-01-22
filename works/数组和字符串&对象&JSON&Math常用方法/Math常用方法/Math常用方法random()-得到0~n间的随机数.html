@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //需求：将数组中的元素进行随机排序
+        /*
+            0~n:
+                要包含n,使用round
+                不包含n,推荐使用floor
+        */
+        var arr = ["喝一杯","唱歌","真心话","大冒险","对视十秒"];
+        var num = Math.random() * 4;
+        console.log(num);//1.995949757996387
+        /*
+        数组是0-4
+            Math.random() * 4
+        发现直接使用Math.random() * 4 存在以下问题：
+            1,小数位数太多
+            2，不包含4（这里希望要取到4）
+        */
+        //解决小数位数太多 ceil()、floor()、round()都可以取整
+        console.log(Math.ceil(num));//向上取整包含4 （0出现概率太低）
+        console.log(Math.floor(num));//向下取整不包含4（不可用）
+        console.log(Math.round(num));//四舍五入后再取整可能包含4
+
+        var n = Math.round(num);
+        console.log(arr[n]);
+      
+    </script>
+</body>
+</html>

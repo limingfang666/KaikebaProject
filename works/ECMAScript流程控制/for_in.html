@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>for in循环</title>
+</head>
+<body>
+    <script>
+        //对于object对象这种的复杂对象，for循环无法获取到对象中的值，所以只能使用for...in
+        var obj = {
+            name:'lmf',
+            age:20,
+            tel:'13316789876'
+        }
+        //object对象格式的对象没有length属性,所以不能使用for循环，将object对象的长度作为循环结束的条件
+        // console.log(obj.length);//undefined
+        for( var key in obj){
+            //通过key就可以获取到key对应的value值
+            console.log(key+" : "+obj[key]);
+        }
+
+        //for in循环也可以获取到数组的值，但是数组一般不需要拿到key值，所以对于数组不推荐使用for in循环
+        var arr = [true,10,'1','a'];
+        for(var i in arr){
+            console.log(arr[i]);
+        }
+
+    </script>
+</body>
+</html>

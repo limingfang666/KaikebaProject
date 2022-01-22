@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>拼图——position实现</title>
+    <style>
+        body { margin:0; padding:0; background-color: #d3f1d5; }
+        .bg { width: 545px; height:545px; margin: 100px auto; position: relative; }
+        .bg div { width: 50px; height: 50px; background: url('img.jpg') no-repeat; position: absolute; }
+    </style>
+</head>
+<body>
+<div class="bg"></div>
+<script>
+    var bg = document.querySelector(".bg");
+    var divStr = '';
+    var w = 50;
+    var h = 50;
+    //i代表行，j代表列
+    for(var i=0;i<10;i++){
+        for(var j=0;j<10;j++){
+            var x = w * j;
+            var y = h * i;
+            var bp = -x + 'px -' + y + 'px';
+            //加了5px的间隙（只给div定位加不给背景图定位加）
+            divStr += '<div style="top:'+ (y+5*i) +'px;left:'+ (x+5*j) +'px;background-position:'+ bp +'"></div>';
+        }
+    }
+    bg.innerHTML = divStr;
+</script>
+</body>
+</html>

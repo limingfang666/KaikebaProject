@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #wrap {
+            width: 600px;
+            height: 600px;
+            border: 1px solid black;
+            margin: 0 auto;
+            /* 
+                景深：在3D变换中，模拟我们的视角去看元素与Z轴的距离
+            
+             */
+            perspective: 400px;
+        }
+        #box {
+            width: 200px;
+            height: 200px;
+            background: red;
+            margin: 200px auto;
+            font: 140px/200px "宋体";
+            text-align: center;
+            color: white;
+            transition: 3s;
+            /* 3D空间，父级元素变换时，是否保留子元素的3D变换 preserve-3d保留，flat不保留*/
+            transform-style: preserve-3d;
+        }
+        #wrap:hover span {
+            display: block;
+            width: 200px;
+            height: 200px;
+            background: yellow;
+            transform: rotateX(45deg);
+        }
+        #wrap:hover #box{
+            /* 3D变换，围绕X轴旋转 */
+            transform: rotateY(360deg);
+            /* 3D变换，围绕Y轴旋转 */
+            /* transform: rotateY(180deg); */
+            /* 3D变换，围绕Y轴旋转 */
+            /* transform: rotateZ(180deg); */
+            /* 3D变换，Z轴位移 */
+            /* transform: translateZ(60px); */
+
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <div id="box">
+            <span></span>
+        </div>
+    </div>
+</body>
+</html>

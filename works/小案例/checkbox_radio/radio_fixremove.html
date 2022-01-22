@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义单选框-定点清除</title>
+    <style>
+        body,h2 { margin: 0; padding: 0; }
+        .bg { width: 554px; height: 800px; background: url('img/bg.png') no-repeat; margin: 30px auto; }
+        .options { width: 306px; height: 166px; position: relative; left: 124px; top: 168px; text-align: center;}
+        a { text-decoration: none; display: inline-block; width: 70px; height: 30px; line-height: 30px; border: 1px solid #e3637c; color: black;  }
+        .checked { background: url('img/checked.png') no-repeat 55px 15px; }
+    </style>
+</head>
+<body>
+    <div class="bg">
+        <div class="options">
+                <a href="javascript:;" class="item checked">男</a>
+                <a href="javascript:;" class="item">女</a>
+                <a href="javascript:;" class="item">保密</a>
+        </div>
+    </div>
+    <script>
+        var options = document.querySelectorAll("a");
+        for(var i=0;i<options.length;i++){
+            options[i].onclick = function(){
+                //定点清除：找到为checked的class的选项，直接清除，再将当前项加上checked
+                var checkedOption = document.querySelector(".options .checked");
+                checkedOption.classList.remove("checked");
+                this.classList.add("checked");
+            };
+        }
+    </script>
+</body>
+</html>

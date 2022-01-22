@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// let arr = [1,2,3,3,2,1,4,7];
+// let m = new Map(arr);
+
+// //直接使用，会报错：没有迭代器
+// console.log(m);//Iterator value 1 is not an entry object
+
+let arr = [
+    ["a",1],
+    ["b",2],
+    ["c",3],
+];
+
+//map进行实例化后，返回的数据是类似于key=>value的形式
+let m = new Map(arr);
+console.log(m);//Map(3) {"a" => 1, "b" => 2, "c" => 3}
+
+
+
+</script>    
+</body>
+</html>

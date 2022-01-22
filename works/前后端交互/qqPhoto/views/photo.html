@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>上传图片</title>
+    <link rel="stylesheet" href="css/photo.css">
+</head>
+
+<body>
+    <!-- 展示相关 -->
+    <div class="container">
+        <div class="photoHeader">
+            <div class="imgContainer">
+                <img class="photoName" src="img/1.jpg" />
+            </div>
+            <div class="btnContainer">
+                <span class="photoTitle">相册名称</span>
+                <button class="mybtn">上传照片</button>
+            </div>
+        </div>
+
+        <div class="photoContainer">
+            <div class="photoItem">
+                <img src="img/Home.png" />
+                <span>
+                    home
+                </span>
+            </div>
+        </div>
+    </div>
+    <!-- 上传相关 -->
+    <div class="masking">
+        <div class="addPhotoContainer"></div>
+        <div class="addController">
+            <h3 class="addTitle">上传照片-普通上传(H5)<span class="close">╳</span></h3>
+            <div class="photoTitles">
+                <span class="uploadTo">上传到</span>
+                <div class="photoSelect">
+                    <img class="showPhoto" src="img/1.jpg" />
+                    相册名称
+                </div>
+            </div>
+
+            <!-- 上传按钮 -->
+            <div class="showContainer">
+                <div class="uploadContainer">
+                    <span class="fileinput-button">
+                        <span>上传图片</span>
+                        <input class="imgFile" type="file" name="imgFile" multiple="multiple" />
+                    </span>
+                    <span class="hint">
+                        按住Ctrl可多选
+                    </span>
+                </div>
+            </div>
+
+            <!-- 显示待上传图片  -->
+            <div class="loadContainer">
+                <div class="wantUpload">
+                    <!-- <div class="uploadPhotoItem">
+                        <span class="myProgress">
+                            <span class="plan"></span>
+                            30%
+                        </span>
+                        <img src="img/1.jpg" />
+                        <span class="pictureName">
+                            home
+                        </span>
+                    </div> -->
+                </div>
+                <div class="addStyle">
+                    <span class="fileinput-add">
+                        <span></span>
+                        <input class="imgFile-add" type="file" multiple="multiple" />
+                    </span>
+                </div>
+                <!-- 开始上传按钮 -->
+                <div class="bottomStyle">
+                    <span class="uploadBtn">开始上传</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script type="module">
+    import FileUpload from './../js/FileUpload.js';
+
+    document.querySelector(".close").onclick = function () {
+        document.querySelector(".masking").style.display = "none";
+    }
+    document.querySelector(".mybtn").onclick = function () {
+        document.querySelector(".masking").style.display = "block";
+    }
+    // 获取到图片对象
+    let showContainer = document.querySelector(".showContainer");
+    let loadContainer = document.querySelector(".loadContainer");
+    let addController = document.querySelector(".addController");
+    let wantUpload = loadContainer.querySelector(".wantUpload");
+    let fileInputBtn = showContainer.querySelector(".fileinput-button");
+    let imgFile = fileInputBtn.querySelector(".imgFile");
+
+    // 添加图片
+    let addImg = loadContainer.querySelector(".fileinput-add");
+    let addImgFile = addImg.querySelector(".imgFile-add");
+
+    // 点击上传按钮
+    let uploadBtn = loadContainer.querySelector(".uploadBtn");
+
+    // 上传时需要获取fileReader缓存中的数据，所以将其保存在自定义数组中
+    let filesArr = [];
+
+    // 注意此处imgFile在fileInputBtn容器下，所以不是监听click事件，而是监听change事件
+    fileInputBtn.addEventListener("change", function () {
+        let files = imgFile.files;
+        loadContainer.style.display = "block";
+        showContainer.style.display = "none";
+        renderImg(files);
+    });
+
+    // 添加图片
+    addImg.addEventListener("change", function () {
+        let files = addImgFile.files;
+        renderImg(files);
+    });
+
+    // 上传图片(多文件上传：图片需要一张一张的上传，且每张图片都有自己的上传进度监控，所以需要抽象成图片类)
+    uploadBtn.addEventListener("click",function(){
+        // 添加图片时已经将图片暂存，所以此处直接获取filesArr即可
+        filesArr.forEach(file=>{
+            // 将图片上传至后台（图片需要一张一张的上传，且每张图片都有自己的上传进度监控，所以需要抽象成图片类）
+            let fileUpload = new FileUpload(file);
+            fileUpload.uploadImg("/upload");
+            //上传成功，则隐藏上传照片窗口
+            // addController.style.display = "none";
+            document.querySelector(".masking").style.display = "none";
+
+        });
+        
+    });
+
+    function renderImg(files) {
+        // FileReader的作用就是把文本流按指定格式读取到缓存，以供js调用。
+        // 此处因为还需要将图片进行展示，所以需要使用到FileReader
+        // 因为可能有多个文件对象，所以需要循环
+        [...files].forEach((file, index) => {
+
+            let fileReader = new FileReader();
+            /* readAsDataURL(),读取指定的 Blob 或 File 对象。读取操作完成的时候，readyState 会变成已完
+             ,并触发 loadend 事件，同时 result 属性将包含一个data:URL格式的字符串（base64编码）以表示所读取文件的内容。
+             */
+            fileReader.readAsDataURL(file);
+            let fileName = file.name.split(".")[0];
+
+            // 将文件存在数组中，以便上传时使用
+            filesArr.push(file);
+
+            // 文件读取完成后触发
+            fileReader.onload = function () {
+                // readAsDataURL()方法读取成功后，会返回base64编码的字符串，通过此可以生成<img src="fileReader.result">即可访问图片
+                let inner = `
+                        <span class="myProgress">
+                            <span class="plan"></span>
+                            30%
+                        </span>
+                        <img src="${fileReader.result}" />
+                        <span class="pictureName">
+                            ${file.name}
+                        </span>
+                `;
+                // 直接使用innerHTML会覆盖原有节点，不适用于再次添加图片时
+                // 注意创建节点必须在document下
+                let uploadPhotoDiv = document.createElement("div");
+                uploadPhotoDiv.classList.add("uploadPhotoItem");
+                uploadPhotoDiv.innerHTML = inner;//注意此处是逐个文件创建div再appendChild()，所以不适用一起添加
+                // 注意最后需要appendChild
+                wantUpload.appendChild(uploadPhotoDiv);
+            }
+        });
+    }
+
+</script>
+
+</html>

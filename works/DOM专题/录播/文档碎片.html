@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box div{
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            background: red;
+            float: left;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+<script>
+{
+    let box = document.querySelector("#box");
+
+    //使用循环添加innerHTML时不建议直接添加，而是将所有元素累加到字符串中，最后循环完后再一次性添加
+    
+    //使用字符串
+    // console.time();
+    
+    // for (let i = 0; i < 1000; i++) {
+    //     box.innerHTML += '<div id="box">'+i+'</div>';
+    // }
+    // console.timeEnd();//发现总用时：default: 1311.780029296875ms
+
+    // console.time();
+    // let inner = '';
+    // for (let i = 0; i < 1000; i++) {
+    //     inner += '<div id="box">'+i+'</div>';
+    // }
+    // box.innerHTML = inner;
+    // console.timeEnd();//发现总用时：default: 9.087890625ms
+
+    // //直接添加节点
+    // console.time();
+    // for (let i = 0; i < 1000; i++) {
+    //     let div = document.createElement("div");
+    //     div.innerHTML = i;
+    //     box.appendChild(div);
+    // }
+    // console.timeEnd();//发现总用时：default: 15.39208984375ms
+
+    console.time();
+    let fragment = document.createDocumentFragment();
+    for (let i = 0; i < 1000; i++) {
+        let div = document.createElement("div");
+        div.innerHTML = i;
+        fragment.appendChild(div);
+    }
+    box.appendChild(fragment);
+    console.timeEnd();//发现总用时：default: 8.47119140625ms
+
+}    
+</script>
+</body>
+</html>

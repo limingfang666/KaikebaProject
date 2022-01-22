@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div></div>
+<script>
+{
+    let div = document.querySelector("div");
+    let name = "小明";
+    let age = "28";
+    let school = "北京大学";
+    let info = `
+        <strong>${name}</strong>今年马上
+        <strong>${age = age>30?"保密":age}</strong>岁了，现在在
+        <strong>${school}</strong>读博！
+    `;
+
+    div.innerHTML = info;
+}
+    
+</script>
+</body>
+</html>

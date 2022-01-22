@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>定时器this指向问题</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background: red;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+    <script>
+        var div = document.querySelector("div");
+        div.onclick = function(){
+            console.log("div.onclick中的this：",this);
+            // this.style.cssText = "width:200px;height:200px";//会变大
+            var _This = this;
+            setTimeout(function(){
+                console.log("setTimeout里的this:",this);
+                _This.style.cssText = "width:200px;height:200px";
+            },1000);
+        };
+    </script>
+</body>
+</html>

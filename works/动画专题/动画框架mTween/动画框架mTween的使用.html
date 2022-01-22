@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background: red;
+            margin-bottom: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <button>执行</button>
+    <button>停</button>
+    <script src="mTween.js"></script>
+    <script>
+        var box = document.querySelector("#box");
+        var btns = document.querySelectorAll("button");
+        btns[0].onclick = function(){
+            //如果要设置transform，一定要先通过css()方法进行设置
+            css(box,"translateX",0);
+            css(box,"rotate",0);
+            //动画框架的使用
+            mTween({
+                el:box,
+                attr:{
+                    width:200,
+                    height:200,
+                    // translateX:20
+                    rotate:360
+                },
+
+                //动画持续时间（单位秒）,默认时间400毫秒
+                // duration:1000
+                //动画持续时间第二种用法，比例设置：
+                duration:{
+                    multiple: 1,//根据距离计算动画时间比例:获取到attr样式中最大差值，计算时间，此处360，然后360*1 就为360毫秒
+                    min: 200,//动画最大时间:如果 multiple*最大差值的时间小于min,则使用min的时间,非min和max,则使用multiple*最大差值的时间
+                    max: 1000//动画最小时间:如果 multiple*最大差值的时间大于max,则使用max的时间,非min和max,则使用multiple*最大差值的时间
+                },
+
+                //动画执行样式(参照transition)
+                fx:"linear",
+
+                //回调：动画执行中和动画执行结束
+                cb:function(){
+                    console.log("动画执行完成");
+                    //控制动画过程：想在动画执行完成后，再执行其他的动画，直接在cb函数值再进行调用
+                    mTween({
+                        el:box,
+                        attr:{
+                            translateX:40  
+                        }
+                    });
+                    
+                },
+                //动画执行过程中：计算机每秒执行60次，在duration给定时间内，会打印duration/60次。即一次打印用时1000/60 = 16.6666666次。总共有16.666666*3次约等于50次
+                moveing:function(){
+                    console.log("动画执行过程中");//打印66次
+                }
+            });
+            
+            btns[1].onclick = function(){
+                //想在动画执行过程中结束动画,mTween.stop(动画执行的元素)
+                mTween.stop(box);
+            };
+        };
+
+    </script>
+</body>
+</html>

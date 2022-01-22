@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .js_animation_box {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+        /* 这两个class永远都会生效 */
+        
+        .slide-fade-enter-active,
+        .slide-fade-leave-active {
+            transition: all 5s ease;
+        }
+        /* 添加动画生成的第一帧生效 */
+        
+        .slide-fade-enter {
+            width: 0;
+            height: 0;
+        }
+        /* 动画生成最后一帧生效 */
+        
+        .slide-fade-enter-to {
+            width: 100px;
+            height: 100px;
+        }
+        /* 动画销毁第一帧生效  */
+        
+        .slide-fade-leave {
+            /*可以和slide-fade-enter-to合并*/
+            width: 100px;
+            height: 100px;
+        }
+        /* 动画销毁最后一帧生效 */
+        
+        .slide-fade-leave-to {
+            /*可以和slide-fade-enter合并*/
+            width: 0;
+            height: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="isShow = !isShow">vue动画</button>
+        <transition name="slide-fade">
+            <div v-if="isShow" class="js_animation_box"></div>
+        </transition>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                isShow: false
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./css/slot.css">
+    <title>具名插槽</title>
+</head>
+
+<body>
+    <div id="app">
+        <kkb-dialog>
+            <!-- 使用内置组件 template 与 v-slot 指令进行配置，用来命名插槽 -->
+            <template v-slot:title>
+                <h1>这是标题</h1>
+            </template>
+
+            <!-- <template v-slot:default> 没写名字就是默认插槽，默认插槽直接用<slot></slot>即可 -->
+            <template>
+                <p>这是内容</p>
+            </template>
+        </kkb-dialog>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        const Dialog = {
+            props: ['title'],
+            // 在组件模板中，通过 <slot name="插槽名字"> 来使用
+            template: `
+                <div class="dialog">
+                    <i class="dialog_close_btn"></i>
+                    <div class="dialog_header">
+                        <slot name="title"></slot>
+                    </div>
+                    <div class="dialog_content">
+                        <slot></slot>
+                    </div>
+                </div>
+            `
+        };
+
+        new Vue({
+            el: '#app',
+            components: {
+                'kkb-dialog': Dialog
+            }
+        });
+    </script>
+</body>
+
+</html>

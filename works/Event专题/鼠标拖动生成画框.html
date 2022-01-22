@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            border: 1px solid black;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<script>
+{
+    //需求：鼠标按下拖动生成一个画框
+    let div = document.querySelector("div");
+    document.addEventListener("mousedown",function(e){
+        //鼠标按下时，生成一个div
+        let div = document.createElement("div");
+        // document.body.appendChild(div);
+
+        //获取鼠标开始拖动的起始位置
+        let startPos = {};
+        startPos.x = e.clientX;
+        startPos.y = e.clientY;
+
+        function move(e){
+            let curPos = {};
+            curPos.x = e.clientX;
+            curPos.y = e.clientY;
+            // console.log(curPos);
+            //div 的left和top：如果鼠标当前位置>鼠标起始位置，则为鼠标起始位置（鼠标往右拉）；如果鼠标当前位置<鼠标起始位置，则为鼠标当前位置(鼠标往左拉)
+            div.style.left = Math.min(startPos.x,curPos.x) + 'px';
+            div.style.top = Math.min(startPos.y,curPos.y) + 'px';
+
+            //通过当前坐标x/y-鼠标起始坐标x/y得到要生成的div的宽度 ，如果往左拉，鼠标当前坐标-起始坐标可能为负数，所以，需要使用绝对值函数Math.abs()
+            div.style.width = Math.abs(curPos.x -startPos.x) + 'px';
+            div.style.height = Math.abs(curPos.y -startPos.y) + 'px';
+
+            document.body.appendChild(div);
+        }
+        //鼠标按下移动时动态获取鼠标位置
+        document.addEventListener("mousemove",move);
+        //鼠标放下时，停止生成画框
+        document.addEventListener("mouseup",function(){
+            document.removeEventListener("mousemove",move);
+        },{
+            once:true
+        });
+        
+    });
+}
+</script>
+</body>
+</html>

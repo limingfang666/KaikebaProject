@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" class="myfile">
+    <button>点击上传</button>
+    <script>
+        document.querySelector("button").onclick = function(){
+            let myfile = document.querySelector(".myfile");
+            //files属性返回的是类数组
+            let files = myfile.files;
+            
+            //创建FormData对象，进行上传(使用FormData后，就不需要在表单中使用form-data进行上传)
+            let formData = new FormData();
+            //img表示name，相当于form表单中的name属性，file[0]表示要上传的单个文件
+            formData.append("img",files[0]);
+            //其他的数据，也可以进行传输
+            formData.append("username","张三");
+
+            //文件上传必须通过正文方式进行传递，所以必须使用post请求
+            //使用FormData时会自动对content-type进行设置，就不需要再进行手动设置
+            let xhr = new XMLHttpRequest();
+            xhr.open("post","/upload",true);
+            xhr.onload = function(){
+                console.log(xhr.responseText);
+            };
+            // 没选择文件需要提示，否则会报错
+            if(files>0){
+                xhr.send(formData);
+            }else{
+                alert("请选择文件");
+            }
+        };
+    </script>
+</body>
+</html>

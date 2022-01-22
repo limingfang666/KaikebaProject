@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="wrap">
+    <p>p1</p>
+    <p>p2</p>
+    <!-- 注释 -->
+    <h3>h2</h3>
+    <p>p3</p>
+    <p>p4</p>
+    <h3>h2</h3>
+    <p>p5</p>
+    <h3>h2</h3>
+    <p>p6</p>
+</div>
+<script>
+{
+    /*
+        - nextSibling 下一个兄弟节点
+        - nextElementSibling 下一个兄弟元素
+        - previousSibling 上一个兄弟节点
+        - previousElementSibling 上一个兄弟元素
+    */
+    let wrap = document.querySelector("#wrap");
+    let h2 = wrap.children[2];
+    console.log(h2);//<h3>h2</h3>
+    
+    console.log(h2.nextSibling,h2.nextElementSibling);//#text h3前换行 <p>p3</p>
+    console.log(h2.previousSibling,h2.previousElementSibling);//#text p3前换行 <p>p2</p>
+    
+    
+}
+</script>
+</body>
+</html>

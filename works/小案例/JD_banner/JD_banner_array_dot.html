@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>京东简易幻灯片</title>
+    <style>
+        body,ul,li,a,div { margin:0; padding:0; }
+        ul,li { list-style: none ;}
+        a { cursor: pointer; text-decoration: none; }
+        img { vertical-align: top; }
+        .banner_bg { width:1000px; height:800px; background: url('img/bg.jpg') no-repeat; margin: 0 auto; position: relative;}
+        .banner { width: 536px; height: 356px; position: absolute; top: 168px; left: 296px; }
+        ul li { display: none; }
+        ul .active { display: block; }
+        .prev,.next { width:25px; height:46px; display: block; background: url('img/ar.png') no-repeat;}
+        .prev { position: absolute; top: 154px; left: 12px; }
+        .next { 
+            position: absolute; top: 154px; right: 12px;
+            transform:rotate(180deg);
+            -ms-transform:rotate(180deg); 	/* IE 9 */
+            -moz-transform:rotate(180deg); 	/* Firefox */
+            -webkit-transform:rotate(180deg); /* Safari 和 Chrome */
+            -o-transform:rotate(180deg); 	/* Opera */
+        }
+        .remark { width: 532px; height: 70px; line-height: 70px; position: absolute; top: 544px; left: 296px; text-align: center; color: #666666; font-size: 20px; }
+        /* 通过宽高，margin，border,overflow:hidden隐藏border以外的内容及圆角处理导航栏圆点（和三角形图标一样） */
+        nav { position: absolute; left: 0; bottom: 10px; text-align: center; width: 100%;}
+        nav a { display: inline-block; width: 10px; height: 10px; margin: 0 3px; background: #fff; border-radius: 50%; position: relative; }
+        nav img { position: absolute; top: -36px; left: -18px; margin: 0 3px; width: 40px; display: none; border: 2px solid #fff;}
+        nav .active { background: #ff6600; }
+    </style>
+</head>
+<body>
+    <div class="banner_bg">
+            <div class="banner">
+                    <ul>
+                        <li class="active"><img src="img/img1.jpg" alt=""></li>
+                        <li><img src="img/img2.jpg" alt=""></li>
+                        <li><img src="img/img3.jpg" alt=""></li>
+                        <li><img src="img/img4.jpg" alt=""></li>
+                        <li><img src="img/img5.jpg" alt=""></li>
+                    </ul>
+                    <span class="prev"></span>
+                    <span class="next"></span>
+                    <nav>
+                        <a href="#" class="active"><img src="img/img1.jpg" alt=""></a>
+                        <a href="#"><img src="img/img2.jpg" alt=""></a>
+                        <a href="#"><img src="img/img3.jpg" alt=""></a>
+                        <a href="#"><img src="img/img4.jpg" alt=""></a>
+                        <a href="#"><img src="img/img5.jpg" alt=""></a>
+                    </nav>
+            </div>
+            <div class="remark">时尚潮流先锋（1）做最好的自己</div>
+    </div>
+    <script>
+        //将banner图放进数组
+        var bannersArr = ["img/img4.jpg","img/img3.jpg","img/img1.jpg","img/img5.jpg","img/img2.jpg"];
+        //将文字说明放进数组
+        var remarkArr = ["时尚潮流先锋——做最好的自己","未来属于我们——只要有你","JavaScript高级工程师——你值得拥有","生命在于静止","畅想未来——有你有我有大家"];
+
+        var prev = document.querySelector(".prev");
+        var next = document.querySelector(".next");
+        var imgPath = document.querySelector(".active img");
+        var remark = document.querySelector(".remark");
+        //需要获取到全部的a标签
+        var navs = document.querySelectorAll("nav a");
+        var num = 0 ;
+        next.onclick = function(){
+            //在切换到下一张前先清除当前banner的active样式
+            // navs[num].className = "";
+            num++;
+            num = num>bannersArr.length-1?0:num;
+            imgPath.src = bannersArr[num];
+            remark.innerHTML = remarkArr[num] + " 第"+ (num+1) +"页";
+            //for循环的方式暴力清除全部banner的active样式
+            for (var i = 0; i < navs.length; i++) {
+                navs[i].className = "";
+            }
+            //nav导航栏圆点切换（将当前的banner圆点样式改为active）
+            navs[num].className = "active";
+            console.info(navs[num]);
+
+        };
+        prev.onclick = function(){
+            //在切换到下一张前先清除当前banner的active样式
+            // navs[num].className = "";
+            num--;
+            num = num<0?bannersArr.length-1:num;
+            imgPath.src = bannersArr[num];
+            remark.innerHTML = remarkArr[num] + " 第"+ (num+1) +"页";
+            //for循环的方式暴力清除全部banner的active样式
+            for (var i = 0; i < navs.length; i++) {
+                navs[i].className = "";
+            }
+            //nav导航栏圆点切换（将当前的banner圆点样式改为active）
+            navs[num].className = "active";
+        };
+
+    </script>
+</body>
+</html>

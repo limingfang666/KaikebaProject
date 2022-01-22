@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义复选框-classList(方法测试)</title>
+    <style>
+        body,h2 { margin: 0; padding: 0; }
+        .bg { width: 554px; height: 800px; background: url('img/checkboxbg.png') no-repeat; margin: 0 auto; }
+        .options { width: 306px; height: 166px; position: relative; left: 124px; top: 323px;}
+        h2 { color: #e3637c; position: absolute; left: 152px; top: 34px;}
+        .checkeara { position: absolute; left: 0; top: 98px; text-align: center; width: 306px; height: 32px;}
+        a { text-decoration: none; display: inline-block; width: 70px; height: 30px; line-height: 30px; border: 1px solid #e3637c; color: black;  }
+        .checked { background: url('img/checked.png') no-repeat 55px 15px; }
+    </style>
+</head>
+<body>
+    <div class="bg">
+        <div class="options">
+            <h2>模拟复选</h1>
+            <div class="checkeara">
+                <a href="javascript:;" class="item1 checked">美食</a>
+                <a href="javascript:;" class="item1">逛街</a>
+                <a href="javascript:;" class="item1">旅游</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        var options = document.querySelectorAll("a");
+        for(var i=0;i<options.length;i++){
+            options[i].onclick = function(){
+                this.classList.add("unchecked");
+                console.info("添加unchecked后的classList类数组："+this.classList.value);//value获取所有的class类（类数组）
+                this.classList.remove("item1");//移除元素的某个class类
+                console.info("删除item1后的classList类数组："+this.classList.value);
+                console.info("是否包含item1类："+this.classList.contains("item1"));//元素是否包含某个class类，是返回ture，否返回false
+                this.classList.toggle("item1");//切换class，如果有就删除这个类，如果没有就添加这个类
+                console.info("删除item1类后再使用toggle切换item1后："+this.classList.value);
+                console.info("数组的长度："+this.classList.length);//元素的class类个数
+            };
+        }
+    </script>
+</body>
+</html>

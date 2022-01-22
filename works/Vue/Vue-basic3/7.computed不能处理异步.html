@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>watch</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="keyWord"/>
+        <hr>
+        <ul>
+            <li v-for="user of showUsers" :key="user.id">{{user.username}}</li>
+        </ul>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        let app = new Vue({
+            el: "#app",
+            data: {
+                keyWord:'',
+                users: [
+                    { id: 1, username: 'baogege', gender: '男'},
+                    { id: 2, username: 'mt', gender: '男'},
+                    { id: 3, username: 'haigege', gender: '男'},
+                    { id: 4, username: 'zMouse', gender: '男'},
+                    { id: 5, username: 'reci', gender: '女'},
+                    { id: 6, username: 'lisi', gender: '女'}
+                ],
+            },
+            computed: {
+                showUsers: {
+                    get(){
+                        // 如果没有定时器模拟异步，可以正常显示，有异步后无法正常过滤
+                        setTimeout(() => {
+                            return this.keyWord==""?false:this.users.filter(user=>user.username.includes(this.keyWord));
+                        }, 1000);
+                    }
+                }
+            },
+        });
+    </script>
+</body>
+
+</html>

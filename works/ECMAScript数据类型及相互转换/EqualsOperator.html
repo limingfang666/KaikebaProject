@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>相等操作符</title>
+</head>
+<body>
+    <script>
+        //==会进行隐式类型转换,本身数据类型不同，但是JS会对其进行隐式类型转换，就可以比较了
+        console.info("1==1结果为："+(1==1));//true
+
+        // NaN不等于任何类型的数值，包括其本身，所以一定返回false；
+        console.info("NaN==1结果为："+(NaN==1));//false
+        console.info("NaN==NaN结果为："+(NaN==NaN));//false
+
+        // 如果都是String类型，比较字符编码值，如果完全一致，返回true，否则返回false；
+        console.info("'abc'=='123'结果为："+('abc'=='123'));//false
+        console.info("'abc'=='abc'结果为："+('abc'=='abc'));//true
+
+        // 如果两侧都是Number数值类型，比较值是否相同；
+        console.info("1==1结果为："+(1==1));//true
+
+        // 如果两边都是Object类型，比较地址是否相同；
+        var a = {name:'lmf'};
+        var b = {name:'lmf'};
+        console.info("a==b结果为："+(a==b));//false
+        var c = b;
+        console.info("c==b结果为："+(c==b));//true
+
+        // null==undefined返回true;
+        console.info("null==undefined结果为："+(null==undefined));//true
+
+        // 如果一侧为String，一侧是Number，将String（String不可以转成数字类型）转换NaN之后，再进行比较；
+        console.info("'1'==1结果为："+('1'==1));//true
+        console.info("'abc'==1结果为："+('abc'==1));//false String("abc")=NaN  Nan==1返回false
+
+        // 如果一侧是Boolean，则把布尔值转为Number类型后，再根据上述规则进行比较；
+        console.info("true==1结果为："+(true==1));//true
+    </script>
+</body>
+</html>

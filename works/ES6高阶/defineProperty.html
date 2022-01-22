@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>obj.a</div>
+    <script>
+
+        let obj = {
+            a:1,
+            b:2
+        }
+        Object.defineProperty(obj,'a',{
+            configurable:true,
+            get(){
+                console.log("get-----");
+                return 2;
+            },
+            set(newValue){
+                console.log("set-----");
+                return newValue;
+            }
+        });
+
+        obj.a = 4;
+        console.log(obj.a);
+        
+    </script>
+</body>
+</html>

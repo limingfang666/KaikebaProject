@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #list {
+            padding: 0;
+            margin: 0;
+        }
+        #list li {
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <a href="http://www.baidu.com">百度</a><br>
+    <input type="text">
+    <ul id="list"></ul>
+<script>
+{
+    let list = document.querySelector("#list");
+    // 通过30个.创建30li
+    list.innerHTML += [...(".".repeat(30))].map((item,index)=>{
+        return `<li>这是第${index}个li</li>`;
+    }).join("");
+    
+    // document.addEventListener("touchstart",(e)=>{
+    //     e.preventDefault();
+    // },{
+    //     //最新Chrome浏览器下，不允许设置阻止浏览器默认行为，只有设置了passive:false后才会被允许
+    //     passive:false
+    // });
+
+    // document.addEventListener("touchmove",(e)=>{
+    //     e.preventDefault();
+    // },{
+    //     passive:false
+    // });
+
+    document.addEventListener("touchend",(e)=>{
+        e.preventDefault();
+    },{
+        passive:false
+    });
+}
+</script>
+</body>
+</html>

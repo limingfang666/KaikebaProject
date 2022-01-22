@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //需求：将数组的每个元素扩大2倍，再进行输出
+        var arr = [34,67,32,23,78];
+        //使用for循环
+        var num = [];
+        for (var i = 0; i < arr.length; i++) {
+            num[i] = arr[i] * 2;
+        }
+        console.log(num);//[68, 134, 64, 46, 156]
+
+        //使用forEach实现
+        var num1 = [];
+        arr.forEach(function(ele,index,arr){
+            num1[index] = ele * 2;
+        });
+        console.log(num1);//[68, 134, 64, 46, 156]
+        
+        //使用map实现
+        var mapArr = arr.map(function(ele,index,arr){
+            console.log(this); //#document
+            return ele * 2;
+        },document);
+        console.log(mapArr);//[68, 134, 64, 46, 156]
+        
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<button>打开新窗口</button>
+<body>
+<script>
+{
+    let btn = document.querySelector("button");
+    btn.onclick = () =>{
+        let win = window.open("http://www.baidu.com","_blank","width=400px,height=400px,location=no");
+
+        //window.close关闭窗口
+        setTimeout(()=>{
+            win.close();
+        },3000);
+    };
+
+}
+</script> 
+</body>
+</html>

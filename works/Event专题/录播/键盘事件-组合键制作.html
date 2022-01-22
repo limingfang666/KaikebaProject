@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 200px;
+            height: 200px;
+            background: red;
+            position: absolute;
+            top: 50px;
+            left: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+<script src="mTween.js"></script>
+<script>
+{
+    //需求：按上下左右箭头时，div向对应方向移动；按ctrl+向上箭头，div放大，按ctrl+向下箭头，div缩小
+    let div = document.querySelector("div");
+    var scale=1;
+    
+    document.addEventListener('keydown',function(e){
+        let top = css(div,"top");
+        let left = css(div,"left");
+    console.log(top,left);
+        //上下左右的keyCode分别为：左 37；上38；右 39；下40； ctrl 17
+        let code = e.keyCode;
+        switch(code){
+            case 37:
+                css(div,"left",left-5);
+                break;
+            case 38:
+                css(div,"top",top-5);
+                break;
+            case 39:
+                css(div,"left",left+5);
+                break;
+            case 40:
+                css(div,"top",top+5);
+                break;
+        }
+        if(e.keyCode==38 && e.ctrlKey){
+            scale+=0.5;
+            div.style.transform='scale('+scale+')';
+        }
+        if(e.keyCode==40 && e.ctrlKey){
+            scale-=0.5;
+            div.style.transform='scale('+scale+')';
+        }
+    });
+}
+</script>
+</body>
+</html>

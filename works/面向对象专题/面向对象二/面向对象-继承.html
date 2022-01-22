@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    //继承：子类继承父类的所有属性和行为，父类不受影响
+    function Parent(name){
+        this.eyes = 2;
+        this.name = name;
+        this.legs = 2;
+    } 
+    //写子类，通过call()/apply()/bind()方法修改子类的this指向，并传入参数即可
+    function Son(name){
+        Parent.call(this,name);
+        //并由自己的独特属性
+        this.hobby = "打篮球";
+    } 
+
+    //发现子类继承父类后，拥有所有父类的属性和行为，父类不受影响
+    // let parent = new Parent("老张");
+    // let son = new Son("小明");
+    // console.log(parent);//Parent {eyes: 2, name: "老张", legs: 2} 
+    // console.log(son);//Son {eyes: 2, name: "小明", legs: 2, hobby: "打篮球"}
+
+    //继承：只会继承父类的构造函数，而不会继承父类的原型
+    Parent.prototype.job = function(){
+        console.log("程序员");
+    }
+    // let parent = new Parent("老张");
+    // let son = new Son("小明");
+    // parent.job();//程序员
+    // son.job();//报错：Uncaught TypeError: son.job is not a function
+
+    // //简单继承:直接将父类原型赋值给子类。问题：修改子类原型时会影响父类
+    // Son.prototype = Parent.prototype;
+    // let parent = new Parent("老张");
+    // let son = new Son("小明");
+    // parent.job();//程序员
+    // son.job();//程序员
+    // //当通过子类Son修改赋值得到的原型时,发现父类的原型也发生了改变
+    // Son.prototype.job = function(){
+    //     console.log("销售");
+    // }
+    // parent.job();//销售
+    // son.job();//销售
+
+}
+</script>
+</body>
+</html>

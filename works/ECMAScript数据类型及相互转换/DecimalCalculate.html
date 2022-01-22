@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>小数计算问题</title>
+</head>
+<body>
+    <input type="text" id="input1" value="0.1">
+    +
+    <input type="text" id="input2" value="0.2">
+    <button id="btn"> = </button>
+    <span id="result"></span>
+    <script>
+        var input1 = document.getElementById("input1");
+        var input2 = document.getElementById("input2");
+        var btn = document.getElementById("btn");
+        var result = document.getElementById("result");
+        btn.onclick = function(){
+            var txt1Val = input1.value;
+            var txt2Val = input2.value;
+            //直接使用小数计算(通过元素获取的内容都是字符串，所以会进行字符串拼接0.10.2)
+            //result.innerHTML = txt1Val + txt2Val;//0.10.2
+
+            //使用Number()转换成数字类型后，发现结果为0.30000000000000004
+            //result.innerHTML = Number(txt1Val) + Number(txt2Val);//0.30000000000000004
+
+            //解决：将txt1Val，txt2Val两个数都乘以小数位数的数十倍，将其转为整数再进行计算，得到计算结果后，再除以对应的数十倍即可
+            result.innerHTML = (Number(txt1Val) * 10 + Number(txt2Val) * 10) / 10; //0.3
+        };
+    </script>
+</body>
+</html>

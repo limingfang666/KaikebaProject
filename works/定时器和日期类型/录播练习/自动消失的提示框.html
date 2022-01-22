@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自动消失的提示框</title>
+    <style>
+        body { 
+            margin: 0;
+            padding: 0;
+        }
+        aside {
+            height: 50px;
+            /* line-height: 50px; */
+            background: #7f7f7f;
+            color: white;
+            text-align: center;
+            /* 设置复合样式不能只写24px/50px */
+            font: 24px/50px "微软雅黑";
+            /* 向元素应用 2D 或 3D 转换。该属性允许我们对元素进行旋转、缩放、移动或倾斜。 */
+            transform: translateY(-50px);
+        }
+        button {
+            width: 150px;
+            height: 40px;
+            line-height: 40px;
+            color: white;
+            background: #f08080;
+            border: 1px solid #b95656;;
+            outline: none;
+            margin: 500px 700px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- <aside> 的内容可用作文章的侧栏。 -->
+    <aside>请输入姓名后再提交</aside>
+    <button>
+        提交
+    </button>
+    <script>
+        (function(){
+            //通过transform: translateY(-50px);控制aside区域显示与否设置为50px即可显示
+            var aside = document.querySelector("aside");
+            var btn = document.querySelector("button");
+            btn.onclick = function(){
+                aside.style.transform = "translateY(0px)";
+                //设置时候控制器显示一段时间（1s）后消失
+                setTimeout(function(){
+                    aside.style.transform = "translateY(-50px)";
+                },1000);
+            };
+        })();
+    </script>
+</body>
+</html>

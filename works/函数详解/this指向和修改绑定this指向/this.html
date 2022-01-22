@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>this指向</title>
+</head>
+<body>
+<script>
+//函数外：window
+// 函数内：函数中的this指向谁，取决于这个函数是怎么调用的
+    // 作为对象的属性（方法）调用，指向当前对象
+    // 其余情况执行window
+
+function fn(){
+    console.log(this);
+}
+//直接调用函数，this代表window
+console.log("没有作为对象的属性进行调用，而是直接调用:");
+fn();//this指向window 
+
+//作为对象的属性或方法调用
+//作为对象的属性进行调用
+console.log("作为对象的属性进行调用:");
+document.fn = fn;
+document.fn();//this 执行document
+
+//事件里，把this绑定在事件上
+console.log("作为对象的属性(事件)进行调用:");
+document.onclick = fn;
+document.onclick();//this 执行document
+
+//数组里,把函数放到数组里，再由数组调用，此时this指向当前数组
+console.log("作为对象(数组)进行调用:");
+var arr = [fn,1,2];
+arr[0]();//this指向当前数组
+
+//obj对象里
+console.log("作为对象(object对象)进行调用:");
+var obj = {
+    fn:fn
+};
+obj.fn();//this指向object对象
+</script>
+</body>
+</html>

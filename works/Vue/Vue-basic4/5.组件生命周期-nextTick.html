@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{title}}</h1>
+        <button @click="setBoxContent">设置新的内容</button>
+        <hr>
+        <div ref="box" style="background: red" v-html="content"></div>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        
+        let app = new Vue({
+            el: '#app',
+            data: {
+                title: '开课吧',
+                n: 1
+            },
+            computed: {
+                content() {
+                    return new Array(this.n).fill(this.title).join('<br>');
+                }
+            },
+            methods: {
+                setBoxContent() {
+                    this.n++;
+                    // 如果不加$nextTick，则每次获取的都是上一次渲染后的结果
+                    // 这里的_表示没有参数时的占位符，用() 或者任意参数e,attr等都行
+                    this.$nextTick(_=>{
+                        console.log( this.$refs.box.clientHeight );
+                    })
+                }
+            }
+        });
+    </script>
+</body>
+</html>

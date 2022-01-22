@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>匿名函数</title>
+</head>
+<body>
+    <script>
+        //匿名函数使用时有两种方式：
+        //1，匿名函数自执行：声明后不需要调用直接执行
+        (function(){
+            console.log("匿名函数自执行");
+        })();
+
+        //2，函数表达式：把函数存到变量或数组等里，调用时通过变量进行调用
+        var fn = function(){
+            console.log("函数表达式：将函数存到变量里");
+        };
+        fn();//调用时需要写括号
+
+        //2，函数表达式：把函数存到数组第0位，调用时通过数组第0位进行调用
+        var arr = [];
+        arr[0] = function(){
+            console.log("函数表达式：将函数存到数组的对应位置");
+        };
+        arr[0]();//调用时需要写括号
+
+    </script>
+</body>
+</html>

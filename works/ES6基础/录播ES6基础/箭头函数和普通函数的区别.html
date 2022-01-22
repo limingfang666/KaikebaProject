@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+function fn(){
+    console.log(arguments);
+}
+fn(1,2,3,4);//Arguments(4) [1, 2, 3, 4, callee: ƒ, Symbol(Symbol.iterator): ƒ]
+
+//箭头函数中没有不定参
+let fn2 = () =>{
+    console.log(arguments);
+}
+fn2(3,4,5);//报错：arguments is not defined
+</script>
+</body>
+</html>

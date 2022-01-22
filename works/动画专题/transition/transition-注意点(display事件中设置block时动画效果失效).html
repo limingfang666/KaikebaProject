@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background: red;
+            display: none;
+            transition: .5s;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <button>显示</button>
+    <script>
+        //元素本身是隐藏的，点击时设置block，并改变其宽度，设置动画过渡效果
+        //延时最好不低于20：因为屏幕有渲染帧频问题，1s渲染60次，16.7ms渲染一次。如果写0可能卡在上一屏，动画过渡效果就可能出不来
+        var box = document.querySelector("#box");
+        var btn = document.querySelector("button");
+        btn.onclick = function(){
+            box.style["display"] = "block";
+            // box.style["width"] = "400px";
+            // box.style["background"] = "blue";
+            setTimeout(function(){
+                box.style["width"] = "400px";
+                box.style["background"] = "blue";
+            },20);
+        };
+    </script>
+</body>
+</html>

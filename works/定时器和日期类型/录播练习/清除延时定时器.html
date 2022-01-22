@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>清除延时定时器</title>
+</head>
+<body>
+    <button>开启定时器</button>
+    <button>关闭定时器</button>
+    <script>
+        (function(){
+            var timer1 = 0;
+            var timer2 = 0;
+            var timer3 = 0;
+            var btn = document.querySelectorAll("button");
+            btn[0].onclick = function(){
+                timer1 = setTimeout(function(){
+                    console.log("延时定时器1");
+                },1000);
+                timer2 = setTimeout(function(){
+                    console.log("延时定时器2");
+                },3000);
+                timer3 = setTimeout(function(){
+                    console.log("延时定时器3");
+                },5000);
+                console.log(timer1,timer2,timer3);
+            };
+            btn[1].onclick = function(){
+                clearTimeout(timer2);
+            };
+        })();
+    </script>
+</body>
+</html>

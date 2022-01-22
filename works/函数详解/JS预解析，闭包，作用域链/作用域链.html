@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>作用域链</title>
+</head>
+<body>
+<script>
+    //调用fn()时，在其子函数fn2()被调用时，首先会在fn2()自己的作用域内找变量a，找不到就在其父级作用域即fn()作用域中找，即a=10，然后打印a=10
+    function fn(){
+        var a = 10;
+        function fn2(){
+            console.log(a);
+        }
+        fn2();
+    }
+    fn();
+</script>
+</body>
+</html>

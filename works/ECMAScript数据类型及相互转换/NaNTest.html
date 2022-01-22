@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NaN理解</title>
+</head>
+<body>
+    <script>
+        //NaN是Number中的一个特殊值，NaN不是一个数字，但是其typeof后的类型是数字（Number）
+        console.log("NaN通过typeof的数据类型是"+ typeof NaN);//number
+
+        //NaN 和 isNaN
+        // - 在使用 NaN 时，要注意 NaN 不等于任何值，包括它自己，也就是 NaN 不等于 NaN。
+        var a = NaN;
+        console.log("检测a是否等于NaN:"+(a == NaN));//false
+        console.log("检测a是否等于NaN:"+(a === NaN));//false
+
+        // - 当我们要检测一条数据是否是 NaN 时，可以使用 isNaN(val) 来进行检测,
+        //在 isNaN 方法中，传入的数据 能被转换成 合法数字时，就会返回 false，当传入的数据不能被转换成 合法数字( 也就是NaN) 时，isNaN 就会返回 true
+        var b = "123";
+        var c = "a123";
+        var d = "123b";
+        console.log("123被isNaN检测后："+isNaN(b));//false
+        console.log("a123被isNaN检测后："+isNaN(c));//true
+        console.log("123b被isNaN检测后："+isNaN(d));//true
+    </script>
+</body>
+</html>

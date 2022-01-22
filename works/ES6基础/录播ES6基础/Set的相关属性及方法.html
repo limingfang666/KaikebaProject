@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+let arr = [1,2,3,3,2,1,4,7];
+let s = new Set(arr);
+
+//size()
+console.log(s.size);//5
+
+//clear()清空Set
+// s.clear();
+// console.log(s);//Set(0) {}
+
+//s.delete(val)清除某项,返回值为true或false
+console.log(s.delete(3));//true
+console.log(s);//Set(4) {1, 2, 4, 7}
+
+// s.has(val)：查看是否包含某个值。
+console.log(s.has(3));//false
+
+//s.add(val)：添加值,返回的是添加后的Set，所以可以进行链式操作
+// s.add(3).add(5);
+console.log(s.add(3).add(5));//Set(6) {1, 2, 4, 7, 3, …}
+
+
+</script>
+</body>
+</html>

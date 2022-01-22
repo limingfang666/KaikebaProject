@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算属性</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="radio" :checked="gender==''" @click="checkGender" value="" />全部
+        <input type="radio" :checked="gender=='男'" @click="checkGender" value="男" />男
+        <input type="radio" :checked="gender=='女'" @click="checkGender" value="女" />女
+        <hr>
+        <ul>
+            <li v-for="user in showUsers" :key="user.id">{{user.username}} ---- {{user.gender}}</li>
+        </ul>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        // 数据单独放出来，gender=''时showUsers才能有数据
+        let users = [
+            { id: 1, username: 'baogege', gender: '男' },
+            { id: 2, username: 'mt', gender: '男' },
+            { id: 3, username: 'haigege', gender: '男' },
+            { id: 4, username: 'zMouse', gender: '男' },
+            { id: 5, username: 'reci', gender: '女' },
+            { id: 6, username: 'lisi', gender: '女' }
+        ];
+        let app = new Vue({
+            el: "#app",
+            data: {
+                gender: '',// 用于存储checked的性别
+                showUsers: users, //(派生数据)因为不想改变原数据，通过变量储存更改后的数据,初始化数据为users
+                users: users,
+            },
+            methods: {
+                checkGender(e) {
+                    this.gender = e.target.value;
+                    // 对数据实现筛选
+                    if(this.gender==""){
+                        this.showUsers = this.users;
+                    }else{
+                        this.showUsers = this.users.filter(user => this.gender == user.gender);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

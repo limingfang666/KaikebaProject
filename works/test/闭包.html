@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            此处f1和f2的返回值都为function() {console.log(i++);}；但是f1和f2是独立的两个函数，相当于f1执行Foo();f2指向Foo2()，所以两个函数的执行没有任何关联；
+            当f1()执行时，首先查看自身作用域，发现自己没有i，所以就使用父级作用域的i=0,因为i++是先运算再赋值，所以会先打印i=0,在赋值i=1;
+            当f1()再次执行时，i已经被赋值为1了，所以执行i++时，也会先执行再赋值，打印1,然后给i赋值为1
+
+            当f2()执行时，和f1()执行后的结果没有任何关系，相当于执行了一个新的函数，所以会再次执行i++，打印0
+        */
+        function Foo() {
+            var i = 0;
+            return function() {
+                console.log(i++);
+            }
+        }
+        var f1 = Foo(),
+        f2 = Foo();
+        f1();
+        f1();
+        f2();
+    </script>
+</body>
+</html>

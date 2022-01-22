@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>检测是否为小数</title>
+</head>
+<body>
+    <script>
+        //当小数为10.88类似时
+        var num1 = "10.88";
+        console.log("parseInt(num1) == parseFloat(num1)结果为:"+(parseInt(num1) == parseFloat(num1)));//返回false，代表有小数
+
+        //但当小数为10.0，小数位上全部为0时
+        var num2 = "10.00";
+        console.log("parseInt(num2) == parseFloat(num2)结果为："+(parseInt(num2) == parseFloat(num2)));//返回true,此时小数没有被检测出来
+
+        //将数据转换成String，再进行比较。此时它会一位一位进行比较
+        console.log("num2 == String(parseInt(num2))结果为："+(num2 == String(parseInt(num2))));//false
+    </script>
+</body>
+</html>

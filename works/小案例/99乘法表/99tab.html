@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>九九乘法表-br换行方式</title>
+    <style>
+        body,ul,li,div { margin: 0; padding: 0; }
+        img { vertical-align: top; border: none; }
+        ul,li { list-style: none; }
+
+        .bg { width: 1600px; height: 1067px; background: url('img/99tab_bg.jpg') no-repeat; margin: 0 auto; }
+        .tab99 { width:1156px; height: 436px; background: #e8e5fc; position: relative; top: 436px; left: 250px; padding: 30px 0 0 30px; border-radius: 12px; }
+        .tab99 div { width: 120px; height: 40px; line-height: 40px; background: #78cc64; color: white; text-align: center; border-radius: 4px; margin: 0 2px 2px 0; display: inline-block; }
+    </style>
+</head>
+<body>
+      <div class="bg">
+        <div class="tab99">
+          <!-- <div>1 * 1 = 1</div><br><div>1 * 2 = 2</div><div>1 * 2 = 2</div><div>1 * 2 = 2</div> -->
+        </div>
+      </div>  
+      <script>
+        //br换行方式需要设置div样式：display: inline-block;
+        var colors = ['#78cc64','#58cd7e','#4fcdad','#4cc7dd','#469ee8','#465de8','#5846e8','#8346e8','#9e46e8'];
+        var tab99 = document.querySelector(".tab99");
+        var divStr = '';
+        for(var i=1;i<10;i++){
+          for(var j=1;j<=i;j++){
+            var txt = j + " * " + i + " = " + i*j;
+            divStr += '<div style="background:'+ colors[i-1] +'">'+ txt +'</div>';
+          }
+          divStr += '<br>';
+        }
+        tab99.innerHTML = divStr;
+      </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>微信聊天</title>
+    <style>
+        body,ul,li,p,button { margin: 0; padding: 0; }
+        ul,li { list-style: none; }
+        img {vertical-align: top; }
+        body { background: url('img/bg.jpg') no-repeat center top; }
+        .bg { width: 356px; height: 679px; margin: 52px auto; background: url('img/iphone.png') no-repeat; position: relative;}
+        .chat_list { width: 318px; height: 498px; position: absolute; top:46px; left: 19px; }
+        .send {width: 318px; height: 60px; background: #e5e5e5; position: absolute; bottom:74px; left: 19px; }
+
+        .send img { padding: 12px 0 0 16px;}
+        input { width: 190px; height: 40px; border: none; outline:none; text-indent: 10px; margin:0; background: white; border-radius: 12px; position: absolute; top:10px; left:64px; }
+        button { background: none; border:none; outline:none; color: #e3aeb6; font-size: 18px; position: absolute; top:18px; left:270px; }
+        ul {  width: 318px; height: 498px; overflow: scroll; overflow-x:hidden ; overflow-y:auto; }
+        ul li { width: 318px; line-height: 30px; }
+        .right,.right img,.right p { float:right; }
+        .left, .left img, .left p { float:left; }
+        .chat_list img, .right p, .left p  { margin-top: 20px; }
+        .right img { margin-right: 20px; }
+        .left img { margin-left: 20px; }
+        /* 文字气泡 */
+        .right p,.left p { padding: 10px 14px 10px 14px;  max-width:192px; border-radius: 12px; word-break: break-all;/* 在英文下是强行断行 */ }
+        .right p { background: #bab3ce; color: white; margin-right: 12px; }
+        .left p { background: #e5e5e5; color: black; margin-left: 12px; }
+
+        /* 清除浮动 */
+        .right::after { content:''; display: block; clear: both; }
+        .right { zoom: 1; }
+        .left::after { content:''; display: block; clear: both; }
+        .left { zoom: 1; } 
+
+    </style>
+</head>
+<body>
+   <div class="bg">
+        <div class="chat_list">
+            <ul class="list">
+                <!-- <li class="right">
+                    <img src="img/monster2.png" alt="">
+                    <p>这是文字内容蓝</p>
+                </li>
+                <li class="left">
+                    <img src="img/monster1.png" alt="">
+                    <p>这是文字内容红</p>
+                </li> -->
+            </ul>
+        </div>
+        <div class="send">
+            <img class="imgPic" src="img/monster1.png" alt="">
+            <input class="text" type="text">
+            <button class="btn">发送</button>
+        </div>
+   </div> 
+   <script>
+       var imgPic = document.querySelector(".imgPic");
+       var onOff = true;
+       //默认img/monster1.png onOff为true,点击时更改图片给img/monster2.png 并更改onOff为false；
+       //再次点击时onOff为false，将img/monster2.png更改为img/monster1.png 并给哪个该onOff为true；来回切换
+       imgPic.onclick = function(){
+            if(onOff){
+                imgPic.src = "img/monster2.png";
+                // onOff = false;
+            }else{
+                imgPic.src = "img/monster1.png";
+                // onOff = true;
+            }
+            onOff = !onOff;
+       };
+
+       var text = document.querySelector(".text");
+       var btn = document.querySelector(".btn");
+       var list = document.querySelector(".list");
+       btn.onclick = function(){
+           //value不能直接在声明时获取，否则点击事件时使用的时刚刷新时的空值
+           var info = text.value;
+            //获取图片
+            var pic = imgPic.src;
+            //写入HTML
+            if(onOff){
+                list.innerHTML = '<li class="right"><img src="' + pic + '" alt=""><p>' + info + '</p></li>' + list.innerHTML;
+            }else{
+                list.innerHTML = '<li class="left"><img src="' + pic + '" alt=""><p>' + info + '</p></li>' + list.innerHTML;
+            }
+
+            text.value = '';
+       };
+   </script>
+</body>
+</html>

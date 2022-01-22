@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 400px;
+            height: 400px;
+            border: 1px solid black;
+        }
+        p {
+            display: block;
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <p></p>
+</div>
+<script>
+{
+    let box = document.querySelector("#box");
+    let p = box.querySelector("p");
+
+    box.addEventListener('click',()=>{
+        console.log("div");//打印 div
+    });
+    //事件冒泡：在执行子元素的事件时，如果父元素也存在同样事件，父元素的事件也会执行
+    p.addEventListener('click',()=>{
+        console.log("p");//先打印 p 再打印div
+    });
+
+}
+</script>
+</body>
+</html>

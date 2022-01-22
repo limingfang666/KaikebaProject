@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义复选框</title>
+    <style>
+        body,h2 { margin: 0; padding: 0; }
+        .bg { width: 554px; height: 800px; background: url('img/checkboxbg.png') no-repeat; margin: 0 auto; }
+        .options { width: 306px; height: 166px; position: relative; left: 124px; top: 323px;}
+        h2 { color: #e3637c; position: absolute; left: 152px; top: 34px;}
+        .checkeara { position: absolute; left: 0; top: 98px; text-align: center; width: 306px; height: 32px;}
+        a { text-decoration: none; display: inline-block; width: 70px; height: 30px; line-height: 30px; border: 1px solid #e3637c; color: black;  }
+        .checked { background: url('img/checked.png') no-repeat 55px 15px; }
+    </style>
+</head>
+<body>
+    <div class="bg">
+        <div class="options">
+            <h2>模拟复选</h1>
+            <div class="checkeara">
+                <a href="javascript:;" class="checked">美食</a>
+                <a href="javascript:;">逛街</a>
+                <a href="javascript:;">旅游</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        var options = document.querySelectorAll("a");
+        for(var i=0;i<options.length;i++){
+            options[i].onclick = function(){
+                // if(this.className == ""){
+                //     this.className = "checked";
+                // }else{
+                //     this.className = "";
+                // }
+
+                //注意此处需要使用空号包着整个赋值部分
+                this.className = (this.className=="checked"?"":"checked");
+            };
+        }
+    </script>
+</body>
+</html>

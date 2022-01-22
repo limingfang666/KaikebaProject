@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>属性绑定</title>
+    <style type="text/css">
+        .box1 {
+            background: yellow;
+            width: 100px;
+            height: 50px;
+        }
+
+        .box2 {
+            border: 2px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div id="myId"></div>
+        <div v-bind:id="'myId'"></div>
+        <div v-bind:id="myId"></div>
+        <div :id="myId"></div>
+
+        <div style="background:red;width:100px;height:100px;">原生style测试</div>
+        <div :style="'background:red;width:100px;height:100px;'">v-bind:style直接输出</div>
+        <div :style="style1">v-bind:style对象写法</div>
+        <div :style="[style1,style2]">v-bind:style数组写法</div>
+
+        <div class="box1 box2">原生写法</div>
+        <div :class="'box1 box2'">:class写法</div>
+        <div :class="['box1', 'box2']">:class数组写法</div>
+        <div :class="{'box1': isActive, 'box2': isChecked}">:class对象写法</div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 创建根组件
+        let app = new Vue({
+            el: '#app',
+            data: {
+                myId: 'kaikeba',
+                style1: {
+                    background: 'green',
+                    width: '100px',
+                    height: '100px'
+                },
+                style2: {
+                    border: '1px solid black'
+                },
+                isActive: true,
+                isChecked: false
+            }
+        });
+    </script>
+</body>
+
+</html>

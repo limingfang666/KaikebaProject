@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var arr = [1,2,3,4];
+        console.log("原数组：");
+        console.log(arr);//[1, 2, 3, 4]
+
+        console.log("push()后的数组：");
+        console.log(arr.push(3,4,5));//push方法返回值添加后的元素个数
+        console.log(arr);//[1, 2, 3, 4, 3, 4, 5]
+
+        console.log("pop()后的数组：");
+        console.log(arr.pop());//pop方法返回值为被删除的元素 5 
+        console.log(arr);//[1, 2, 3, 4, 3, 4]
+
+        console.log("unshift()后的数组：");
+        console.log(arr.unshift(7,8,9));//unshift方法返回值为添加后的元素个数
+        console.log(arr);//[7, 8, 9, 1, 2, 3, 4, 3, 4]
+
+        console.log("shift()后的数组：");
+        console.log(arr.shift());//shift方法返回值被删除的元素 7
+        console.log(arr);// [8, 9, 1, 2, 3, 4, 3, 4]
+    </script>
+</body>
+</html>

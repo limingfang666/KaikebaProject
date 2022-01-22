@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var index = {
+            "零":0,
+            "一":1,
+            "二":2,
+            "三":3,
+            "四":4,
+            "五":5,
+            "六":6
+        };
+
+        //将需要排序的内容通过自定义排序给定序号
+        var arr = ['二','六','一','五','零','四','三'];
+        arr.sort(function(n1,n2){
+            //排序时通过传入的值n1和n2可以得到对应数据的序号，再将序号进行排序，即可将对应的数据进行排序
+            console.log(index[n1],n1);
+            // console.log(index[n1],index[n2]);
+            return index[n1]-index[n2];
+        });
+        console.log(arr);
+    </script>
+</body>
+</html>

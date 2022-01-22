@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+let obj = {
+    a:1,
+    b:2
+};
+
+//对象数据类型的数据直接赋值，是进行的赋址操作，即传递的是数据在内存中的引用地址，所以一旦obj2进行更改，obj也会变化
+let obj2 = obj;
+obj2.a = 10;
+console.log(obj.a);//20
+
+//解决：不将obj进行直接赋值，而是对obj进行解构，再赋值给obj2
+let {...obj3}= obj;
+console.log(obj3);//{a: 10, b: 2}
+
+obj3.b = 20;
+console.log(obj.b);//2
+
+
+</script>
+</body>
+</html>

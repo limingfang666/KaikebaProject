@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    let p = new Promise((resolve,reject)=>{
+        resolve("成功");
+    });
+
+    //then返回值一：如果then 方法没有返回值，就会返回一个状态为resolved的promise对象（即没有返回值默认走第一个成功的函数）
+    p.then(success=>{
+        console.log(success);//成功 第一个then方法没有返回值，所以默认走这个成功的方法
+    },error=>{
+        console.log(error);
+    }).then(info=>{
+        console.log(info);//undefined 由于第一个then没有返回值，而第二个then是根据第一个then的返回值接收信息的，所以info为undefined
+    });
+}
+</script>
+</body>
+</html>

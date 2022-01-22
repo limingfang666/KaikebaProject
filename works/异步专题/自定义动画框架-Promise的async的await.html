@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>链式动画</title>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            position: relative;
+        }
+        #box {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="box"></div>
+<script>
+{
+    //需求：自定义封装动画简易动画框架，让box 从左到右，再从上到下，再从右向左，再从下往上移动200px。
+
+    let box = document.querySelector("#box");
+    //需要给定参数，哪个元素，方向，移动到哪个位置
+    let move =(el,attr,target)=>{
+        //获取元素起始位置
+        let start = parseFloat(getComputedStyle(el)[attr]);
+        //动画运动时，left或top有可能为负
+        let dir = (target-start)/Math.abs(start-target);
+        let speed = 5;//元素移动的速度
+
+        let count = 0;//动画帧编号，用于取消requestAnimationFrame
+
+        //  使用Promise then方法必须返回Promise对象
+        return new Promise((resolve,reject)=>{
+            //通过JS动画帧requestAnimationFrame让元素动起来
+            cancelAnimationFrame(count);
+            count = requestAnimationFrame(goTarget);
+            function goTarget(){
+                start += speed*dir;
+                
+                //注意这里使用点会有问题
+                el.style[attr] = start + 'px';
+                        
+                //如果start等于了target就代表已经走完了,否则继续动画
+                if(start == target){
+                    cancelAnimationFrame(count);
+                    resolve();
+                }else{
+                    //注意动画编号在动画帧再次调用时仍然要记录
+                    count = requestAnimationFrame(goTarget);
+                }
+            }        
+        });
+        
+    }
+
+    //使用Promise 的then方法实现动画异步执行
+    async function runMove(){
+        await move(box,"left",200);
+        await move(box,"top",200);
+        await move(box,"left",0);
+        await move(box,"top",0);//最后一个await可以不写
+    }
+    runMove();
+}
+</script>
+</body>
+</html>

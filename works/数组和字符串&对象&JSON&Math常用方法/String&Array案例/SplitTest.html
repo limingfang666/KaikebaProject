@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>split案例</title>
+</head>
+<body>
+<script>
+(function(){
+    //将传入的字符串去除“-”且形成驼峰命名
+    var str1 = "kai-ke-ba";
+    var str2 = "miao-wei-ke-tang";
+    
+    console.log(splitStr(str1));
+    console.log(splitStr(str2));
+
+    function splitStr(str){
+        var arr = str.split("-");
+        var result = '';
+        for (var i = 0; i < arr.length; i++) {
+            if(i>0){
+                var upper = arr[i][0].toUpperCase();
+                var end = arr[i].substring(1);
+                var endStr = upper.concat(end);
+                arr[i] = endStr;
+            }
+            result += arr[i];
+        }
+        return result;
+    }
+})();
+</script>   
+</body>
+</html>

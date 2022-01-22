@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模拟实现combineReducers()拆分融合函数——问题重现</title>
+</head>
+
+<body>
+    <script src="https://cdn.bootcss.com/redux/4.0.5/redux.js"></script>
+    <script>
+        //初始化数据都为空
+        let initData = {
+            users: {},
+            items: [],
+            carts: []
+        }
+
+        //将纯函数分拆成user,item,cart等不同方法，不同方法处理各自数据;因为数据是单独传的了，所以不需要再分开处理如[...state.items]直接[...state]就能获得对应数据
+        function users(state, action) {
+            switch (action.type) {
+                case 'USER_EDIT':
+                    return action.payload;
+            }
+            return state;
+        }
+        function items(state, action) {
+            switch (action.type) {
+                case 'ITEM_ADD':
+                    return [...state, action.payload];
+                case 'ITEM_REMOVE':
+                    return [...state].filter((item) => item.id !== action.payload);
+            }
+            return state;
+        }
+
+        function carts(state, action) {
+            switch (action.type) {
+                case 'CART_ADD':
+                    return [...state, action.payload];
+                case 'CART_REMOVE':
+                    return [...state].filter(v => v.id !== action.payload);
+            }
+            return state;
+        }
+
+        //纯函数中各个数据调用各自处理方法
+        function reducer(state, action) {
+            return {
+                users:users(state.users, action),
+                items:items(state.items,action),
+                carts:carts(state.carts,action)
+            };
+        }
+
+        //创建store仓库
+        let store = Redux.createStore(reducer, initData);
+
+        //dispatch()方法
+        //users更改方法
+        function updateUser(payload) {
+            return {
+                type: 'USER_EDIT',
+                payload
+            };
+        }
+        // items增加，删除方法
+        function addItem(payload) {
+            return {
+                type: 'ITEM_ADD',
+                payload
+            };
+        }
+        function removeItem(payload) {
+            return {
+                type: 'ITEM_REMOVE',
+                payload
+            };
+        }
+        // carts增加，删除方法
+        function addCart(payload) {
+            return {
+                type: 'CART_ADD',
+                payload
+            };
+        }
+        function removeCart(payload) {
+            return {
+                type: 'CART_REMOVE',
+                payload
+            };
+        }
+
+        console.log(store.getState());
+        store.subscribe(() => {
+            console.log(store.getState());
+        });
+        //第一次只更改users
+        store.dispatch(updateUser({ id: 1, username: 'MT' }));
+        //第二次增加items
+        store.dispatch(addItem({ id: 1, name: 'Ipad', price: '$5000' }));
+        store.dispatch(addItem({ id: 2, name: 'Iphone', price: '$6000' }));
+        // 第三次删除items
+        store.dispatch(removeItem(2));
+        // 第四次增加carts
+        store.dispatch(addCart({ id: 1, name: 'book', price: '$5000' }));
+        store.dispatch(addCart({ id: 2, name: 'Iphone', price: '$6000' }));
+        // 第五次删除carts
+        store.dispatch(removeCart(1));
+    </script>
+</body>
+
+</html>

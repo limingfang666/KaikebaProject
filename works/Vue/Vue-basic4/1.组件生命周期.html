@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{title}}</h1>
+        <button @click="show=!show">隐藏</button>
+        <hr>
+        <template v-if="hasError">
+            <h4>有错误发生了</h4>
+        </template>
+        <template v-else>
+            <kkb-component v-if="show" :t="title"></kkb-component>
+        </template>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        const kkbComponent = {
+            props: ['t'],
+            template: `
+                <div>
+                    <h1>kkbComponent - {{t.a.b}}</h1>
+                </div>
+            `,
+            beforeCreate() {
+                console.log('kkbComponent:beforeCreate');
+                console.log('data', this.$data);
+                console.log('el', this.$el);
+                console.log('='.repeat(100));
+            },
+            created() {
+                console.log('kkbComponent:created');
+                console.log('data', this.$data);
+                console.log('el', this.$el);
+                console.log('='.repeat(100));
+            },
+            beforeMount() {
+                console.log('kkbComponent:beforeMount');
+                console.log('data', this.$data);
+                console.log('el', this.$el);
+                console.log('='.repeat(100));
+            },
+            mounted() {
+                console.log('kkbComponent:mounted');
+                console.log('data', this.$data);
+                console.log('el', this.$el);
+                console.log('='.repeat(100));
+            },
+            beforeUpdate() {
+                console.log('kkbComponent:beforeUpdate');
+                console.log('props', this.$props);
+                console.log('='.repeat(100));
+            },
+            updated() {
+                console.log('kkbComponent:updated');
+                console.log('='.repeat(100));
+            },
+            beforeDestroy() {
+                console.log('kkbComponent:beforeDestroy');
+                console.log('this', this);
+                console.log('='.repeat(100));
+            },
+            destroyed() {
+                console.log('kkbComponent:destroyed');
+                console.log('this', this);
+                console.log('='.repeat(100));
+            }
+        }
+
+        let app = new Vue({
+            el: '#app',
+            data: {
+                title: '开课吧',
+                // 控制是否点击了隐藏按钮
+                show: true,
+                // 控制是否捕捉到错误
+                hasError: false
+            },
+            components: {
+                'kkb-component': kkbComponent
+            },
+
+            beforeCreate() {
+                console.log('beforeCreate');
+                console.log('data', this.$data);
+                console.log('el', this.$el);
+                console.log('='.repeat(100));
+            },
+            created() {
+                console.log('created');
+                console.log('data', this.$data);
+                console.log('el', this.$el);
+                console.log('='.repeat(100));
+            },
+            beforeMount() {
+                console.log('beforeMount');
+                console.log('data', this.$data);
+                console.log('el', this.$el);
+                console.log('='.repeat(100));
+            },
+            // 如果有子组件，则根组件在执行完beforeMount()后，会先将子组件从beforeCreate()执行到mounted()渲染完成后，再执行根组件的mounted()函数。
+            mounted() {
+                console.log('mounted');
+                console.log('data', this.$data);
+                console.log('el', this.$el);
+                console.log('='.repeat(100));
+            },
+            beforeUpdate() {
+                console.log('beforeUpdate');
+                console.log('props', this.$props);
+                console.log('='.repeat(100));
+            },
+            updated() {
+                console.log('updated');
+                console.log('='.repeat(100));
+            },
+            beforeDestroy() {
+                console.log('beforeDestroy');
+                console.log('this', this);
+                console.log('='.repeat(100));
+            },
+            destroyed() {
+                console.log('destroyed');
+                console.log('this', this);
+                console.log('='.repeat(100));
+            },
+            errorCaptured(err, vm, info) {
+                console.log('errorCaptured');
+                console.log(err, vm, info);
+                console.log('='.repeat(100));
+                this.hasError = true;
+                return false;
+            }
+        });
+    </script>
+</body>
+
+</html>

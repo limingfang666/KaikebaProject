@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<ul>
+    <li>列表1</li>
+    <li>列表2</li>
+    <li>列表3</li>
+    <li>列表4</li>
+</ul>
+<script>
+    let lis = document.querySelectorAll("li");
+
+    //可选参数mapFn 类似 map 方法，循环类数组时的回调函数，返回值组成新数组
+    // var arr = Array.from(lis,(item,index)=>{
+    //     console.log(item,index);
+    //     return index;
+    // });
+    // console.log(arr);//(4) [0, 1, 2, 3]
+
+    //如果要在Array.from()方法中修改this指向，那么回调函数mapFn就不能使用箭头函数(箭头函数的this指向永远指向其所在的作用域)，而需要使用普通函数
+    // var arr = Array.from(lis,(item,index)=>{
+    //     console.log(item,index,this);//window
+    //     return index;
+    // },document);
+    // console.log(arr);//(4) [0, 1, 2, 3]
+
+    var arr = Array.from(lis,function(item,index){
+        console.log(item,index,this);//此时this指向body
+        return index;
+    },document.body);
+    console.log(arr);//(4) [0, 1, 2, 3]
+</script>
+</body>
+</html>

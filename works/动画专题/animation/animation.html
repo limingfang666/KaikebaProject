@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* animation是基于动画帧实现 */
+        @keyframes move{
+            /* 如果0%不写就默认使用计算后样式，可以对其进行重新定义 */
+            0%{
+                width: 0;
+                height: 0;
+            }
+            25%{
+                width: 100px;
+                height: 150px;
+            }
+            50%{
+                width: 150px;
+                height: 300px;
+            }
+            75%{
+                width: 300px;
+                height: 100px;
+            }
+             /* 如果100%不写就默认使用计算后样式，可以对其进行重新定义，但是动画执行完后，又会回到计算后样式 */
+            100%{
+                width: 0;
+                height: 0;
+            }
+            /* 如果使用from{}  to{} to{}会自动计算百分比进行渲染 */
+        }
+
+        #box {
+            width: 100px;
+            height: 100px;
+            background: red;
+            /* 动画帧的调用 */
+            /* animation: move 1s infinite; 执行无限次*/
+            /* animation: move 1s 4; 执行指定次数 */
+            /* animation: move 1s infinite alternate; 倒序执行（必须多次执行才有效） */
+            /* animation: move 1s infinite normal; 顺序执行 */
+            animation: move 1s linear; 
+            animation-fill-mode: both;/* 动画开始和结束后，元素样式保留在动画帧的0%和100% */
+        }
+        #box:hover {
+            animation-play-state:paused;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+</body>
+</html>

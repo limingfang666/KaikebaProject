@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style id="css">
+        .box {
+			width: 800px;
+			margin: 100px auto 50px;
+			perspective: 1000px;
+		}
+
+        .picList {
+            list-style: none;
+            margin: 0;
+			padding: 0;
+			height: 360px;  
+            transform-style: preserve-3d; 
+            perspective: 1000px;
+        }   
+        .picList li {
+            float: left;
+			position: relative;
+			width: 25px;
+			height: 360px;
+			transform-style: preserve-3d;
+			transition: .5s;
+
+        }
+        .picList li span,.picList li em{
+            position: absolute;
+        }
+        .picList li span {
+            /* 宽度尽量使用可以和总宽度除尽的宽度，否则会多显示一个 */
+            width: 25px;
+            height: 360px;
+            left: 0;
+			top: 0;
+        }
+        .picList li em {
+            position: absolute;
+			left: 50%;
+			top: 0;
+            margin: 0 0 0 -180px;
+            width: 360px;
+            height: 360px;
+        }
+        .picList span:nth-of-type(1){
+            background: url(img/1.jpg);
+            transform: rotateX(0deg) translateZ(180px);
+        }
+        .picList span:nth-of-type(2){
+            background: url(img/2.jpg);
+            transform: rotateX(90deg) translateZ(180px)
+        }
+        .picList span:nth-of-type(3){
+            background: url(img/3.jpg);
+            transform: rotateX(180deg) translateZ(180px)
+        }
+        .picList span:nth-of-type(4){
+            background: url(img/4.jpg);
+            transform: rotateX(270deg) translateZ(180px)
+        }
+        .picList em:nth-of-type(1){
+            transform: rotateY(-90deg) translateZ(-12.5px);
+        }
+        .picList em:nth-of-type(2){
+            transform: rotateY(90deg) translateZ(-12.5px)
+        }
+
+        /* 按钮 */
+        #btns{
+            padding: 50px;
+			height: 30px;
+        }
+        #btns li {
+            height: 30px;
+			width: 30px;
+			background: #000;
+			color: #fff;
+			font-size: 16px;
+			text-align: center;
+			line-height: 30px;
+			margin: 0 10px;
+			float: left;
+			border-radius: 50%;
+			list-style: none;
+        }
+        #btns .active {
+            background: rgb(247, 199, 43);
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+<ul class="picList">
+   <!-- <li>
+       <span>1</span>
+       <span>2</span>
+       <span>3</span>
+       <span>4</span>
+       <em>5</em>
+       <em>6</em>
+   </li> -->
+</ul>
+<ol id="btns">
+    <li class="active">1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+</ol>
+</div>
+<script src="mTween.js"></script> 
+<script>
+{
+    /*
+        思路：
+            1,实现一个6面体：使用手动方式实现一个li，li下通过css transform实现一个6面体
+            2,实现多个6面体：通过JS方式计算总宽高和li的宽高，实现多个6面体
+            3,JS中写CSS样式：实现所有6面体背景图位置
+            4,调整距离：给li整体移动translateZ -180，使其和原始图片大小保持一致
+            5,设置点击事件：动画是在整理ul上进行，使用定时器让所有li间隔翻转
+
+    */
+    let picList = document.querySelector(".picList");
+    let picListW = css(picList,"width"); 
+    //通过JS方向写css样式
+    let cssStyle = document.querySelector("#css");
+    
+    let len = Math.ceil(picListW / 25);
+    
+    let inner = '';
+    //通过JS方向写css样式
+    let cssInner = '';
+    for (let i = 0; i < len; i++) {
+        inner += `
+            <li>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <em></em>
+                <em></em>
+            </li>
+        `;
+         //图片背景
+        cssInner += '.picList li:nth-child('+(i+1)+') span { background-position:'+(-i*25)+'px 0px}';
+    }
+    picList.innerHTML = inner;
+    //这里必须使用+=，否则会覆盖原有的样式表
+    cssStyle.innerHTML += cssInner;
+
+    //给li整体移动-180，使其和原始图片大小保持一致
+    let lis = picList.querySelectorAll("li");
+    lis.forEach(item=>{
+        css(item,"translateZ",-180);
+    });
+
+    //点击按钮切换幻灯片
+     let btn = document.querySelector("#btns");
+     let lisBtn = btn.querySelectorAll("li");
+     let picLis = picList.querySelectorAll("li");
+     lisBtn.forEach((item,index)=>{
+        item.onclick = function(){
+            lisBtn.forEach(item=>{
+                item.classList.remove("active");
+            });
+            item.classList.add("active");
+            picLis.forEach(item=>{
+                //使用定时器一个一个选择li
+                var timer = 0;
+                var num = 0;
+                timer = setInterval(function(){
+                    if(num >= picLis.length-1){
+                        clearInterval(timer);
+                    }
+                    //每次都执行完前一次动画后再开启新的动画前
+                    mTween.stop(picLis[num]);
+				    css(picLis[num++],"rotateX",-index*90);
+                },30);
+            });
+        }
+     });
+}
+</script>
+</body>
+</html>

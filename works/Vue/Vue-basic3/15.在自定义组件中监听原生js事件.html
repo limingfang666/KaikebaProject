@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件——监听原生js事件</title>
+</head>
+
+<body>
+    <div id="app">
+        <kkb-plane :title="title" @click.native="fn"></kkb-plane>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        let kkbPlane = {
+            props: ['title'],
+            template: `
+                <div>{{title}}</div>
+            `
+        };
+
+        let app = new Vue({
+            el: "#app",
+            data: {
+                title:'标题'
+            },
+            components: {
+                kkbPlane
+            },
+            methods:{
+                fn(){
+                    console.log("这是监听到了原生js事件");
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

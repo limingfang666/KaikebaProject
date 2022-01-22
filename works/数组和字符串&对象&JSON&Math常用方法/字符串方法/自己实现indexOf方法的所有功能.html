@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自己实现indexOf的所有方法</title>
+</head>
+<body>
+<script>
+    /*
+        indexOf的所有功能：查找某个字符在另一个字符中的索引位置
+        1,查找某个字符在另一个字符中的索引位置
+        2，默认从0开始查找
+        3，查找到一次后不再继续查找
+        4，查找位置<0 等同于0进行查找
+        5，超出被查找的字符串长度直接返回-1
+        6，查找不到，返回-1
+
+        str:被查找的字符串
+        searchValue:要查找的字符串
+        fromIndex:查找开始的位置
+    */
+    var str = "kaikeba";
+    var searchValue = "k";
+    var fromIndex = "3";
+   var index = getIndex(str,searchValue,fromIndex);
+   console.log("字符所在的位置："+index);
+
+    function getIndex(str,searchValue,fromIndex){
+        //fromIndex没有,默认从0开始;fromIndex<0时也等同于0开始查找
+        if(fromIndex === undefined || fromIndex<0){
+            fromIndex = 0;
+        }
+        //如果查找的开始位置超过str，返回-1
+        if(fromIndex>str.length){
+            return -1;
+        }
+        //开始位置为fromIndex
+        for (var i = fromIndex; i < str.length; i++) {
+            if( searchValue === str.charAt(i)){
+                return i;
+            }
+        }
+
+        //整个for循环中都没有找到searchValue，则返回-1
+        return -1;
+    }
+
+</script>    
+</body>
+</html>

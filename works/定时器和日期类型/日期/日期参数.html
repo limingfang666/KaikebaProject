@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        (function(){
+            // var date1 = new Date(1000);
+            // console.log(date1);//Thu Jan 01 1970 08:00:01 GMT+0800 (中国标准时间) 这里的08:00:01是由于时区问题
+
+            // var date2 = new Date(-1000);
+            // console.log(date2);//Thu Jan 01 1970 07:59:59 GMT+0800 (中国标准时间) value为负数时，时间就减去value代表的秒数
+
+            // var date = new Date("2019-08");//Thu Aug 01 2019 08:00:00 GMT+0800 (中国标准时间)
+            // var date = new Date("2019-8");//Thu Aug 01 2019 00:00:00 GMT+0800 (中国标准时间)
+            // console.log(date);
+
+            var date = new Date(2055,13);
+            console.log(date);//Tue Feb 01 2056 00:00:00 GMT+0800 (中国标准时间)
+
+            var date1 = new Date("2019-13");
+            console.log(date1);//Tue Feb 01 2056 00:00:00 GMT+0800 (中国标准时间)
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        img {
+            vertical-align: top;
+        }
+
+        #wrap {
+            margin: 40px auto;
+            position: relative;
+            width: 600px;
+            height: 400px;
+            border: 2px solid #000;
+            overflow: hidden;
+        }
+
+        #pics {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: flex;
+            height: 400px;
+            z-index: 1;
+        }
+
+        #pics li {
+            width: 600px;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        #pics img {
+            width: 600px;
+            height: 400px;
+        }
+
+        .btn {
+            position: absolute;
+            top: 170px;
+            z-index: 2;
+            width: 60px;
+            font: 40px/60px "宋体";
+            text-align: center;
+            background: rgba(255, 255, 255, .6);
+            text-decoration: none;
+            color: #000;
+        }
+
+        .btn:hover {
+            background: #fff;
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+        }
+
+        #navs {
+            position: absolute;
+            left: 0;
+            bottom: 10px;
+            z-index: 3;
+            width: 100%;
+            text-align: center;
+        }
+
+        #navs a {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+        }
+
+        #navs .active {
+            background: #f60;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap">
+        <ul id="pics">
+            <li>
+                <img src="img2/img (1).jpg" />
+            </li>
+            <li>
+                <img src="img2/img (2).jpg" />
+            </li>
+        </ul>
+        <a href="javascript:;" class="btn prev">
+            <</a> <a href="javascript:;" class="btn next">>
+        </a>
+        <nav id="navs">
+            <a class="active"></a>
+            <a></a>
+            <a></a>
+            <a></a>
+            <a></a>
+        </nav>
+    </div>
+    <script src="mTween.js"></script>
+    <script>
+        /*
+            无缝滚动幻灯片思路二：
+                总共只有两张图片，一张为当前显示的图片，另一张为要切换的图片；
+                每次点击后，当前显示图片序号设置为原本下一张图片的序号，而下一张的序号设置为原本下下张的图片序号;
+                注意不是累加nowIndex和nextIndex,而是依次将nextIndex的值赋给nowIndex;
+                图片index只有0和1，图片位置只有0和-600px,并通过mTween实现动画效果;
+                快速点击时会有跳跃感：因为点击下一张时，上一张动画还没有执行完，可以设置标识，动画还没执行完时，不能结束，当再回调函数中cb 中执行完后才能切换下一张；
+                优化封装各个方法；
+        */
+        {
+            let wrap = document.querySelector("#wrap");
+            let pics = wrap.querySelector("#pics");
+            let lis = pics.querySelectorAll("li");
+            let picW = css(lis[0],"width");
+            let navs = wrap.querySelectorAll("#navs a");
+            let prev = wrap.querySelector(".prev");
+            let next = wrap.querySelector(".next");
+            let nowIndex = 0;//当前显示的图片
+            let nextIndex = 0;//下一张要显示的图片
+            let move = false;//快速点击时会有跳跃感：因为点击下一张时，上一张动画还没有执行完，可以设置标识，动画还没执行完时，不能结束，当再回调函数中cb 中执行完后才能切换下一张
+
+            let picAll = [
+                "img2/img (1).jpg",
+                "img2/img (2).jpg",
+                "img2/img (3).jpg",
+                "img2/img (4).jpg",
+                "img2/img (5).jpg"
+            ];
+            //将上一张下一张方法进行封装
+            //不一样的地方：当前和下一张图片，当前图片位置和下一张位置
+            let changePic=(prevPic,nextPic,picPos1,picPos2)=>{
+                lis[0].innerHTML = '<img src="' + picAll[prevPic] + '" />';
+                lis[1].innerHTML = '<img src="' + picAll[nextPic] + '" />';
+                if(move){
+                    return;
+                }
+                //每次当前图片和下一张图片的位置都是0和-600px
+                css(pics,"translateX",picPos1);
+                move = true;
+                mTween({
+                    el: pics,
+                    attr: {
+                        translateX: picPos2
+                    },
+                    cb:function(){
+                        move = false;
+                    }
+                });
+                nowIndex = nextIndex;
+                navs.forEach((item, index) => {
+                    item.classList.remove("active");
+                });
+                navs[nowIndex].classList.add("active");
+            }
+            //下一张
+            let toNext=()=>{
+                changePic(nowIndex,nextIndex,0,-600);
+            }
+
+            let toPrev=()=>{
+                changePic(nextIndex,nowIndex,-600,0);
+            }
+
+            //点击下一张时：nowIndex在前，nextIndex在后
+            next.onclick = () => {
+                nextIndex = nowIndex + 1;
+
+                //当最后一张图片nextIndex超过图片界限时，图片返回第0张
+                nextIndex = nextIndex >= picAll.length ? 0 : nextIndex;
+
+                toNext();
+            };
+
+            //点击上一张时：nextIndex在前，nowIndex在后
+            prev.onclick = () => {
+                nextIndex = nowIndex - 1;
+
+                nextIndex = nextIndex < 0 ? picAll.length -1:nextIndex;
+                
+                toPrev();
+            };
+
+            navs.forEach((a, index) => {
+                a.onclick = () => {
+                    navs.forEach((item, index) => {
+                        item.classList.remove("active");
+                    });
+                    //通过nowIndex和nextIndex的大小判断是执行上一张还是下一张
+                    nextIndex = index;
+                    
+                    if(nextIndex>nowIndex){
+                        //执行next动画
+                        toNext();
+                        
+                    }else if(nextIndex<nowIndex){
+                        //执行prev动画
+                        toPrev();
+                    }
+                };
+            });
+        }
+
+    </script>
+</body>
+
+</html>

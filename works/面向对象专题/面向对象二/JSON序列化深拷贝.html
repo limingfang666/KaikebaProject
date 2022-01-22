@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    //JSON序列化解决不能继承原型的问题。问题：当对象中有undefined或函数时，不会进行拷贝
+    let parentProto = {
+        name:"张三",
+        age:20,
+        test:undefined,
+        fn:function(){
+            console.log("fn...");
+        }
+    };
+    let sonProto = JSON.parse(JSON.stringify(parentProto)); 
+
+    console.log(parentProto);//{name: "张三", age: 20, test: undefined, fn: ƒ} 
+    console.log(sonProto);//{name: "张三", age: 20}
+    
+}
+</script>
+</body>
+</html>

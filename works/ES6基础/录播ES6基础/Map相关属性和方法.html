@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    let arr = [
+    ["a",1],
+    ["b",2],
+    ["c",3],
+];
+
+//map进行实例化后，返回的数据是类似于key=>value的形式
+let m = new Map(arr);
+
+// size这里的size是属性不是方法
+console.log(m.size);//3
+
+// clear()清空Map
+// m.clear();
+// console.log(m);//Map(0) {}
+
+// delete() 参数为key 返回值为true或false，删除成功或失败
+console.log(m.delete("a"));//true
+console.log(m);//Map(2) {"b" => 2, "c" => 3}
+
+// get() 获取某一项的值，参数为key
+console.log(m.get("b"));//2
+
+// has() 参数为key 返回值为true或false，是否包含某个值
+console.log(m.has("b"));
+
+// set(key,val) 参数key和value 添加一项值。返回值是set对象本身，也可以进行链式操作
+m.set("d",4).set("e",5);
+console.log(m);
+
+</script>
+</body>
+</html>

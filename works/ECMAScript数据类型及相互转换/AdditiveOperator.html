@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>加性操作符之加法运算符</title>
+</head>
+<body>
+    <script>
+        //当左右两侧任意一侧为字符串时，进行拼接字符串操作
+        var str = '1' + 1;
+        console.log("'1' + 1 结果为："+str);//11
+
+        //当左右两侧均为Number类型数据时：
+        //1.当左右两侧均为数值，进行正常加法运算
+        var num = 1 + 1;
+        console.log("1 + 1 结果为："+num);//1
+        //2.任何数与NaN计算返回结果都是NaN
+        var num1 = NaN + 1;
+        console.log("NaN + 1 结果为："+num1);//NaN
+
+        //如果操作数是布尔值（转为0/1）、undefined（转为NaN）、null(转为0)，则会使用Number将其转为数字类型，再进行计算，如果转换结果为NaN，则结果为NaN
+        var num3 = true + 1;
+        console.log("true + 1 结果为："+num3);//2
+
+        var num4 = undefined + 1;//Number(undefined)结果为NaN，任何数字和NaN进行计算结果都为NaN
+        console.log("undefined + 1 结果为："+num4);//NaN
+
+        var num5 = null + 1;//Number(null)结果为0
+        console.log("null + 1 结果为："+num5);//1
+
+        //加性操作符是从左至右进行计算的，所以会先将字符串1和数字2进行拼接即 '1' + String(2)->'12';再将'12' + String(3) ->123
+        var num6 = '1' + 2 + 3;
+        console.log("'1' + 2 + 3 结果为："+num6);//123
+    </script>
+</body>
+</html>

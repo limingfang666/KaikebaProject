@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //需求将所有的元素进行累加
+        var arr = [34,67,32,23,78];
+        //通过for循环进行实现
+        var num = 0;
+        for (var i = 0; i < arr.length; i++) {
+            num += arr[i];
+        }
+        console.log(num);//234
+
+        //通过reduce实现
+        var num1 = arr.reduce(function(result,ele,index,arr){
+            console.log(result,ele);
+            
+            return result + ele;//上一次的累计结果+本次的ele元素
+        });
+        console.log(num1);//234
+
+        //通过reduce实现，并且给初始值为100
+        var num2 = arr.reduce(function(result,ele,index,arr){
+            console.log(result,ele);
+            
+            return result + ele;//上一次的累计结果+本次的ele元素
+        },100);
+        console.log(num2);//334
+        
+        
+    </script>
+</body>
+</html>

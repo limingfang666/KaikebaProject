@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    //需求：构造函数对比工厂模式
+    //工厂模式
+    // function Tab(){
+    //     let obj = {};
+    //     obj.name = "张三";
+    //     obj.hobby = function(){
+    //         console.log("打篮球");
+    //     }
+    //     return obj;
+    // }
+
+    // let tab1 = Tab();
+    // let tab2 = Tab();
+    // console.log(tab1.hobby === tab2.hobby);//false
+
+    //构造函数
+    function Tab(){
+        this.name = "张三";
+        // this.hobby = function(){
+        //     console.log("打篮球");
+        // }
+    }
+    // let tab3 = new Tab();
+    // let tab4 = new Tab();
+    // console.log(tab3.hobby === tab4.hobby);//false
+
+    // 将公共内容存储到共用空间即prototype原型下
+    Tab.prototype.hobby = function(){
+        console.log("打篮球");
+    };
+    let tab5 = new Tab();
+    let tab6 = new Tab();
+    console.log(tab5.hobby === tab6.hobby);//true
+    console.log(tab5.name === tab6.name);//true因为比较的本身就是基本数据类型，所以也返回true
+    console.log(Tab.prototype === tab5.__proto__);//true
+    console.dir(Tab);
+    
+    
+
+    //但是，使用公共空间时，只能通过追加方式添加prototype原型。如果是直接添加 Tab.prototype = {}会将构造函数原有的其他属性或方法覆盖
+    // Tab.prototype = {
+    //     hobby(){
+    //         console.log("打篮球");
+    //     }
+    // };
+    // let tab7 = new Tab();
+    // console.log(tab5.name);//发现会报错：Uncaught ReferenceError: tab5 is not defined
+    
+}
+</script>
+</body>
+</html>

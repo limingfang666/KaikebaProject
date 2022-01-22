@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 100px 0 0 700px;
+            border: 1px solid black;
+        }
+        #box div{
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 100px;
+            height: 100px;
+            border: 4px solid black;
+            padding: 40px;
+            background: red;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div></div>
+    </div>
+<script>
+{
+    /*
+    - clientWidth = 可视宽度 - border
+    - clientHeight = 可视高度 - border
+    - clientTop 上边框宽度
+    - clientLeft 左边框宽度
+    */
+    let box = document.querySelector("#box");
+    let div = box.querySelector("div");
+    //元素clientWidth/clientHeight = 元素width/height+ padding
+    console.log(div.clientWidth,div.clientHeight);//180 180
+
+    //元素clientTop/clientLeft：元素上边框宽度/元素左边框宽度
+    console.log(div.clientTop,div.clientLeft);//4 4
+}    
+</script>
+</body>
+</html>

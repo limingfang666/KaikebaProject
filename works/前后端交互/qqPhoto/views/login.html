@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="css/login.css" />
+  <title>请登录！</title>
+</head>
+
+<body>
+  <div class="loginContainer">
+    <h1>登录</h1>
+    <form action="/checkUser" method="post">姓名：
+      <input class="inputStyle" type="text" name="username" />
+      <div class="exchange"></div><br />密码：
+      <input class="inputStyle" type="password" name="pwd" />
+      <div class="exchange"></div><br />
+      <input class="loginStyle" type="submit" value="登录" />
+    </form>
+  </div>
+</body>
+<script type="module">
+  import ajax from './js/myAjax.js'
+  // 当鼠标失去焦点时，通过ajax进行校验
+  let inputs = document.querySelectorAll("input");
+  console.log(inputs);
+
+  inputs[0].onblur = function () {
+    // 注意必须在鼠标失去焦点时，再获取值
+    let username = inputs[0].value;
+    let pwd = inputs[1].value;
+    ajax({
+      url: '/checkUser',
+      method: 'post',
+      data: {
+        username,
+        pwd
+      },
+      headers: {
+        "content-type": "application/json",
+        "name": "lisi"
+      },
+      success: function (data) {
+        let error = document.querySelectorAll(".exchange")[0];
+        if (data.code === 0 || data.code == 1) {
+          error.innerText = data.msg;
+        }else{
+          error.innerText = "";
+        }
+      }
+    });
+  };
+
+  inputs[1].onblur = function () {
+    // 注意必须在鼠标失去焦点时，再获取值
+    let username = inputs[0].value;
+    let pwd = inputs[1].value;
+    ajax({
+      url: '/checkUser',
+      method: 'post',
+      data: {
+        username,
+        pwd
+      },
+      headers: {
+        "content-type": "application/json",
+        "name": "lisi"
+      },
+      success: function (data) {
+        let error = document.querySelectorAll(".exchange")[1];
+        if (data.code === 2 || data.code == 3) {
+          error.style.top = "74px";
+          error.innerText = data.msg;
+        }else{
+          error.innerText = "";
+        }
+      }
+    });
+  };
+
+</script>
+
+</html>

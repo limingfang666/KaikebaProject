@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<div></div>
+<script>
+{
+    let div = document.querySelector("div");
+    let width = div.offsetWidth;//width原始宽度
+    //mousewheel事件只能在Chrome和IE中使用
+    document.addEventListener('mousewheel',function(e){
+        //e.wheelDelta
+        width = e.wheelDelta>0? (width += 5):(width -= 5);
+        div.style.width = width + 'px';
+
+    });
+    //只能在FireFox中使用
+    document.addEventListener('DOMMouseScroll',function(e){
+        //e.detail
+        //e.detail<0时向上滚动
+        width = e.detail<0? (width += 5):(width -= 5);
+        div.style.width = width + 'px';
+    });
+}
+</script>
+</body>
+</html>

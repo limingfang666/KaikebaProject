@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>日期方法</title>
+</head>
+<body>
+<script>
+'use strict';
+(function(){
+    //获取的是本地计算机的系统时间
+    var date = new Date();
+    console.log(date);//Tue Jul 16 2019 10:24:06 GMT+0800 (中国标准时间)
+    //获取年
+    var year = date.getFullYear();
+    console.log("年："+year);
+
+    //获取月,月份从0开始，所以必须+1
+    var mon = date.getMonth();
+    console.log("月："+(mon+1));
+
+    //获取日
+    var day = date.getDate();
+    console.log("日："+day);
+
+    //获取时
+    var hour = date.getHours();
+    console.log("时："+hour);
+
+    //获取分
+    var min = date.getMinutes();
+    console.log("分："+min);
+
+    //获取秒
+    var second = date.getSeconds();
+    console.log("秒："+second);
+
+    //获取星期
+    var week = date.getDay();
+    console.log("星期："+week);
+
+    //获取时间戳now
+    var time = date.getTime();
+    console.log("时间戳getTime："+time);
+    //获取时间戳now
+    var now = Date.now();
+    console.log("时间戳now："+now);
+})();
+</script>  
+</body>
+</html>

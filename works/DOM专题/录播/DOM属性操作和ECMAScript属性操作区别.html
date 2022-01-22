@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box" class="box">
+        <div></div>
+    </div>
+<script>
+{
+    let box = document.querySelector("#box");
+
+    //ECMAScript属性操作，操作的是元素获取后编译成的对象，具体的数据存在内存中。内存中可以存任何类型的数据
+    box.index = 0;
+
+    //DOM属性操作，值是存在文档中。DOM中只能存字符串类型的数据，不是字符串也会转成字符串
+    box.setAttribute("kkb","kaikeba");
+    box.setAttribute("miao",1);
+    console.log(typeof box.getAttribute("miao"));//string
+
+    //通过ECMAScript属性操作设置的属性，再通过DOM属性操作获取时，会返回null（因为通过ECMAScript属性操作设置的属性是存在内存中的，在DOM文档里面获取不到）
+    console.log(box.getAttribute("index"));//null
+
+     //通过DOM属性操作设置的非法属性，再通过ECMAScript属性操作获取时，会返回undefined(因为通过DOM属性设置的值并没有保存在内存中)
+    console.log(box.kkb);//undefined
+
+    //只要操作了innerHTML 元素的所有子元素上，存在内存中的事件和相关的属性都会丢失。如果希望元素的某些属性在操作了父级的innerHTML 之后，还存在就把这个属性加在 DOM 中
+    let childBox = box.children[0];
+    childBox.index = 1;
+    childBox.setAttribute("kkb","kaikeba");
+    //注意此处是操作父级的innerHTML 之后才会有问题
+    box.innerHTML = box.innerHTML;
+    console.log(box.children[0].index);//undefined
+    console.log(box.children[0].getAttribute("kkb"));//kaikeba
+    
+}    
+</script>
+</body>
+</html>

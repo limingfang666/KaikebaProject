@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>水滴按钮</title>
+    <style>
+        @keyframes move {
+            0% {
+                transform: scaleX(1) scaleY(.75);
+            }
+            10% {
+                transform: scaleY(.8) scaleX(.95);
+            }
+            20% {
+                transform: scaleX(.9) scaleY(.85);
+            }
+            30% {
+                transform: scaleY(.9) scaleX(.85);
+            }
+            40% {
+                transform: scaleX(.8) scaleY(.95);
+            }
+            50% {
+                transform: scaleY(1) scaleX(.75);
+            }
+            60% {
+                transform: scaleX(.8) scaleY(.95);
+            }
+            70% {
+                transform: scaleY(.85) scaleX(.9);
+            }
+            80% {
+                transform: scaleX(.85) scaleY(.9);
+            }
+            90% {
+                transform: scaleY(.8) scaleX(.95);
+            }
+            100% {
+                transform: scaleX(1) scaleY(.75);
+            }
+        }
+        div {
+            width: 50px;
+            height: 50px;
+            margin: 100px auto;
+            background: rgb(138, 137, 137);
+            border-radius: 50%;
+            font: 18px/50px "宋体";
+            font-weight: bold;
+            color: #ffffff;
+            text-align: center;
+        }
+        /* div:hover {
+            animation: .5s move linear;
+        } */
+        .btn_hover {
+            animation: .4s move linear 2; 
+        }
+    </style>
+</head>
+<body>
+    <div class="btn">More</div>
+<script>
+var btn = document.querySelector(".btn");
+var water = document.querySelector(".water");
+btn.addEventListener('mouseover',function(){
+    btn.classList.add("btn_hover");
+});
+btn.addEventListener('animationend',function(){
+    btn.classList.remove("btn_hover");
+});
+</script>
+</body>
+</html>

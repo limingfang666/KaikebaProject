@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>遮罩层（弹窗）</title>
+    <style>
+    #cover{ 
+        position:absolute;left:0px;top:0px;
+        background:rgba(0, 0, 0, 0.4);
+        width:100%;  /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+        height:100%;
+        filter:alpha(opacity=60);  /*设置透明度为60%*/
+        opacity:0.6;  /*非IE浏览器下设置透明度为60%*/
+        display:none; 
+        z-Index:1;  
+    }
+    #modal{ 
+        position:absolute;
+        width:500px;
+        height:300px;
+        top:50%;
+        left:50%;
+        background-color:#fff;
+        display:none;
+        cursor:pointer;
+        z-Index:2;  
+    }
+    </style>
+</head>
+<body>
+        <div>显示页面的全部内容
+                <div id="opens">打开弹框</div>
+        </div>
+            <!-- //页面的遮罩层 -->
+        <div id="cover"></div>
+            <!-- //页面的弹出框 -->
+        <div id="modal">
+                <div id="closes">关闭弹框</div>
+        </div>
+        <script>
+             var opens = document.querySelector("#opens");
+             var closes = document.querySelector("#closes");
+             var cover = document.querySelector("#cover");
+             var modal = document.querySelector("#modal");
+             opens.onclick = function(){
+                cover.style.display="block";   //显示遮罩层
+                modal.style.display="block";   //显示弹出层
+            };
+             closes.onclick = function(){
+                cover.style.display="none";   //隐藏遮罩层
+                modal.style.display="none";   //隐藏弹出层
+             };
+        </script>
+</body>
+</html>

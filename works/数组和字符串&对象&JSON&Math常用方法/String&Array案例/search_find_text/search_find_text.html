@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>查找替换文字</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+    <div id="box">
+        <div id="content">
+            目前主要针对的是javascript培训，同时还提供了css教程、javascript视频、js特效等，最新推出了外地学员们喜欢的javascript网络课程服务，同时还为处于javascript入门阶段的朋友录制了大量javascript视频，其中涉及了大量javascript基础知识，希望妙味课堂推出的javascript网络培训课程能带给大家更多惊喜。目前主要针对的是javascript培训，同时还提供了css教程、javascript视频、js特效等，最新推出了外地学员们喜欢的javascript网络课程服务，同时还为处于javascript入门阶段的朋友录制了大量javascript视频，其中涉及了大量javascript基础知识，希望妙味课堂推出的javascript网络培训课程能带给大家更多惊喜。目前主要针对的是javascript培训。
+        </div>
+        <div id="open">
+            <a class="unfold" href="javascript:;">展开</a>
+            <ul style="display: none;">
+                <li><a href="javascript:;" class="searchA">查找</a></li>
+                <li><a href="javascript:;" class="replaceA">替换</a></li>
+            </ul>
+        </div>
+        <div id="fun" style="display: none;">
+            <div class="btns">
+                <a href="javascript:;" class="active searchFun">查找</a>
+                <a href="javascript:;" class="replaceFun">替换</a>
+            </div>
+
+            <div id="search" style="display: none;">
+                <input class="searchTxt" type="text" />
+                <input class="searchBtn" type="button" value="" />
+            </div>
+            <div id="replace">
+                <input class="repOldTxt" type="text" />
+                <input class="repNewTxt" type="text" />
+                <input class="replaceBtn" type="button" value="" />
+            </div>
+        </div>
+
+    </div>
+<script type="text/javascript">
+(function(){
+    /*
+        思路：
+        通过查找的字符串将整个字符串进行分割，返回数组
+        循环数组，并给查找的字符串加上高亮标签
+    */
+    var box = document.querySelector("#box");
+    var cont = box.querySelector("#content");
+    var contVal = cont.innerHTML;
+    var open = box.querySelector("#open");
+    var unfold = box.querySelector(".unfold");
+    var openUl = box.querySelector("#open ul");
+    var searchA = box.querySelector("#open .searchA");
+    var replaceA = box.querySelector("#open .replaceA");
+
+    var fun = box.querySelector("#fun");
+    var search = fun.querySelector("#search");
+    var replace = fun.querySelector("#replace");
+    var searchFun = fun.querySelector(".btns .searchFun");
+    var replaceFun = fun.querySelector(".btns .replaceFun");
+
+    //查找功能
+    var searchTxt = search.querySelector(".searchTxt");
+    var searchBtn = search.querySelector(".searchBtn");
+
+    //替换功能
+    var repOldTxt = replace.querySelector(".repOldTxt");
+    var repNewTxt = replace.querySelector(".repNewTxt");
+    var replaceBtn = replace.querySelector(".replaceBtn");
+
+    //点击展开时，查找和替换ul显示
+    unfold.onclick = function(){
+        openUl.style.display = "block";
+    };
+    //点击右侧查找按钮，将fun div 显示，并显示查找div
+    searchFun.onclick = searchA.onclick = function(){
+        fun.style.display = "block";
+        search.style.display = "block";
+        //有可能点击替换后再次点击查找按钮
+        replace.style.display = "none";
+    };
+    //点击右侧替换按钮，将fun div 显示，并显示替换div。且将查找的active清除，并给替换加上active
+    replaceFun.onclick = replaceA.onclick = function(){
+        fun.style.display = "block";
+        search.style.display = "none";
+        replace.style.display = "block";
+    };
+
+    //查找功能实现
+    searchBtn.onclick = function(){
+        var searchVal = searchTxt.value;
+        if(searchVal === ""){
+            alert("请输入需要查找的文字");
+            return;
+        }
+
+        var searchArr = contVal.split(searchVal);
+        
+        // var spanStr = "";
+        //将数组每位加上高亮标签后再连接
+        // searchArr.forEach(function(item){
+        //     spanStr += item + "<span>"+ searchVal +"</span>";
+        // });
+        //将得到的数组再转为字符串
+        searchArr.join("<span>"+ searchVal +"</span>");
+        cont.innerHTML = searchArr.join("<span>"+ searchVal +"</span>");
+        
+    }
+
+    //替换功能实现
+    replaceBtn.onclick = function(){
+        var repOld = repOldTxt.value;
+        var repNew = repNewTxt.value;
+        
+        if(repOld === ""){
+            alert("请输入需要查找的文字");
+            return;
+        }
+        if(repNew === ""){
+            alert("请输入需要替换的文字");
+            return;
+        }
+
+        var searchArr = contVal.split(repOld);
+        // var spanStr = "";
+        //将数组每位加上高亮标签后再连接
+        // searchArr.forEach(function(item){
+        //     spanStr += item + "<span>"+ repNew +"</span>";
+        // });
+        //将得到的数组再转为字符串
+        searchArr.join("<span>"+ repNew +"</span>");
+        cont.innerHTML = searchArr.join("<span>"+ repNew +"</span>");
+    }
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button>点击</button>
+    <script>
+        document.querySelector("button").onclick = function(){
+            let xhr = new XMLHttpRequest();
+            xhr.open("get","/getInfo/3",true);
+            xhr.onreadystatechange = function(){
+                //判断服务求响应状态为4和返还状态200（成功）
+                if(xhr.readyState == 4){
+                    if(xhr.status == 200){
+                        console.log(xhr.responseText);//{"status":1,"msg":"请求成功"}
+                    }
+                }
+            }
+            xhr.onload = function(){
+                console.log(xhr.readyState);//4
+                console.log(xhr.status);//200
+                console.log(xhr.responseText);//{"status":1,"msg":"请求成功"}
+            }
+            xhr.send();
+        };
+    </script>
+</body>
+</html>

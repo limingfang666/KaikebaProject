@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .cont div {
+            display: none;
+        }
+        .active {
+            background: red;
+        }
+        .cont .show {
+            display: block;
+        }
+        .next {
+            margin: 20px 0 50px 0;
+        }
+    </style>
+</head>
+<body>
+<div id="wrap1">
+    <div class="btns">
+        <button class="active">选卡一</button>
+        <button>选卡二</button>
+        <button>选卡三</button>
+    </div>
+    <div class="cont">
+        <div class="show">内容一</div>
+        <div>内容二</div>
+        <div>内容三</div>
+    </div>
+    <button class="next">第一个选项卡实现下一页</button>
+</div>
+<div id="wrap2">
+    <div class="btns">
+        <button class="active">选卡一</button>
+        <button>选卡二</button>
+        <button>选卡三</button>
+        <button>选卡四</button>
+        <button>选卡五</button>
+    </div>
+    <div class="cont">
+        <div class="show">内容一</div>
+        <div>内容二</div>
+        <div>内容三</div>
+        <div>内容四</div>
+        <div>内容五</div>
+    </div>
+    <button class="play">开始轮播</button>
+</div>
+<script>
+{
+    /*
+        工厂模式：生成一个对象；返回对象
+    */
+    //需求：选项卡数量不定——使用工厂模式实现
+    let wrap1 = document.querySelector("#wrap1");
+
+    //将函数和选项卡的个数通过工厂模式返回
+    function Tab(el){
+        let obj = {};
+        let btns = el.querySelectorAll(".btns button");
+        let cont = el.querySelectorAll(".cont div");
+        btns.forEach((item,index)=>{
+            item.onclick = function(){
+                obj.changeTab(index);
+            };
+        });
+        obj.changeTab = function(num){
+            btns.forEach((item,index)=>{
+                item.classList.remove("active");
+                cont[index].classList.remove("show");
+            });
+            btns[num].classList.add("active");
+            cont[num].classList.add("show");
+        }
+        obj.tabNum = btns.length;
+        return obj;
+
+    }
+    // Tab(wrap1);
+    //第一个选项卡私有方法：下一页
+    let next = wrap1.querySelector(".next");
+    let btns = wrap1.querySelectorAll(".btns button");
+    let tabObj1 = Tab(wrap1);
+    let num1 = 0;
+    next.onclick = function(){
+        num1++;
+        if(num1>tabObj1.tabNum-1){
+            num1=0;
+        }
+        tabObj1.changeTab(num1);
+    };
+    
+    let wrap2 = document.querySelector("#wrap2");
+    let btns2 = wrap2.querySelectorAll(".btns button");
+    let tabObj2 = Tab(wrap2);
+    let num2 = 0;
+    let playBtn = wrap2.querySelector(".play");
+    let timer = 0;
+    playBtn.onclick = function(){
+        clearInterval(timer);
+        timer = setInterval(()=>{
+            num2++;
+            if(num2>tabObj2.tabNum-1){
+                num2=0;
+            }
+            tabObj2.changeTab(num2);
+        },1000);
+    };
+}
+</script>
+</body>  
+</html>

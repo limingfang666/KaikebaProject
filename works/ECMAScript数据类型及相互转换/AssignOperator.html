@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>赋值运算符</title>
+</head>
+<body>
+    <script>
+        //=，+=，-=，*=，/=，%=
+        var num = 10;
+        //+=
+        num = num + 5;
+        console.log("num = num + 5后的结果为："+num);//15
+        num = 10;
+        num += 5;
+        console.log("num += 5后的结果为："+num);//15
+
+        //-=
+        var num2 = 10;
+        num2 = num2 - 5;
+        console.log("num2 = num2 - 5后的结果为："+num2);//5
+        num2 = 10;
+        num2 -= 5;
+        console.log("num2 -= 5后的结果为："+num2);//5
+
+        //*=
+        var num4 = 10;
+        num4 = num4 * 5;
+        console.log("num4 = num4 * 5后的结果为："+num4);//50
+        num4 = 10;
+        num4 *= 5;
+        console.log("num4 *= 5后的结果为："+num4);//50
+
+        // /=
+        var num6 = 10;
+        num6 = num6 / 5;
+        console.log("num6 = num6 / 5后的结果为："+num6);//2
+        num6 = 10;
+        num6 /= 5;
+        console.log("num6 /= 5后的结果为："+num6);//2
+
+        // %=
+        var num8 = 10;
+        num8 = num8 % 5;
+        console.log("num8 = num8 % 5后的结果为："+num8);//0
+        num8 = 10;
+        num8 %= 5;
+        console.log("num8 %= 5后的结果为："+num8);//0
+
+        //=，+=，-=，*=，/=，%=的隐式类型转换(和所有+-*/%的隐式类型转换一致)
+        var b = '2';
+        b += 2;
+        console.log("b = '2' +=后的结果为："+b);//22
+    </script>
+</body>
+</html>

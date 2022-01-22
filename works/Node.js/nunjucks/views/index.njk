@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>nunjucks演示</title>
+    <style>
+    </style>
+</head>
+<body>
+    <div>
+        这是njk文件
+        {# 插值表达式 #}
+        {{data}}
+
+        {# 注释 #}
+        {# html原有注释方式 #}
+        <!-- html单行注释 -->
+        <!-- 
+            html多行注释 
+            html多行注释
+        -->
+
+        {# nunjucks单行注释 #}
+        {# 
+            nunjucks多行注释 
+            nunjucks多行注释 
+        #}
+
+        {# if elseif else endif判断语句 ,所有nunjucks中的语句都必须有结束标识#}
+        {% if num>3 %}
+            <p>num值大于3</p>
+        {% elseif num<3 %}
+            <p>num值小于3</p>
+        {% else %}
+            <p>num值等于3</p>
+        {# 所有nunjucks中的语句都必须有结束标识 #}
+        {% endif %}
+
+        {# for in循环 #}
+        <ul>
+        {% for user in users %}
+            <li>名字是：{{user.name}}，性别是：{{user.age}}</li>
+        {% endfor %}
+        </ul>
+        {# 过滤器：替换一段文字等，官网有很多种过滤器写法，可多个过滤器并列书写。 将world替换成 my world ,并且将首字母大写capitalize#}
+        {{ str | replace("world","my world") | capitalize}}
+
+        {# 继承父级模板:注意除了继承的父级模内容和自己更改的内容，其他内容都会被覆盖掉 #}
+        {# 
+        {% extends 'parent.html' %}
+        {% block left %}
+            左边内容son
+        {% endblock %}
+        {% block right %}
+            右边内容son
+        {% endblock %}
+
+        {% block somevalue %}
+            {{ super() }}
+        {% endblock %} 
+        #}
+
+        {# macro宏标签 #}
+        {% macro pet(name="老鼠",sex="母") %}
+            <p>我是一只{{name}},我的性别是{{sex}}
+            {# 注意一定要有结束标签endmacro #}
+        {% endmacro %}
+        {# 调用 #}
+        {{pet("狗狗","公")}}
+        {# 不给参数，输出默认值 #}
+        {{pet()}}
+
+        {# include引入外部文件 #}
+        {% include 'footer.html' %}
+
+        {# import引入：可引入变量或函数 #}
+        {% import 'import.html' as obj %}
+        {{obj.pet("小老虎","母")}}
+        {{obj.person("王明","男")}}
+    </div>
+</body>
+</html>

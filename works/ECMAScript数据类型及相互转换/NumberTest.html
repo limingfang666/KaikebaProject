@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Number类型转换</title>
+</head>
+<body>
+    <script>
+        //字符串类型使用Number进行类型转换时：
+        //1.当整段字符串都符合数字规则时，转换为数字进行返回
+        var str = "1245";
+        console.log("字符串类型，1245整个字符串都符合数字规则时，使用Number进行转换后："+Number(str));//1245
+
+        //2.当使用Number()转换空字符串时，直接返回0
+        var str2 = "";
+        console.log("使用Number()转换空字符串后："+Number(str2));//0
+
+        //3.其余情况，有一项不为数字，直接返回 NaN
+        var str3 = "asd22";
+        console.log("asd22使用Number()转换空字符串后："+Number(str3));//NaN
+        var str4 = "33re";
+        console.log("33re使用Number()转换空字符串后："+Number(str4));//NaN
+        var str5 = NaN;
+        console.log("NaN使用Number()转换空字符串后："+Number(str5));//NaN
+
+        //布尔值类型使用Number进行转换类型时：转换true返回1，转换false返回0（布尔值中，除了0以外的任何数字都是返回1）
+        var b = true;
+        console.log("b为true布尔值类型使用Number进行转换类型后："+Number(b));//1
+        var b1 = false;
+        console.log("b1为false布尔值类型使用Number进行转换类型后："+Number(b1));//0
+
+        //null使用Number进行转换类型时，直接返回0
+        console.log("null使用Number进行类型转换后："+Number(null));//0
+
+        //undefined使用number进行转换类型时，直接返回NaN
+        console.log("undefined使用Number进行类型转换后："+Number(undefined));//NaN
+
+        //对象类型使用Number进行转换类型时，调用对象的toString()方法，然后再依照字符串的转换规则进行转换
+        var arr = [];
+        var arr1 = ['a','b'];
+        var arr2 = ['1'];
+        var arr3 = ['1','2'];
+        console.log("空数组[]进行Number类型转换后："+Number(arr));//0
+        console.log("非数字类型数组进行Number类型转换后："+Number(arr1));//NaN
+        console.log("数字类型数组(只有一个元素)进行Number类型转换后："+Number(arr2));//1
+        console.log("数字类型数组(多个元素)进行Number类型转换后："+Number(arr3));//1,2 -> NaN
+
+        //对象类型函数使用Number进行类型转换时,全部返回NaN（Symbo除外）：
+        var f = function(){};
+        console.log("对象类型函数f使用Number进行类型转换后："+Number(f));
+
+        //object对象使用Number进行类型转换时：
+        var obj = { name:'lmf',age:20};
+        console.log("object对象{ name:'lmf',age:20}使用Number进行类型转换后："+Number(obj));
+
+        //一个元素使用Number进行类型转换时：
+        var body = document.querySelector("body");
+        console.log("一个元素document.querySelector('body')使用Number进行类型转换后："+Number(body));
+
+         //一组元素使用Number进行类型转换时：
+         var bodys = document.querySelectorAll("body");
+        console.log("一组元素document.querySelectorAll('body')使用Number进行类型转换后："+Number(bodys));
+
+        //Symbol类型不能进行Number类型转换
+        var s = Symbol();
+        console.log("Symbol使用Number进行类型转换后："+Number(s));
+    </script>
+</body>
+</html>

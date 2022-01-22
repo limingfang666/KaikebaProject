@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        li {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="view">
+    <ul>
+        <li><a href="/index">首页</a></li>
+        <li><a href="/about">关于我们</a></li>
+        <li><a href="/details">详细介绍</a></li>
+    </ul>
+    <div id="cont"></div>
+</div>
+<script>
+{
+    /*
+        history路由实现原理：
+            1：必须禁用原来的跳转功能；
+            2：必须配合服务器环境下使用
+    */
+    let view = document.querySelector("#view");
+    let ul = document.querySelector("ul");
+    let allA = document.querySelectorAll("ul a");
+    let cont = document.querySelector("#cont");
+    
+    let indexRender = ()=>{
+    	return `
+    		<p>这是首页相关信息</p>
+    	`;
+    }
+    let aboutRender = ()=>{
+    	return `
+    		<p>这是关于我们相关信息</p>
+    	`;
+    }
+    let detailsRender = ()=>{
+    	return `
+    		<p>这是详细介绍相关信息</p>
+    	`;
+    }
+    
+    let matching =()=>{
+    	let path = location.pathname;
+        console.log(location.pathname);
+    	switch(path){
+    		case "/UnionpayDemo/":
+    		case "/index":
+    			cont.innerHTML = indexRender();
+    			break;
+    		case "/about":
+    			cont.innerHTML = aboutRender();
+    			break;
+    		case "/details":
+    			cont.innerHTML = detailsRender();
+    			break;
+    	}
+    }
+    //页面一开始刷新时也要显示默认页面
+    matching();
+    allA.forEach(item=>{
+        item.onclick = function(){
+            /*
+               	 切换对应的模板地址:history.pushState()方法
+                    history.pushState()方法参数
+                        第一个参数 可以为一个对象{ name:val}，一般用于传值，并可在window.onpopstate 点击浏览器上 前进后退按钮后进行获取
+                        第二个参数 title，基本没有什么实质作用
+                        第三个参数 history状态值，即每个url对应的模板地址
+            */
+            console.log(item.href);
+            history.pushState({info:'lmf',age:18},"history路由实现原理",item.href);
+            matching();
+            //注意return false阻止浏览器默认事件，只能用于绑定事件不能用于事件监听
+            return false;
+        }
+    });
+    
+    // 历史记录上下切换事件 - 浏览器上 前进后退按钮
+    window.onpopstate = function(){
+        // 获取history传递过来的值
+        console.log(history.state)
+        matching();
+    }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件</title>
+    <style>
+        .div1 {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="fn">Drag : {{canDrag}}</button>
+        <ul>
+            <li v-for="user in users" :key="user.id" @click="checkedUser(user,$event)">{{user.name}} -- {{user.checked}}</li>
+        </ul>
+        <!-- <div class="div1" @click="clickDiv">
+            <button @click.stop="clickBtn">按钮1</button>
+            <button @click.stop="clickBtn">按钮2</button>
+            <button @click.stop="clickBtn">按钮3</button>
+        </div> -->
+
+        <div class="div1" @click.self="clickDiv">
+            <button @click="clickBtn">按钮1</button>
+            <button @click="clickBtn">按钮2</button>
+            <button @click="clickBtn">按钮3</button>
+        </div>
+
+        <input @keydown.13="clickKeyCode" /> keycode13
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                canDrag: false,
+                users:[
+                    {id:1,name:'lmf',checked:false},
+                    {id:2,name:'yy',checked:false},
+                    {id:3,name:'ll',checked:false}
+                ]
+            },
+            methods: {
+                fn(){
+                    this.canDrag = !this.canDrag;
+                    console.log(this.canDrag);
+                    
+                },
+                checkedUser(user,event){
+                    user.checked = !user.checked;
+                    console.log(event);
+                },
+                // 需求：当按钮点击时阻止向上冒泡
+                clickDiv(){
+                    console.log("点击了父级div");
+                },
+                clickBtn(ev){
+                    console.log("点击了按钮");
+                    // 原生js阻止冒泡
+                    // ev.stopPropagation();
+                },
+                clickKeyCode(){
+                    
+                    console.log("点击了keyCode13");
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

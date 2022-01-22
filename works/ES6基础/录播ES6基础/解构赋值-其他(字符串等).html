@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+//字符串和数组一样，根据下标顺序进行解构
+let str = "abc";
+let [e,f] = str;
+console.log(e,f);//a,b
+
+//数字解构赋值:不可以解构赋值
+//一般来说只要是可迭代对象都可以进行解构赋值
+let nub = 123;
+let [c,d] = nub;
+console.log(c,d);// nub is not iterable
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>可变参（不定参）：arguments</title>
+</head>
+<body>
+    <script>
+        //arguments 代表所有实参的集合（类数组），可以通过下标获取各个实参，通过length获取集合长度
+        function args(){
+            console.log(arguments);
+            console.log("arguments的各个参数为：");
+            for (var i = 0; i < arguments.length; i++) {
+                console.log(arguments[i]);
+            }
+        } 
+        
+        args(23,45,999,10.90,"can","不定参");
+    </script>
+</body>
+</html>

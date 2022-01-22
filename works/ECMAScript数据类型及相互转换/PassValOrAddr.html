@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>传值和传址</title>
+</head>
+<body>
+    <script>
+        //对象在赋值过程中，传递的是在内存中的引用地址
+        //arr传给arr2的是其在堆内存中的地址，因此，更改arr2的同时arr也改变了
+        //对象不要使用=赋值，需要使用拷贝
+        var arr = [1,2,3];
+        var arr2 = arr;
+        arr2[1] = 'b';
+        console.log(arr);//[1, "b", 3]
+
+        //基本类型在赋值过程中，传递的是具体的值
+        //b的值传给a后，b本身的值不会变
+        var b = 0;
+        var a = b;
+        a = 1;
+        console.log(b);//0
+    </script>
+</body>
+</html>

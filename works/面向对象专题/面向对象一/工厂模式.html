@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    //工厂模式：需要初始化obj对象；给对象中赋值；返回对象；调用工厂模式中的属性或方法
+    function Factory(){
+        //初始化原料
+        let obj = {};
+        //加工原料
+        obj.num = 1000;
+        obj.product = function(){
+            console.log("生产产品");
+        }
+        //出厂
+        return obj;
+    }
+
+    let obj1 = Factory();
+    console.log(obj1.num);//1000
+    obj1.product();//生产产品
+}
+</script>
+</body>
+</html>

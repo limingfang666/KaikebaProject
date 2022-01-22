@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    //mousewheel事件只能在Chrome和IE中使用
+    document.addEventListener('mousewheel',function(e){
+        //e.wheelDelta
+        /*
+            滚轮向上滚动：打印120
+            滚轮停止向上滚动：打印240
+            滚轮向下滚动：打印-120
+            滚轮停止向上滚动：打印-240
+        */
+        console.log(e.wheelDelta);
+    });
+    //只能在FireFox中使用
+    document.addEventListener('DOMMouseScroll',function(e){
+        //e.detail
+        /*
+            滚轮向上滚动：打印-3
+            滚轮停止向上滚动：打印-6
+            滚轮向下滚动：打印-3
+            滚轮停止向下滚动：打印6
+        */
+        console.log(e.detail);
+    });
+}
+</script>
+</body>
+</html>

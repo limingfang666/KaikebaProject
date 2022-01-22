@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .cont div {
+            display: none;
+        }
+        .active {
+            background: red;
+        }
+        .cont .show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div id="wrap">
+    <div class="btns">
+        <button class="active">选卡一</button>
+        <button>选卡二</button>
+        <button>选卡三</button>
+    </div>
+    <div class="cont">
+        <div class="show">内容一</div>
+        <div>内容二</div>
+        <div>内容三</div>
+    </div>
+</div>
+<script>
+{
+    //需求：实现一个选项卡
+    let wrap = document.querySelector("#wrap");
+    let btns = wrap.querySelectorAll(".btns button");
+    let cont = wrap.querySelectorAll(".cont div");
+
+    btns.forEach((item,index)=>{
+        item.onclick = function(){
+            btns.forEach((item,index)=>{
+                item.classList.remove("active");
+                cont[index].classList.remove("show");
+            });
+            item.classList.add("active");
+            cont[index].classList.add("show");
+        };
+    });
+}
+</script>
+</body>  
+</html>

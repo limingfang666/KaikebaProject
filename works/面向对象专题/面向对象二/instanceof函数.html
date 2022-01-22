@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    //instanceof函数:instanceof 检测的是原型
+    let arr = [];
+    let obj = {};
+
+    console.log(arr instanceof Array);//true
+    console.log(obj instanceof Object);//true
+    //因为instanceof判断的是原型链上的关系，而数组本身也是复杂数据类型-对象。所以不能使用instanceof来判断一个数组是否是Array
+    console.log(arr instanceof Object);//true
+
+    //因为字符串str是基本数据类型，没有原型，而instanceof判断的是原型，所以会返回false
+    let str = "abc";
+    let str1 = new String("sdf");
+    console.log(str instanceof String);//false
+    console.log(str1 instanceof String);//true
+    console.log(str);
+    console.log(str1);//String {"sdf"}
+    
+    console.log(typeof arr);//object
+    console.log(typeof obj);//object
+
+    console.log(Object.prototype.toString.call(arr));//[object Array]
+    console.log(Object.prototype.toString.call(obj));//[object Object]
+    console.log(Object.prototype.toString.call(str));//[object String]
+    
+}
+</script>
+</body>
+</html>

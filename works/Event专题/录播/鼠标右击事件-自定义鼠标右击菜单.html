@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            display: none;
+             position: absolute;
+             top: 0;
+             left: 0;
+        }
+         li {
+             width: 200px;
+             height: 30px;
+             border: 1px solid black;
+             list-style: none;
+         }
+    </style>
+</head>
+<body>
+    <ul>
+        <li>刷新</li>
+        <li>跳转</li>
+        <li>加载</li>
+        <li>首页</li>
+    </ul>
+<script>
+{
+    //需求：自定义鼠标右击菜单
+    let ul = document.querySelector("ul");
+
+    document.addEventListener('contextmenu',function(e){
+        //鼠标右击时首先取消默认鼠标右击事件
+        e.preventDefault();
+
+        //再让ul显示
+        ul.style.display = "block";
+
+        //鼠标右击时，让ul在右击的位置
+        ul.style.top = e.pageY + 'px';
+        ul.style.left = e.pageX + 'px';
+        console.log(e.pageX,e.pageY);
+        
+    });
+}
+</script>
+</body>
+</html>

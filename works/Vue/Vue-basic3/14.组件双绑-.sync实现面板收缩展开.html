@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件——.sync实现数据双绑</title>
+    <style>
+        .kkb-radio {
+            width: 20px;
+            height: 20px;
+            background-color: #cccccc;
+        }
+        .kkb-radio.checked {
+            background-color: #92beee;
+        }
+        .plane {
+            border: 1px solid #000000;
+            width: 300px;
+        }
+        .plane .header {
+            width: 100%;
+            height: 30px;
+            background: #cccccc;
+        }
+        .plane .content {
+            height: 100px;
+            width: 100%;
+            display: none;
+        }
+        .plane.expanded .content {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="val = !val">{{val}}</button>
+        <br /><br /><br />
+
+        <!-- v-model只能绑定一个值 ，有了v-model就不再需要@change="change"进行绑定事件，子组件的model属性中的event会自动进行绑定-->
+        <kkb-plane :expanded.sync="val" :title="title" :content="content"></kkb-plane>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        let kkbPlane = {
+            // 通过外部传入expanded控制面板收缩展开
+            props: ['expanded','title','content'],
+            data(){
+                return {
+                    status: this.expanded
+                };
+            },
+            template: `
+                <div class="plane" :class="{'expanded': status}" @click="changeStatus">
+                    <div class="header">{{title}}</div>
+                    <div class="content">{{content}}</div>
+                </div>
+            `,
+            methods: {
+                changeStatus(){
+                    // 点击面板时改变status状态
+                    this.status = !this.status;
+                    
+                    // 将改变的状态通知给父级组件
+                    // 注意：此处update:后面的值是需要绑定props中的数据，即将expanded和子组件的this.status进行绑定
+                    this.$emit('update:expanded',this.status);
+                }
+            }
+        };
+
+        let app = new Vue({
+            el: "#app",
+            data: {
+                val:true,
+                title:'标题',
+                content: '内容111111111111111'
+            },
+            components: {
+                kkbPlane
+            }
+        });
+    </script>
+</body>
+
+</html>

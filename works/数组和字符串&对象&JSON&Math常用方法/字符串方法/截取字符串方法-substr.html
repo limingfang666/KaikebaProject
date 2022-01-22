@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    var str = "kaikeba";
+    //start为负数，就从右向走开始查找  length + start = length +(-start)的值作为起始位置
+    console.log(str.substr(-5));//起始位置为7-5=2，即起始位置为2   ikeba
+
+    //length为负数，则返回空字符串
+    console.log(str.substr(2,-4));// ""
+
+    //通常想要截取一个字符串的最后几位，就可以通过substr(截取的位数的负数)的到
+    //想得到str的最后4位
+    console.log(str.substr(-4));//keba
+</script>
+</body>
+</html>

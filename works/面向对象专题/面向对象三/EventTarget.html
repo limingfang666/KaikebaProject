@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<button>点击</button>
+
+<body>
+    <script>
+        {
+            //需求：使用系统自定义类实现一次触发，执行多个事件
+            function event1() {
+                console.log("event1...");
+            }
+            function event2() {
+                console.log("event2...");
+            }
+            function event3() {
+                console.log("event3...");
+            }
+            var event = new Event('event');//创建一个event事件
+            let btn = document.querySelector("button");
+            btn.addEventListener('event', event1);//为元素绑定事件监听
+            btn.addEventListener("event", event2);
+            btn.addEventListener("event", event3);
+            btn.onclick = function(){
+                btn.dispatchEvent(event);//派发事件
+            };
+        }
+    </script>
+</body>
+
+</html>

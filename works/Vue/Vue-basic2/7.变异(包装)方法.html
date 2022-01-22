@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>变异方法</title>
+</head>
+<body>
+    <script>
+        let arr = ['a','b','c'];
+        // 想让数组变化也能实现监听
+        arr.forEach((v,k)=>{
+            console.log(k,v);
+            Object.defineProperty(arr,k,{
+                set(){
+                    console.log("render set----");
+                },
+                get(){
+                    console.log("render get----");
+                    return v;
+                }
+            });
+        });
+
+        // 自定义实现$set()方法
+        let tempArr = [...arr];//防止溢出
+        function $set(data,key,val){
+            // data[key] = val;
+            Object.defineProperty(arr,key,{
+                set(){
+                    tempArr[key] = val;
+                    console.log("render $set set----");
+                },
+                get(){
+                    console.log("render $set get----");
+                    return tempArr[key];
+                }
+            });
+        }
+
+        // 自定义重写push方法（直接重写，Vue没有这么粗暴）
+        Array.prototype.push = function(val){
+            let index = this.length;
+        
+
+            Object.defineProperty(this,index,{
+                set(){
+                    tempArr[index] = val;
+                    console.log("render push set----");
+                },
+                get(){
+                    console.log("render push get----");
+                    return tempArr[index];
+                }
+            });
+
+            // 注意需要最后赋值
+            this[index] = val;
+
+        }
+
+        // 当修改数组已有值时，可以实现监听
+        console.log(arr[0]);
+        arr[0]='aaa';
+
+        // 但修改数组不存在值时，不会被监听
+        arr[3]='3';
+        // 可以使用$set()方法将新增的
+        $set(arr,3,'333');
+
+        // 使用push方法时也不会监听
+        arr.push('f');
+
+        // 所以使用数组时添加是，最好使用arr = [...arr,val]
+    </script>
+</body>
+</html>

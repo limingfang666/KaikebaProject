@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 200px;
+            height: 200px;
+            background: red;
+        }
+        p {
+            width: 100px;
+            height: 100px;
+            background: blue;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <p></p>
+    </div>
+<script>
+{
+    let div = document.querySelector("div");
+    let p = document.querySelector("p");
+    div.addEventListener('click',function(e){
+        // console.log(e);//获取到的是事件对象
+        console.log(e.target);//事件在哪个元素触发就是哪个
+        console.log(e.currentTarget);//永远是事件绑定的元素
+    });
+
+}
+</script>
+</body>
+</html>

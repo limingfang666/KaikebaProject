@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    let p1 = new Promise((resolve,reject)=>{
+        setTimeout(function(){
+            resolve("p1执行成功");
+        },1000);
+    });
+
+    let p2 = new Promise((resolve,reject)=>{
+        setTimeout(function(){
+            // resolve("p2执行成功");
+            resolve("p2执行失败");
+        },1000);
+    });
+
+    let p3 = new Promise((resolve,reject)=>{
+        setTimeout(function(){
+            resolve("p3执行成功");
+        },1000);
+    });
+    //Promise.all([p1,p2,p3])只有所有的promise对象都是返回resolved状态，才会成功
+    let allP = Promise.all([p1,p2,p3]);
+    console.log(allP);
+
+    //Promise.all([p1,p2,p3])的返回值，调用then方法无论有没有执行失败的方法，都是走第一个参数（成功）
+    allP.then(msg=>{
+        console.log("成功");
+        // console.log(msg);//(3) ["p1执行成功", "p2执行成功", "p3执行成功"]
+        // console.log(msg);//(3) ["p1执行成功", "p2执行失败", "p3执行成功"]
+        
+    },info=>{
+        console.log("失败");
+        
+    });
+    
+}
+</script>
+</body>
+</html>

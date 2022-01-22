@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>指令示例-focus</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 1.autofocus：没有真假，只要有这个属性，就会自动接收焦点，不能控制其失去焦点。 -->
+        <input type="text" autofocus/>
+        <br /><br />
+
+        <input type="text" ref="input" />
+        <br /><br />
+
+        <input type="text" v-focus />
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 3.使用全局指令实现
+        Vue.directive('focus',{
+            // 需要元素在页面中渲染完成后再实现，所以需要使用inserted生命周期中进行调用。
+            inserted(el){
+                el.focus();
+            }
+        });
+        // 创建根组件
+        let app = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            // 2.DOM操作实现：可以通过其他生命周期函数mounted实现，但是focus()函数必须在元素存在在整个页面中时才能生效（可以通过延迟实现，但是不理想）
+            // mounted(){
+            //     setTimeout(() => {
+            //         this.$refs.input.focus();
+            //     }, 1000);
+            // }
+        });
+    </script>
+</body>
+
+</html>

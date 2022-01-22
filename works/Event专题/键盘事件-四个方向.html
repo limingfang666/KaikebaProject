@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>键盘事件-八个方向</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            top: 100px;
+            left: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+<script>
+    /*
+        使用键盘按下事件
+        通过键盘的上，下，左，右；控制div往上下左右四个方向移动；
+        通过左上；右上；左下；右下，控制div往左上；右上；左下；右下四个方向移动
+    */
+{
+    let div = document.querySelector("div");
+
+    //设置和获取div计算后样式
+    function css(el,attr,val){
+        if(arguments.length == 3){
+            el.style[attr] = val + 'px';
+        }else{
+            return parseInt(getComputedStyle(el)[attr]);
+        }
+    }
+
+    //注意键盘事件一般作用在document上
+    document.addEventListener("keydown",function(e){
+        //keyCode:左37   上38    右39     下40
+        let keyCode = e.keyCode;
+        let t = css(div,"top");
+        let l = css(div,'left');
+
+        //通过键盘的上，下，左，右；控制div往上下左右四个方向移动
+        switch(keyCode){
+            case 37:
+                css(div,"left",l-10);
+                break;
+            case 38:
+                css(div,"top",t-10);
+                break;
+            case 39:
+                css(div,"left",l+10);
+                break;
+            case 40:
+                css(div,"top",t+10);
+                break;
+        }
+        
+    });
+
+}
+</script> 
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body>
+<a href="http://www.baidu.com">百度</a>
+<script>
+{
+    let a = document.querySelector("a");
+    a.addEventListener('click',(e)=>{
+        e.preventDefault();//a标签默认有点击后跳转功能， e.preventDefault()可以取消其默认跳转
+    },{
+        passive:true //当设置passive:true后，e.preventDefault()取消默认事件就会被阻止，默认事件又可以执行
+    });
+}
+</script>
+</body>
+</html>

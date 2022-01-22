@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    let obj = {
+        a:1,
+        b:2
+    };
+
+    //自定义实现迭代器
+    obj[Symbol.iterator] = function(){
+        //注意获取values和keys的方法时Object构造函数下的方法
+        let vals = Object.values(obj);
+        let keys = Object.keys(obj);
+        
+        let index = 0;
+        return {
+            next(){
+                if(index>=keys.length){
+                    return {
+                        done:true
+                    }
+                }else{
+                    //只想得到value值
+                    // return {
+                    //     value: vals[index++],
+                    //     done:false
+                    // }
+
+                    //只想得到key值
+                    // return {
+                    //     value: keys[index++],
+                    //     done:false
+                    // }
+
+                    //value值和key值想同时得到，就可以将value写成对象
+                    return {
+                        value: {
+                            keys:keys[index],
+                            //获取values时拖过keys获取，不要直接通过vals获取
+                            values:obj[keys[index++]]
+                        },
+                        done:false
+                    }
+                }
+            }
+        };
+    };
+
+    for(let val of obj){
+        console.log(val)
+    }
+}
+</script>
+</body>
+</html>

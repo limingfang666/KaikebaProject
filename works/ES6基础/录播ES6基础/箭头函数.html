@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+// let fn = () =>{
+//     console.log("箭头函数");
+// }
+//箭头函数的多种写法
+//1.只有一个参数：形参=>返回值
+let fn1 = num => num*2;
+console.log(fn1(10));//20
+
+//2.有多个参数时，参数必须使用括号：(形参1,形参2)=>返回值
+let fn2 = (num1,num2) => num1*num2;
+console.log(fn2(10,20));//200
+
+//3.没有参数时，也必须使用括号：()=>返回值
+let fn3 = () => true;
+console.log(fn3());//true
+
+//4.要执行很多条语句，()=>{ 执行语句 } 
+let fn4 = () => { 
+    console.log("这是语句1");
+    console.log("这是语句2");
+};
+fn4();//这是语句1   这是语句2
+
+//5.除了执行语句还要有返回值时，必须要return，()=>{ 执行语句 return "返回值";} 
+let fn5 = () => { 
+    console.log("这是语句");
+    return "返回值";
+};
+console.log(fn5());//这是语句  返回值
+
+</script>
+</body>
+</html>

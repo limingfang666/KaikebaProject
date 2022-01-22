@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+   let a = Promise.resolve("成功");
+   console.log(a);//Promise {<resolved>: "成功"}
+
+try {
+    let b = Promise.reject("失败");
+   console.log(b);//Promise {<rejected>: "失败"}并且报错
+    throw "执行出错";
+} catch (error) {
+    console.log(error);//执行出错
+}
+   
+   
+}
+</script>
+</body>
+</html>

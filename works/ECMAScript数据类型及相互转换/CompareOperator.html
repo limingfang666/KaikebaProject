@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>比较运算符</title>
+</head>
+<body>
+    <script>
+        //字符串比较，比较的是字符串的ASCII字符编码中的大小；且从左往右一位一位的比较；
+        var str1 = 'A0';//A对应的编码为65
+        var str2 = '34';//3对应的编码为51
+        console.log("字符串A0和34比较的结果为："+(str1>=str2));//true
+
+        //如果比较运算符的其中一侧为NaN，则结果返回false
+        console.log("NaN和34比较的结果为："+(NaN>=str2));
+        console.log("A0和NaN比较的结果为："+(str1>=NaN));
+
+        //如果其中一侧为null,undefined,true,false最终会根据对应的规则进行转换
+        // console.log(String(null));//110
+        // console.log(Number(null));// 0 对应的编码为48
+        console.log("如果其中一侧为null和34比较的结果为："+(null>=str2));//此处结果为false
+
+        //  >=,<=,>和<,如果任意一侧为undefined(Number(undefined)=NaN)，则返回false，否则返回true
+        console.log("str2>=undefined比较的结果为："+(str2>=undefined));//false
+        console.log("undefined>=str2比较的结果为："+(undefined>=str2));//false
+        console.log("str2>undefined比较的结果为："+(str2>undefined));//false
+        console.log("undefined>str2比较的结果为："+(undefined>str2));//false
+
+        console.log("undefined<=str2比较的结果为："+(undefined<=str2));//false
+        console.log("str2<=undefined比较的结果为："+(str2<=undefined));//false
+        console.log("undefined<str2比较的结果为："+(undefined<str2));//false
+        console.log("str2<undefined比较的结果为："+(str2<undefined));//false
+
+        //字符串和布尔值比较：如果左侧值小于右侧值的结果为true或undefined，则返回false,否则返回true
+        console.log("str2>=true比较的结果为："+(str2>=true));//true 34 1 
+        console.log("true>=str2比较的结果为："+(true>=str2));//false 1 34
+        console.log("-----------------------------");
+        console.log("str1>=true比较的结果为："+(str1>=true));//false  A0 1
+        console.log("true>=1比较的结果为："+(true>=1));//true 1 1
+    </script>
+</body>
+</html>

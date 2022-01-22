@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双向数据流checkbox</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="checkbox" v-model="v1" value="足球">足球
+        <input type="checkbox" v-model="v2" value="篮球">篮球
+        <input type="checkbox" v-model="v2" value="乒乓球">乒乓球
+        <input type="checkbox" v-model="v2" value="棒球">棒球
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 创建根组件
+        let app = new Vue({
+            el: '#app',
+            data: {
+                v1:true,//v-model="v1"的值为真时，被选中
+                v2:['篮球','乒乓球'] //v-model="v2" value值在v2取值范围中时也会被选中
+            }
+        });
+    </script>
+</body>
+
+</html>

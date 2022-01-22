@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body,ul,li{
+            margin: 0;
+            padding: 0;
+        }
+        ul,li {
+            list-style: none;
+        }
+        @keyframes leftMove {
+            0%{
+                transform: translateX(0px);
+            }
+            25%{
+                transform: translateX(-150px);
+            }
+            50%{
+                transform: translateX(-300px);
+            }
+            70%{
+                transform: translateX(-400px);
+            }
+            100%{
+                transform: translateX(-520px);
+            }
+
+        }
+        ul {
+            margin: 100px auto;
+            width: 520px;
+            height: 104px;
+            border: 1px solid #000000;
+            overflow: hidden;
+            /* 需要设置display: flex才能让所有的div显示在一行 */
+            display: flex;
+        }
+        #box ul li{
+            width: 100px;
+            height: 100px;
+            background: #000000;
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            font: 80px/100px "宋体";
+            text-align: center;
+            flex: none;
+            animation: 3s leftMove linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+    </div>
+    <script>
+        
+    </script>
+</body>
+</html>

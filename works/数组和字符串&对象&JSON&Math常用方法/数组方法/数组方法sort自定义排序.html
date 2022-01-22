@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var arr1 = ['A','B','c','a','C','b'];
+        arr1.sort();
+        console.log(arr1);//["A", "B", "C", "a", "b", "c"]
+        //当元素不能按照unicode排序，而是需要按照A a B b C c的方式排序时，就需要自定义排序规则
+        arr1.sort(function(n1,n2){
+            //将比较的两个数都进行统一大小写
+            var n1 = n1.toLowerCase();
+            var n2 = n2.toLowerCase();
+            if(n1>n2){
+                return -1;
+            }else if(n2>n1){
+                return 1;
+            }
+            return 0;
+        });
+        console.log(arr1);//["C", "c", "B", "b", "A", "a"]
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        li {
+            width: 100px;
+            height: 100px;
+            background: red;
+            margin: 10px;
+        }
+        p {
+            width: 50px;
+            height: 50px;
+            background: blue;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li>
+            <p></p>
+        </li>
+        <li>
+            <p></p>
+        </li>
+        <li>
+            <p></p>
+        </li>
+        <li>
+            <p></p>
+        </li>
+    </ul>
+<script>
+{
+    //需求：在ul点击时改变li的样式,但是不改变p标签的样式
+    let ul = document.querySelector("ul");
+    ul.addEventListener('click',function(e){
+        //通过事件委托，将li的事件点击委托给ul
+        //真正的事件委托，需要判断目标元素是不是要添加事件的元素
+        
+        if(e.target.tagName == "LI"){
+            e.target.style.background = "yellow";
+        }
+    });
+}
+</script>
+</body>
+</html>

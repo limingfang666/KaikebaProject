@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+//rest参数(也叫剩余参数)：解决箭头函数中没有不定参的问题。使用扩展运算符，将所有的参数存放到数组中
+let fn2 = (...args) =>{
+    console.log(args);
+}
+fn2(3,4,5);// [3, 4, 5]
+</script>
+</body>
+</html>

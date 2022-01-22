@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var obj = {
+            name:'lmf',
+            age:18,
+            gender:"female"
+        };
+        //obj.key = '';方式只能删除值，不能删除键
+        obj.name = '';
+        console.log(obj);//{name: "", age: 18, gender: "female"}
+
+        //delete obj.key 可以删除整对键值对
+        delete obj.gender;
+        console.log(obj);//{name: "", age: 18}
+ 
+    </script>
+</body>
+</html>

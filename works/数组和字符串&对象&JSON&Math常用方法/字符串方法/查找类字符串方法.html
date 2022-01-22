@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>查找类字符串方法</title>
+</head>
+<body>
+<script>
+    //charAt()
+    var str = "kaikeba";
+    console.log("charAt默认index："+str.charAt());
+    console.log("charAt index 为0："+str.charAt(0));
+    console.log("charAt index 为2："+str.charAt(2));
+    console.log("charAt index 超出str.length："+str.charAt(12));
+    console.log("charAt index 小于0："+str.charAt(12));
+    console.log("---------------------------------------");
+
+    //charCodeAt()
+    var china1 = "中";
+    var china2 = "国家";
+    console.log("中的字符编码："+china1.charCodeAt());
+    console.log("国的字符编码："+china2.charCodeAt());
+    console.log("比较中和国的字符编码大小："+(china1.charCodeAt()>china2.charCodeAt()));
+    console.log("家的字符编码："+china2.charCodeAt(1));
+    console.log("超出length："+china2.charCodeAt(3));//NaN
+    console.log("<0："+china2.charCodeAt(-2));//NaN
+    console.log("---------------------------------------");
+
+    //fromCharCode()
+    var str2 = "我爱你";
+    var arr = [];
+    for (var i = 0; i < str2.length; i++) {
+       arr[i] = str2.charCodeAt(i);
+    }
+    console.log(String.fromCharCode(arr[0],arr[1],arr[2]));
+    console.log("---------------------------------------");
+
+    //indexOf(searchValue[,fromIndex])
+    var str3 = "kaikeba";
+    console.log("从0开始查找k第一次出现的位置："+(str3.indexOf("k")));
+    console.log("小于0时："+(str3.indexOf("k",-2)));//小于0时等同于0操作
+    console.log("从3开始查找k第一次出现的位置："+(str3.indexOf("k",3)));//3
+    console.log("不存在字符时："+(str3.indexOf("vv")));//-1
+    console.log("超出length时："+(str3.indexOf("k",10)));//-1
+    console.log("找大写的K时："+(str3.indexOf("K")));//-1
+    console.log("---------------------------------------");
+
+    //lastIndexOf(searchValue[,fromIndex])
+    //没有找到则返回-1，查找顺序从后往前。如果不给fromIndex，默认返回str.length。如果超出str.length，则以str.length进行操作。如果小于0，则从0开始搜索。
+    var str4 = "kaiebka";
+    console.log("从最后一位开始查找k第一次出现的位置："+(str4.lastIndexOf("k")));//5
+    console.log("小于0时："+(str4.lastIndexOf("k",-2)));//小于0时等同于0操作  0
+    console.log("从3开始查找k第一次出现的位置："+(str4.lastIndexOf("k",3)));// 注意：这里返回的索引位置还是字符串str本身的索引位置，而不是，从后往前的从新开始计算的位置。
+    console.log("不存在字符时："+(str4.lastIndexOf("vv")));//-1
+    console.log("超出length时："+(str4.lastIndexOf("k",10)));//5 如果超出str.length，则以str.length进行操作
+    console.log("找大写的K时："+(str4.lastIndexOf("K")));//-1
+    console.log("---------------------------------------");
+</script>   
+</body>
+</html>

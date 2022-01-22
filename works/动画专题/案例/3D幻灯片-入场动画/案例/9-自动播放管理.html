@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>3D炫酷幻灯效果</title>
+    <script src="./js/mTween.js"></script>
+    <style id="style">
+        body {
+            margin: 0;
+        }
+
+        html {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            background: url(img/bg.jpg) no-repeat center center;
+            background-size: cover;
+            height: 100%;
+        }
+
+        .view {
+            width: 1000px;
+            margin: 150px auto;
+            height: 600px;
+            perspective: 800px;
+        }
+
+        .bigbox {
+            height: 600px;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        
+        .box {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            transform-style: preserve-3d;
+            transform-origin: center center -100px;
+        }
+        .box span {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 200px;
+            height: 200px;
+            background: #ddd;
+            opacity: 0;
+        }
+
+        .box span:nth-of-type(1) {
+            transform: translateZ(-100px) rotateY(0deg) translateZ(100px);
+
+        }
+
+        .box span:nth-of-type(2) {
+            transform: translateZ(-100px) rotateY(90deg) translateZ(100px);
+        }
+
+        .box span:nth-of-type(3) {
+            transform: translateZ(-100px) rotateY(180deg) translateZ(100px);
+        }
+
+        .box span:nth-of-type(4) {
+            transform: translateZ(-100px) rotateY(270deg) translateZ(100px);
+        }
+
+        .box span:nth-of-type(5) {
+            transform: translateZ(-100px) rotateX(90deg) translateZ(100px);
+        }
+
+        .box span:nth-of-type(6) {
+            transform: translateZ(-100px) rotateX(-90deg) translateZ(100px);
+        }
+        .boxZ0 span:nth-of-type(1) {
+            background:url(img/A-001.png);
+        }
+        .boxZ1 span:nth-of-type(1) {
+            background:url(img/B-001.png);
+        }
+
+        .boxZ2 span {
+            background-size: 1000px 600px !important;
+        }
+        .boxZ2 span:nth-of-type(1) {
+            background: url(img/001.jpg);
+        }
+
+        .boxZ2 span:nth-of-type(2) {
+            background: url(img/002.jpg);
+        }
+
+        .boxZ2 span:nth-of-type(3) {
+            background: url(img/003.jpg);
+        }
+
+        .boxZ2 span:nth-of-type(4) {
+            background: url(img/004.jpg);
+        }
+        .btns {
+            outline: none;
+            cursor: pointer;
+            width: 100px;
+            height: 100px;
+            background: url(img/button-001.png);
+            border: none;
+            position: absolute;
+            background-size: 100%;
+            bottom: -140px;
+            opacity: 0;
+            transition: 1s;
+        }
+
+        .rightBtn {
+            right: 300px;
+        }
+
+        .leftBtn {
+            left: 300px;
+            transform: scale(-1);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="view">
+        <div class="bigbox">
+        </div>
+        <input type="button" name="" class="btns leftBtn" value="">
+        <input type="button" name="" class="btns rightBtn" value="">
+    </div>
+<script>
+// 布局生成
+createLayout(200,200,200);
+function createLayout(boxW,boxH,boxZ){
+    var bigBox = document.querySelector(".bigbox");
+    var bigBoxH = css(bigBox,"height");
+    var bigBoxW = css(bigBox,"width");
+    var rows = Math.ceil(bigBoxH/boxH);
+    var ceils = Math.ceil(bigBoxW/boxW);
+    var centerX = Math.floor(ceils/2);
+    var centerY = Math.floor(rows/2);
+    var inner = "";
+    //console.log(centerX,centerY);
+    for(var i = 0; i <rows*ceils*3;i++){
+        inner += '<div class="box"><span></span><span></span><span></span><span></span><span></span><span></span></div>';
+    }
+    bigBox.innerHTML = inner;
+    var boxs = bigBox.querySelectorAll(".box");
+    boxs.forEach(function(box,index){
+        box.z = Math.floor(index/(rows*ceils));//
+        box.x = index%ceils;
+        box.y = Math.floor((index%(rows*ceils))/ceils);
+        css(box,"left",box.x*boxW);
+        css(box,"top",box.y*boxH);
+        // css(box,"translateZ",(box.z-3+1)*boxZ);
+        // console.log(box.x - centerX);
+        // console.log(box.y - centerY);
+        css(box,"translateX",(box.x - centerX)*100*(box.z+1));
+        css(box,"translateY",(box.y - centerY)*100*(box.z+1));
+        css(box,"translateZ",box.z*boxZ+300);
+        if(box.z == "0"){
+            box.classList.add("boxZ0");
+        } else if(box.z == "1"){
+            box.classList.add("boxZ1");
+        } else {
+            box.classList.add("boxZ2");
+            var span = box.querySelectorAll("span");
+            span.forEach(function(item){
+                css(item,"backgroundPosition",'-'+box.x*boxW+'px -'+box.y*boxH+'px');
+            })
+        }
+    });
+    moveStart();
+}
+// 入场动画
+function moveStart(){
+    var bigBox = document.querySelector(".bigbox");
+    var boxs = bigBox.querySelectorAll(".box");
+    var times = 3600;
+    boxs.forEach(function(box){
+        var delay = box.z*800 + Math.round(Math.random()*500);
+        var span = box.querySelectorAll("span");
+        setTimeout(function(){
+            mTween({
+                el: box,
+                attrs: {
+                    translateX: 0,
+                    translateY: 0,
+                    translateZ: (box.z-3+1)*200
+                },
+                duration: times - delay,
+                cb:function(){
+                    // if(!box.classList.contains("boxZ2")){
+                    //     box.remove(); 
+                    // }
+                }
+            });
+            span.forEach(function(item){
+                mTween({
+                    el: item,
+                    attrs: {
+                        opacity: 1
+                    },
+                    duration: 800
+                });
+            })
+        },delay);
+    });
+    setTimeout(function(){
+        tab();
+    },times);
+    
+}
+// 添加切换
+function tab(){
+    var bigBox = document.querySelector(".bigbox");
+    var boxs = bigBox.querySelectorAll(".boxZ2");
+    var btns = document.querySelectorAll(".btns");
+    var isAnimate = false;
+    var tabTypeIndex = 0;
+    var tabTypes = [tabType1,tabType2,tabType3];
+    var timer = 0;
+    var view = document.querySelector(".view");
+    var isAuto = true;
+    boxs.forEach(function(box){
+        css(box,"rotateY",0);
+    });
+    btns.forEach(function(item){
+        css(item,"opacity",1)
+    });
+    btns[0].onclick = function(){
+        if(isAnimate){
+            return ;
+        }
+        isAnimate = true;
+        tabMove(-1)
+    };
+    btns[1].onclick = function(){
+        if(isAnimate){
+            return ;
+        }
+        isAnimate = true;
+        tabMove(1)
+    };
+    view.onmouseover = function(){
+        isAuto = false;
+        clearTimeout(timer);
+    };
+    view.onmouseout = function(){
+        isAuto = true;
+        autoNext();
+    };
+    // 多种方式切换
+    function tabMove(dir){
+        tabTypes[tabTypeIndex%tabTypes.length](dir);
+        tabTypeIndex++;
+    }
+    autoNext();
+    function autoNext(){
+        clearTimeout(timer);
+        timer = setTimeout(function(){
+            tabMove(1)
+        },3000);
+    }
+    function tabType1(dir){
+        var deg = dir*90;
+        var times = 1200;
+        boxs.forEach(function(box){
+            var targetDeg = css(box,"rotateY") + deg;
+            var delay = Math.round(Math.random()*600);
+            setTimeout(function(){
+                mTween({
+                    el: box,
+                    attrs: {
+                        rotateY: targetDeg
+                    },
+                    duration: times - delay,
+                    fx: "backBoth"
+                });
+            },delay);
+        });
+        setTimeout(function(){
+            isAnimate = false;
+            if(isAuto){
+                autoNext();
+            }
+        },times);
+    }
+    function tabType2(dir){
+        var deg = dir*90;
+        var maxDelay = 0;
+        boxs.forEach(function(box){
+            var targetDeg = css(box,"rotateY") + deg;
+            var delay = box.x*60 + box.y*60;
+            maxDelay = Math.max(delay,maxDelay);
+            setTimeout(function(){
+                mTween({
+                    el: box,
+                    attrs: {
+                        translateZ:200
+                    },
+                    duration: 800,
+                    fx:"backBoth",
+                    cb: function(){
+                        mTween({
+                            el: box,
+                            attrs: {
+                                rotateY: targetDeg
+                            },
+                            duration: 800,
+                            fx:"backBoth",
+                            cb:function(){
+                                mTween({
+                                    el: box,
+                                    attrs: {
+                                        translateZ:0
+                                    },
+                                    duration: 800,
+                                    fx:"backBoth"
+                                });
+                            }
+                        });
+                    }
+                });
+            },delay);
+        })
+        setTimeout(function(){
+            isAnimate = false;
+            if(isAuto){
+                autoNext();
+            }
+        },maxDelay + 2400);
+    }
+    function tabType3(dir){
+        var deg = dir*90;
+        var times = 2500;
+        boxs.forEach(function(box,index){
+            var dir = index%2?-1:1;
+            var delay = Math.round(Math.random() * 500);
+            setTimeout(function(){
+                mTween({
+                    el: box,
+                    attrs:{
+                        translateZ: 100*dir
+                    },
+                    duration: 600,
+                    fx: "backBoth",
+                    cb: function(){
+                        mTween({
+                            el: box,
+                            attrs: {
+                                rotateY: css(box,"rotateY") + deg
+                            },
+                            duration: 800,
+                            fx: "backBoth",
+                            cb: function(){
+                                mTween({
+                                    el: box,
+                                    attrs: {
+                                        translateZ: 0
+                                    },
+                                    duration: times - 1400 - delay,
+                                    fx: "backOut"
+                                });
+                            }
+                        })
+                    }
+                });
+            },delay);  
+        })
+        setTimeout(function(){
+            isAnimate = false;
+            if(isAuto){
+                autoNext();
+            }
+        },times);
+    }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双向数据流select</title>
+</head>
+
+<body>
+    <div id="app">
+        <select v-model="v3">
+            <option value="男">男</option>
+            <option value="女">女</option>
+          </select>
+          <select v-model="v5" multiple>
+            <option value="足球">足球</option>
+            <option value="音乐">音乐</option>
+            <option value="乒乓球">乒乓球</option>
+          </select>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 创建根组件
+        let app = new Vue({
+            el: '#app',
+            data: {
+                v3:'男',
+                v5:['篮球','乒乓球','足球']
+            }
+        });
+    </script>
+</body>
+
+</html>

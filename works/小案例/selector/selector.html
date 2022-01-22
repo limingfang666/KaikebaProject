@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>下拉菜单展合</title>
+    <style>
+        ul,li,div,body { margin: 0; padding: 0; }
+        ul li { list-style: none; }
+        .bg { width: 1000px; height: 1000px; background: url('selector_img/bg.jpg') no-repeat; margin:0 auto; position: relative;}
+        .wrap { position: absolute; top:280px; left: 330px; border-radius: 6px; padding:4px;  }
+        .selector { width: 342px; height: 70px; line-height: 70px; color:white; font-size: 32px; position: absolute; top:4px; left: 12px; text-align: center; background: url('selector_img/ar.png') no-repeat #f97775 278px 28px; border-radius: 12px;}
+        .list { position: absolute; top:74px; left: 12px; display: none; }
+        li { width: 212px; height: 70px; line-height: 70px; border-radius: 12px; margin-top: 2px; padding-left:130px; font-size: 32px;  }
+        li:nth-of-type(1) { background: url('selector_img/icon1.png') no-repeat #ffe3e2 20px 14px;}
+        li:nth-of-type(2) { background: url('selector_img/icon2.png') no-repeat #ffe3e2 20px 14px;}
+        li:nth-of-type(3) { background: url('selector_img/icon3.png') no-repeat #ffe3e2 20px 14px;}
+        li:nth-of-type(4) { background: url('selector_img/icon4.png') no-repeat #ffe3e2 20px 14px;}
+        li:nth-of-type(5) { background: url('selector_img/icon5.png') no-repeat #ffe3e2 20px 14px;}
+        .wrap_bg { width:350px; height: 430px; background: #f97775; border-radius: 6px; padding:4px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="bg">
+        <div class="wrap">
+            <div class="selector">菜单</div>
+            <div class="list">
+                <ul>
+                    <li>微博</li>
+                    <li>图片</li>
+                    <li>博客</li>
+                    <li>视频</li>
+                    <li>更多>></li>
+                </ul>
+            </div>
+            <div class="wrap_bg"></div>
+        </div>
+    </div>
+    <script>
+        var selector = document.querySelector(".selector");
+        var list = document.querySelector(".list");
+        var wrap_bg = document.querySelector(".wrap_bg");
+        var onOff = true;
+        selector.onclick = function(){
+            if(onOff){
+                list.style.display = "block"; 
+                wrap_bg.style.display = "block";
+                //注意这里不能再事件外面再更改onOff
+                onOff = false;
+            }else{
+                list.style.display = "none"; 
+                wrap_bg.style.display = "none";
+                onOff = true;
+            }
+        };
+    </script>
+</body>
+</html>

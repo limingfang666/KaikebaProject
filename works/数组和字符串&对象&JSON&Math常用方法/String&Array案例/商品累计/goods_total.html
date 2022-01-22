@@ -1,0 +1,239 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>商品累计</title>
+    <link rel="stylesheet" href="./index.css" />
+    
+  </head>
+  <body>
+    <div class="box">
+      <div class="container">
+        <ul id="list">
+          <li>
+            <div class="list-left">
+              <input type="button" class="minus" value="-" />
+              <span class="n">0</span>
+              <input type="button" class="plus" value="+" />
+            </div>
+            <div class="list-right">
+              <span>单价：</span>
+              <em class="price">12.5元</em>
+              <span>小计：</span>
+              <em class="count">0元</em>
+            </div>
+          </li>
+          <li>
+            <div class="list-left">
+              <input type="button" class="minus" value="-" />
+              <span class="n">0</span>
+              <input type="button" class="plus" value="+" />
+            </div>
+            <div class="list-right">
+              <span>单价：</span>
+              <em class="price">13.5元</em>
+              <span>小计：</span>
+              <em class="count">0元</em>
+            </div>
+          </li>
+          <li>
+            <div class="list-left">
+              <input type="button" class="minus" value="-" />
+              <span class="n">0</span>
+              <input type="button" class="plus" value="+" />
+            </div>
+            <div class="list-right">
+              <span>单价：</span>
+              <em class="price">14.5元</em>
+              <span>小计：</span>
+              <em class="count">0元</em>
+            </div>
+          </li>
+          <li>
+            <div class="list-left">
+              <input type="button" class="minus" value="-" />
+              <span class="n">0</span>
+              <input type="button" class="plus" value="+" />
+            </div>
+            <div class="list-right">
+              <span>单价：</span>
+              <em class="price">15.5元</em>
+              <span>小计：</span>
+              <em class="count">0元</em>
+            </div>
+          </li>
+          <li>
+            <div class="list-left">
+              <input type="button" class="minus" value="-" />
+              <span class="n">0</span>
+              <input type="button" class="plus" value="+" />
+            </div>
+            <div class="list-right">
+              <span>单价：</span>
+              <em class="price">16.5元</em>
+              <span>小计：</span>
+              <em class="count">0元</em>
+            </div>
+          </li>
+        </ul>
+        <p>商品合计共：<strong class="totalItem">0</strong>件，共花费了：<strong class="totalVal">0</strong>元</p>
+        <p>其中最贵的已选商品单价是：<strong class="max">0</strong>元</p>
+      </div>
+    </div>
+<script>
+(function(){
+  var box = document.querySelector(".box");
+  var container = box.querySelector(".container");
+
+  var lis = container.querySelectorAll("li");
+
+  for (var i = 0; i < lis.length; i++) {
+    //获取到的是所有的minus button
+    var minus = lis[i].querySelectorAll(".minus");
+    var plus = lis[i].querySelectorAll(".plus");
+    changeGoods(plus);
+    changeGoods(minus);
+  }
+  function changeGoods(btns){
+    for (var j = 0; j < btns.length; j++) {
+      btns[j].onclick = function(){
+        //获取到对应位置的span 件数
+        var minusSpan = this.parentNode.querySelector(".n");
+        var price = this.parentNode.parentNode.querySelector(".price");
+        var count = this.parentNode.parentNode.querySelector(".count");
+        //对商品件数进行减处理
+        var item = parseInt(minusSpan.innerHTML);
+        var priceEm = parseFloat(price.innerHTML);
+        var countEm = parseFloat(count.innerHTML);
+        if(this.classList.value === "minus"){
+          if(item === 0){
+            alert("商品数量不能再减了");
+            return;
+          }else{
+            item--;
+          }
+        }else{
+          if(item >= 10){
+            alert("商品数量不能再加了");
+            return;
+          }else{
+            item++;
+          }
+        }
+          minusSpan.innerHTML = item;
+          //小计 = 价格 * 件数
+          countEm = priceEm * item;
+          count.innerHTML = countEm + "元";
+
+          //计算总件数
+          totalCount();
+
+          //计算总花费
+          totalHost();
+
+          //计算已选最贵商品单价
+          maxGoods();
+
+      };
+    }
+  }
+
+  //计算商品总件数
+  function totalCount(){
+    //商品合计(需要把每次点击后的值进行累计)
+    //每次点击后再次获取所有span，并去取里面的值
+    var total = container.querySelector(".totalItem");
+    var allN = container.querySelectorAll(".n");
+    var totalCount = 0;
+    for (var k = 0; k < allN.length; k++) {
+      totalCount += parseInt(allN[k].innerHTML);
+    }
+    total.innerHTML = totalCount;
+  }
+  //计算商品总花费
+  function totalHost(){
+    //计算总花费:获取所有单项商品所在的总价格，再全部累加
+    var totalHost = 0;
+    var perCount = container.querySelectorAll(".count");
+    var totalVal = container.querySelector(".totalVal");
+    for (var v = 0; v < perCount.length; v++) {
+      totalHost += parseFloat(perCount[v].innerHTML);
+    }
+    totalVal.innerHTML = totalHost;
+  }
+
+  //计算已选最贵商品单价
+  function maxGoods(){
+    //找出所有件数>0的商品，再将对应的单价大的返回
+    var items = container.querySelectorAll(".n");
+    var perPrice = container.querySelectorAll(".price");
+    var max = container.querySelector(".max");
+    var maxVal = -Infinity;
+    for (var i = 0; i < items.length; i++) {
+      //找出件数大于0的
+      var item = parseInt(items[i].innerHTML);
+        // console.log(item);
+
+      if(item === 0){
+         continue;
+      }else{
+        // item>0 的情况下，找出perPrice最大的
+         var price = parseFloat(perPrice[i].innerHTML);
+         maxVal = price > maxVal ? price : maxVal;
+      }
+    }
+    max.innerHTML = maxVal;
+  }
+
+  // function minusItem(minus){
+  //   for (var j = 0; j < minus.length; j++) {
+  //     minus[j].onclick = function(){
+  //       //获取到对应位置的span 件数
+  //       var minusSpan = this.parentNode.querySelector(".n");
+  //       var price = this.parentNode.parentNode.querySelector(".price");
+  //       var count = this.parentNode.parentNode.querySelector(".count");
+  //       //对商品件数进行减处理
+  //       var item = parseInt(minusSpan.innerHTML);
+  //       var priceEm = parseFloat(price.innerHTML);
+  //       var countEm = parseFloat(count.innerHTML);
+  //       if(item === 0){
+  //         alert("商品数量不能再减了");
+  //         return;
+  //       }else{
+  //         item--;
+  //         minusSpan.innerHTML = item;
+  //         //小计 = 价格 * 件数
+  //         countEm = priceEm * item;
+  //         count.innerHTML = countEm + "元";
+  //       }
+  //     };
+  //   }
+  // }
+  // function plusItem(plus){
+  //   for (var j = 0; j < plus.length; j++) {
+  //     plus[j].onclick = function(){
+  //       //获取到对应位置的span 件数
+  //       var plusSpan = this.parentNode.querySelector(".n");
+  //       var price = this.parentNode.parentNode.querySelector(".price");
+  //       var count = this.parentNode.parentNode.querySelector(".count");
+        
+  //       //对商品件数,商品价格进行加处理
+  //       var item = parseInt(plusSpan.innerHTML);
+  //       var priceEm = parseFloat(price.innerHTML);
+  //       var countEm = parseFloat(count.innerHTML);
+  //       if(item >= 10){
+  //         alert("商品数量不能再加了");
+  //         return;
+  //       }else{
+  //         item++;
+  //         plusSpan.innerHTML = item;
+  //         //小计 = 价格 * 件数
+  //         countEm = priceEm * item;
+  //         count.innerHTML = countEm + "元";
+  //       }
+  //     };
+  //   }
+  // }
+})();
+</script>
+  </body>
+</html>

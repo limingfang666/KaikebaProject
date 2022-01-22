@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>员工列表</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body
+        a{
+            text-decoration: none;
+            color: #0d3a4b;
+        }
+        .active{
+            color: #ffffff;
+        }
+
+        .wrap {
+            width: 700px;
+            height: 500px;
+            background-image: url(./images/bg.png);
+            background-repeat: no-repeat;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .wrap #table {
+            width: 460px;
+            border-radius: 12px;
+            position: absolute;
+            left: 50%;
+            top: 160px;
+            transform: translateX(-50%);
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .wrap #table thead {
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            color: #fff;
+            background: #4cbfe5;
+        }
+
+        .wrap #table thead a {
+            color: #fff;
+        }
+
+        .wrap #table tbody {
+            color: #19c2ff;
+        }
+
+        .wrap #table tbody a {
+            color: #19c2ff;
+        }
+
+        .wrap #table tbody tr {
+            background: #fff;
+        }
+
+        .ctrl {
+            position: absolute;
+            left: 200px;
+            top: 100px;
+        }
+
+        .ctrl div {
+            width: 300px;
+            line-height: 30px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="ctrl">
+        <div class="age_sort nu">
+            <a href="javascript:;">年龄从小到大</a>
+            <a href="javascript:;">年龄从大到小</a>
+            <a href="javascript:;" class="active">默认排序</a>
+        </div>
+        <div class="gender_show">
+            <a href="javascript:;">只显示男性</a>
+            <a href="javascript:;">只显示女性</a>
+            <a href="javascript:;" class="active">默认</a>
+        </div>
+    </div>
+    <table id="table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>性别</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- <tr>
+                <th>0</th>
+                <th>小明</th>
+                <th>24</th>
+                <th>男</th>
+            </tr>      -->
+        </tbody>
+    </table>
+</div>
+<script>
+// 数据    
+let data = [
+    {
+        id: 0,
+        name: '小明',
+        age: 24,
+        gender: '男'
+    },
+    {
+        id: 1,
+        name: '小芳',
+        age: 30,
+        gender: '女'
+    },
+    {
+        id: 2,
+        name: '小美',
+        age: 31,
+        gender: '女'
+    },
+    {
+        id: 3,
+        name: '小刚',
+        age: 21,
+        gender: '男'
+    },
+    {
+        id: 4,
+        name: '小琪',
+        age: 18,
+        gender: '女'
+    }
+];
+
+{
+    //  设置排序状态和筛选状态，控制点击排序或筛选后，另一个操作仍然有效。默认状态为2，表示默认排序或筛选
+    let sortState = 2;
+    let filterState = 2;
+
+    //渲染视图
+    //首次渲染和排序后渲染是不同的数组，所以不同地方调用传入参数不同
+    let gender = (data) =>{
+        var tbody = document.querySelector("#table tbody");
+        let cont = '';
+        data.forEach(item=>{
+            cont += `
+                <tr>
+                    <th>${item.id}</th>
+                    <th>${item.name}</th>
+                    <th>${item.age}</th>
+                    <th>${item.gender}</th>
+                </tr>
+            `;
+        });
+        tbody.innerHTML = cont;
+    };
+    gender(data);
+
+    //排序年龄
+    let ctrl = document.querySelector(".ctrl");
+    let age_sortA = ctrl.querySelectorAll(".age_sort a");
+    let sortData = [
+        ()=>{data.sort((n1,n2)=>n1.age-n2.age)},
+        ()=>{data.sort((n1,n2)=>n2.age-n1.age)},
+        ()=>{data.sort((n1,n2)=>n1.id-n2.id)},
+    ];
+    age_sortA.forEach((item,index)=>{
+        item.onclick = () =>{
+            //清除所有点击样式，给当前加上选中
+            age_sortA.forEach((item,index)=>{
+                //注意箭头函数里的this 指向的是window，所以不能使用this
+                item.classList.remove("active");
+            });
+            item.classList.add("active");
+            
+            //需要排序时记录下需要排序的index状态
+            sortState = index;
+            filterAndSort(sortState);
+        };
+    });
+    
+    //筛选性别
+    let gender_showA = ctrl.querySelectorAll(".gender_show a");
+    let filterData = [
+        //这里必须return 才能将函数的值返回
+        ()=>{return data.filter((item)=>item.gender === '男')},
+        ()=>{return data.filter((item)=>item.gender === '女')},
+        ()=>{return data.filter((item)=>true)}
+    ];
+    gender_showA.forEach((item,index)=>{
+        item.onclick = () =>{
+            //清除所有点击样式，给当前加上选中
+            gender_showA.forEach((item,index)=>{
+                //注意箭头函数里的this 指向的是window，所以不能使用this
+                item.classList.remove("active");
+            });
+            item.classList.add("active");
+
+            //需要筛选时记录下筛选的状态
+            filterState = index;
+            filterAndSort(filterState);
+        }
+    });
+    
+    //筛选性别和排序年龄需要同时生效
+    let filterAndSort =()=>{
+        //必须先排序再筛选，因为filter方法会改变原数组。排序和筛选使用的是同一个数组，先排序再筛选，就是筛选的排序后的数组。如果先筛选后排序，就需要将筛选后的数组传给排序方法
+        //首先排序
+        sortData[sortState]();
+
+        //再筛选
+        let newData = filterData[filterState]();
+
+        //再渲染页面
+        gender(newData);
+    }
+}
+
+</script>
+</body>
+
+</html>

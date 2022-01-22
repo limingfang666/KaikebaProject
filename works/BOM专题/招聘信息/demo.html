@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>招聘信息</title>
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <style>
+        #root,
+        #view {
+            padding-top: 10px;
+        }
+        .list-group-item-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+
+<body>
+<div id="root" class="container">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#/sh">社会招聘</a></li>
+        <li><a href="#/xy">校园招聘</a></li>
+    </ul>
+    <div id="view">
+        <ul class="list-group">
+            <!-- <li class="list-group-item">
+                <a href="#/sh/details/1">
+                    <h4 class="list-group-item-heading">职位需求：前端开发工程师需求人数：2名</h4>
+                    <p class="list-group-item-text">岗位要求：1)helpdesk支持；2)熟悉计算机软、硬件及网络维护；3岗位要求：1)helpdesk支持；2)熟悉计算机软、硬件及网络维护；3岗位要求：1)helpdesk支持；2)熟悉计算机软、硬件及网络维护；3岗位要求：1)helpdesk支持；2)熟悉计算机软、硬件及网络维护；3</p>
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="#/sh/details/1">
+                    <h4 class="list-group-item-heading">职位需求：前端开发工程师需求人数：2名</h4>
+                    <p class="list-group-item-text">岗位要求：1)helpdesk支持；2)熟悉计算机软、硬件及网络维护；3岗位要求：1)helpdesk支持；2)熟悉计算机软、硬件及网络维护；3岗位要求：1)helpdesk支持；2)熟悉计算机软、硬件及网络维护；3岗位要求：1)helpdesk支持；2)熟悉计算机软、硬件及网络维护；3</p>
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a href="#/sh/details/1">
+                    <h4 class="list-group-item-heading">职位需求：前端开发工程师需求人数：2名</h4>
+                    <p class="list-group-item-text">岗位要求：1)helpdesk支持；2)熟悉计算机软、硬件及网络维护；3岗位要求：1)helpdesk支持；2)熟悉计算机软、硬件及网络维护；3岗位要求：1)helpdesk支持；2)熟悉计算机软、硬件及网络维护；3岗位要求：1)helpdesk支持；2)熟悉计算机软、硬件及网络维护；3</p>
+                </a>
+            </li>
+            <li class="list-group-item">
+
+            </li>
+            <li class="list-group-item">
+
+            </li> -->
+        </ul> 
+        <ul class="pagination">
+            <!-- <li class="active"><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li> -->
+        </ul>
+
+        <!-- <div class="panel panel-default">
+            <div class="panel-heading">招聘岗位：${nowData.job}</div>
+            <div class="panel-body">
+                <p>${nowData.ask}</p>
+                <p>招聘人数：${nowData.nub}人</p>
+                <p>发布时间：${nowData.data}</p>
+            </div>
+        </div> -->
+    </div>
+</div>    
+<script src="js/data.js"></script>
+<script>
+    {
+        /*
+            思路及步骤：
+                1.显示内容
+                2.控制页数及每页条数
+                    通过过滤筛选出数据用于控制分页
+                    参数使用对象传入，在根据对象中type控制 社会/校园
+                3.点击切换 社会/校园招聘
+                    根据hash改变监听事件onhashchange,监听hash值的变化
+                    获取hash值
+                    通过字符串方法去除 #/
+                    再通过split将 hash值#/后面的内容存入数组
+                    根据数组中的值切换到对应页面
+                4.切换 社会/校园 选卡样式
+                5.显示分页
+                    总条数/5  并向上取整
+                    将数字转为相等长度的数组以控制分页
+                    设置当前页及页数
+                    加上静态路由即可点击切换
+                6.判断路由中有数字时，要传入page切换
+        */
+
+        let pageSize = 5;
+
+        let view = document.querySelector("#view");
+        let listGroup = view.querySelector(".list-group");
+
+        //渲染分页
+        let pagination = document.querySelector(".pagination");
+        let renderPager = (props) =>{
+            let inner = '';
+
+            let {type,page} = props;
+
+            //总数据条数/每页数据条数 = 页数
+            let num = Math.ceil(data[type].length / pageSize);
+            
+            //将数字转为同等长度的数组
+            let arr = [..."a".repeat(num)];
+            
+            arr.forEach((item,index)=>{
+                inner += `<li class="${ index == page?'active':''}"><a href="#/${data[type][0].type}/${index}">${index+1}</a></li>`;
+            });
+            pagination.innerHTML = inner;
+        }
+
+        //显示数据
+        let renderView = (props)=>{
+            //通过解构赋值，获取传入的type
+            let {type,page} = props;
+
+            //分页过滤数据 start end 为每页开始和结束位置
+            let start = page * pageSize;
+            let end = start + pageSize;
+            
+            let newData = data[type].filter((item,index)=> index >=start && index <end);
+            
+            let inner = '';
+            newData.forEach((item,index)=>{
+                inner += `
+                    <li class="list-group-item">
+                        <a href="#/${item.type}/details/${item.id}">
+                            <h4 class="list-group-item-heading">职位需求：${item.job}需求人数：${item.nub}名</h4>
+                            <p class="list-group-item-text">${item.ask}</p>
+                        </a>
+                    </li>
+                `;
+            });
+            listGroup.innerHTML = inner;
+            //渲染分页
+            renderPager(props);
+        }
+
+        let renderDetails = (props)=>{
+            let {type,page,id} = props;
+            let detailData = data[type].filter(item=>item.id == id)[0];
+            
+            let inner = '';
+            inner += `
+                <div class="panel panel-default">
+                    <div class="panel-heading">招聘岗位：${detailData.job}</div>
+                    <div class="panel-body">
+                        <p>${detailData.ask}</p>
+                        <p>招聘人数：${detailData.nub}人</p>
+                        <p>发布时间：${detailData.date}</p>
+                    </div>
+                </div>
+            `;
+            listGroup.innerHTML = inner;
+            pagination.innerHTML = '';
+        }
+
+        //通过传入对象区分是社会还是校园招聘
+        renderView({
+            type:"society",
+            page:0
+        });
+
+        let renderViewByHash = () =>{
+            let hash = location.hash;
+            
+            //通过 “/”获取到# 和 xy/sh ，下次再点击时方便使用
+            hash = hash.split("/");
+
+            //清除所有选卡样式
+            let lis = document.querySelectorAll(".nav-tabs li");
+            lis.forEach(item=>{
+                item.classList.remove("active");
+            });
+
+            //通过判断hash后面的内容，判断时社会还是校园招聘
+            if(hash[1]=="sh" || hash[0] == ""){
+                lis[0].classList.add("active");
+                //判断是否是详细页面
+                if(hash[2] == "details"){
+                    renderDetails({
+                        type:"society",
+                        page: 0,
+                        id: hash[3]
+                    });
+                }else{
+                    renderView({
+                        type:"society",
+                        page: hash[2]?hash[2]:0 
+                    });
+                }
+            }else if(hash[1]=="xy"){
+                lis[1].classList.add("active");
+                if(hash[2] == "details"){
+                    renderDetails({
+                        type:"campus",
+                        page: 0,
+                        id: hash[3]
+                    });
+                }else{
+                    renderView({
+                        type:"campus",
+                        page: hash[2]?hash[2]:0 
+                    });
+                }
+            }
+        }
+        //点击校园招聘后，再按F5刷新，地址栏的hash值还是xy，但是页面已经是社会招聘了。解决：将hashchange中初始化再执行一遍
+        renderViewByHash();
+        //监听hash值变化时切换页面
+        window.onhashchange = () =>{
+            renderViewByHash();
+        };
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="data.js"></script>
+    <style>
+        .view ul ul{
+            display: none;
+        }
+
+        .show{
+            display: block !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="view">
+        <!-- <ul>
+            <li>
+                <p>一级标题</p>
+                <ul>
+                    <li>
+                        <p>二级标题</p>
+                        <ul>
+                            <li>
+                                ...
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul> -->
+    </div>
+<script>
+{
+    /*
+        思路：
+            根据pid和id进行关联是否是父子级菜单
+            最终是将所以递归获得的数据渲染到页面，所以递归函数需要有返回值;
+        展开收缩思路：
+            找到当前元素，如果是展开的，直接收缩；
+            如果是收缩的，获取当前元素下的所有ul标签，将所有同级元素全部隐藏，再将当前元素进行显示
+
+    */
+   let view = document.querySelector(".view");
+
+   let getChild = (id) =>{
+       //筛选pid等于id的情况就表示有子级
+       return data.filter(item=>item.pid == id);
+   }
+
+   //最终是不断根据pid等于id的情况进行递归，所以需要将这个写成一个函数不断进行递归
+//    let inner = '';
+//    data.forEach(item=>{
+//        inner +=`
+//             <ul>
+//                 <li>
+//                     <p>${item.title}</p>
+//                 </li>
+//             </ul>
+//        `;
+//    });
+
+//最终要将所以递归到的inner渲染到页面，所以需要有返回值
+let createUl = (data)=>{
+    //不能在循环里面生成ul,否则会生成多个多个ul
+    let inner = '<ul>';
+    data.forEach(item=>{
+        inner +=`
+                
+                    <li>
+                        <p>${item.title}</p>
+                        ${
+                            // 如果当前id还能找到对应pid的子级就继续查找
+                            getChild(item.id)&&createUl(getChild(item.id))
+                        }
+                    </li>
+        `;
+    });
+    inner += '</ul>';
+    return inner;
+}
+view.innerHTML = createUl(getChild(-1));
+
+//获取到所有的p标签
+let allP = document.querySelectorAll("p");
+allP.forEach(item=>{
+    item.onclick = () =>{
+        let curUl = item.nextElementSibling;
+        if(curUl){
+            // 1. 当前是展开状态，点击之后就收缩起来
+            if(curUl.classList.contains("show")){
+                curUl.classList.remove("show");
+            } else {
+                // 当前是收缩状态，就把所有的同级收缩起来，然后展开当前的
+                let allUl = curUl.parentNode.parentNode.querySelectorAll("ul");
+                
+                //所有的同级收起来
+                allUl.forEach(item=>{
+                    item.classList.remove("show");
+                });
+                //展开当前
+                curUl.classList.add("show");
+            }
+        }
+        
+    };
+});
+}
+</script>
+</body>
+</html>

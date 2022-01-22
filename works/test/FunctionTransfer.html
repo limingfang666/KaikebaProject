@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>函数调用</title>
+</head>
+<body>
+    <button id="box">事件调用</button>
+    <script>
+        function func(){
+            alert("函数名调用");
+        }  
+        func();//函数名调用  
+
+        //事件调用
+        function funcEvent(){
+            alert("事件调用");
+        }
+        var box = document.getElementById("box");
+        box.onclick = funcEvent;
+    </script>
+</body>
+</html>

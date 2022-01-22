@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模拟实现combineReducers()拆分融合函数——问题重现</title>
+</head>
+
+<body>
+    <script src="https://cdn.bootcss.com/redux/4.0.5/redux.js"></script>
+    <script>
+        //初始化数据都为空
+        let initData = {
+            users: {},
+            items: [],
+            carts: []
+        }
+
+        //纯函数
+        function reducer(state, action) {
+            
+            switch (action.type) {
+                //如以下方法，每次操作某种数据，其他数据都必须跟着改变
+                case 'USER_EDIT':
+                    return {
+                        //注意此处key-value格式，且只更改user相关数据，其他数据保持不变
+                        users: action.payload,
+                        items: state.items,
+                        carts: state.carts
+                    };
+                case 'ITEM_ADD':
+                    return {
+                        //只更改items相关数据，其他数据保持不变
+                        users: state.users,
+                        items: [...state.items,action.payload],
+                        carts: state.carts
+                    };
+                case 'ITEM_REMOVE':
+                    return {
+                        //只更改items相关数据，其他数据保持不变
+                        users: state.users,
+                        items: [...state.items].filter((item)=>item.id!==action.payload),
+                        carts: state.carts
+                    };
+                case 'CART_ADD':
+                    return {
+                        //注意此处key-value格式，且只更改user相关数据，其他数据保持不变
+                        users: state.users,
+                        items: state.items,
+                        carts: [...state.carts,action.payload]
+                    };
+                case 'CART_REMOVE':
+                    return {
+                        //注意此处key-value格式，且只更改user相关数据，其他数据保持不变
+                        users: state.users,
+                        items: state.items,
+                        carts: [...state.carts].filter(v=>v.id!==action.payload),
+                    };
+            }
+            return state;
+        }
+
+        //创建store仓库
+        let store = Redux.createStore(reducer, initData);
+
+        //dispatch()方法
+        //users更改方法
+        function updateUser(payload) {
+            return {
+                type: 'USER_EDIT',
+                payload
+            };
+        }
+        // items增加，删除方法
+        function addItem(payload) {
+            return {
+                type: 'ITEM_ADD',
+                payload
+            };
+        }
+        function removeItem(payload) {
+            return {
+                type: 'ITEM_REMOVE',
+                payload
+            };
+        }
+        // carts增加，删除方法
+        function addCart(payload) {
+            return {
+                type: 'CART_ADD',
+                payload
+            };
+        }
+        function removeCart(payload) {
+            return {
+                type: 'CART_REMOVE',
+                payload
+            };
+        }
+
+        console.log(store.getState());
+        store.subscribe(()=>{
+            console.log(store.getState());
+        });
+        //第一次只更改users
+        store.dispatch(updateUser({ id: 1, username: 'MT' }));
+        //第二次增加items
+        store.dispatch(addItem({id:1,name:'Ipad',price:'$5000'}));
+        store.dispatch(addItem({id:2,name:'Iphone',price:'$6000'}));
+        // 第三次删除items
+        store.dispatch(removeItem(2));
+        // 第四次增加carts
+        store.dispatch(addCart({id:1,name:'book',price:'$5000'}));
+        store.dispatch(addCart({id:2,name:'Iphone',price:'$6000'}));
+        // 第五次删除carts
+        store.dispatch(removeCart(1));
+    </script>
+</body>
+
+</html>

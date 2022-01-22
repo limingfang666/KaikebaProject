@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>倒计时 - 开课吧</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+
+<div id="miaov">
+    <div id="fill_in">
+        <span class="title">请输入：</span>
+        <input type="text" class="long_text" />
+        <span class="space1">年</span>
+        <input type="text" class="text" />
+        <span class="space2">月</span>
+        <input type="text" class="text" />
+        <span class="space3">日</span>
+    </div>
+    <a href="javascript:;" id="go" class="go"></a>
+
+    <p id="target">
+        现在距离 -
+        <strong>0000年00月00日</strong>
+        - 还剩：
+    </p>
+
+    <div id="date">
+        <p id="day">00</p>
+        <p id="hour">00</p>
+        <p id="min">00</p>
+        <p id="sec">00</p>
+    </div>
+
+    <h1 title="妙味课堂-www.miaov.com"><a href="http://www.miaov.com"></a></h1>
+</div>
+<script>
+(function(){
+    /*
+        思路及步骤：
+        1.获取到当前系统时间并填入输入框中
+        2.可更改输入框中的时间，当点击倒计时时，获取输入框中更改后的时间，并将现在距离处的当前时间进行赋值
+        3.将输入的时间与当前时间相减得到两个时间的毫秒值
+        4.将获取到的毫秒值进行判断，如果小于或等于当前时间，需要提示不能开始倒计时
+        5.将毫秒值除以天得到的整数就是倒计时的天数，通过总时长取模天数剩余的时间即剩余的小时数，再除以分即为倒计时分钟数，以此类推
+        6.得到正确的倒计时天，小时，分，秒后需要将不足两位的进行补零操作
+        7.设置间隔定时器，设置倒计时开始计时。并进行定时器管理（点击多次定时器，计时会加快）
+        8.可能会出现多次提示时间输入不正确。将初始化倒计时时间放在倒计时定时器后面执行即可。如果setCountDown放在定时器前面，清空定时器时定时器时null。如果放在后面定时器就已经存在了就不会再alert
+    */
+    // 1.获取到当前系统时间并填入输入框中(初始化页面)
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = date.getMonth()+1;
+    var day = date.getDate();
+
+    var miaov = document.querySelector("#miaov");
+    var inputs = miaov.querySelectorAll("input");
+    var go = miaov.querySelector("#go");
+    var target = miaov.querySelector("#target strong");
+
+    var dayTxt = miaov.querySelector("#date #day");
+    var hourTxt = miaov.querySelector("#date #hour");
+    var minTxt = miaov.querySelector("#date #min");
+    var secTxt = miaov.querySelector("#date #sec");
+
+    var timer = null;
+    var onOff = false;//初始化定时器为false
+
+    init();
+
+    function init(){
+        inputs[0].value = year;
+        inputs[1].value = month;
+        inputs[2].value = day;
+
+    }
+    //2.可更改输入框中的时间，当点击倒计时时，获取输入框中更改后的时间，并将现在距离处的当前时间进行赋值
+    go.onclick = function(){
+        //7.设置间隔定时器，设置倒计时开始计时。并进行定时器管理（点击多次定时器，计时会加快）
+        if(onOff){//一点定时器开启了就不再开启定时器直接return
+            return;
+        }
+        onOff = true;//一旦开启定时器后就将开关设置为false
+        timer = setInterval(function(){
+            setCountDown();
+        },1000);
+        //清空定时器：如果只在setCountDown中清空定时器，那么在调用setCountDown和定时器中调用setCountDown时会分别执行一次alert
+        //但是如果setCountDown放在定时器前面，清空定时器时定时器时null。如果放在后面定时器就已经存在了就不会再alert
+        setCountDown();
+    };
+
+    function setCountDown(){
+        //每次点击倒计时时需要重新获取当前系统时间，防止用户页面开启后，很久才点击倒计时按钮
+        var curDate = new Date();
+        //获取更改后输入框的值
+        var newYear = inputs[0].value;
+        var newMonth = inputs[1].value;
+        var newDay = inputs[2].value;
+
+        //将点击后的时间设置到现在距离时间处
+        target.innerHTML = newYear + "年" + fillZero(newMonth) + "月" + fillZero(newDay) + "日";
+
+         //将输入的时设置到日期对象中
+         var washDate = new Date(newYear,newMonth-1,newDay);
+
+        //3.将输入的时间与当前时间相减得到两个时间的毫秒值
+        var interval = washDate-curDate;//获取到的是毫秒数
+        
+        //4.将获取到的毫秒值进行判断，如果小于或等于当前时间，需要提示不能开始倒计时
+        if(interval<=0){
+            //如果时间在当前时间或者之前，会不断调用此处，所以此时清空定时器
+            clearInterval(timer);
+            onOff = false;//倒计时结束时关闭定时器
+            alert("输入时间不能在当前时间或之前");
+            return;
+        }
+        //5.将毫秒值除以天得到的整数就是倒计时的天数，剩余的值%小时即剩余的小时数，再除以分即为倒计时分钟数，以此类推
+        var oneDay = 24 * 60 * 60 * 1000;
+        var oneHour = 60 * 60 * 1000; 
+        var oneMin = 60 * 1000; 
+        var oneSecond = 1000; 
+
+        //6.得到正确的倒计时天，小时，分，秒后需要将不足两位的进行补零操作
+        // 取模是剩余的毫秒数取模每天，每小时，分钟的模。如获取小时数之前，使用毫秒数取模每天的毫秒数
+        var days = fillZero(parseInt(interval / oneDay));//得到相隔的天数
+
+        //通过总时长取模天数，剩余的时间即小时的毫秒数
+        interval = interval % oneDay;
+        var hours = fillZero(parseInt(interval / oneHour));//相隔天数之外的时间即小时
+
+        //通过剩余总时长取模小时，剩余的时间即分钟的毫秒数
+        interval = interval % oneHour;
+        var mins = fillZero(parseInt(interval / oneMin));//相隔天数之外的时间即分钟
+
+        //通过剩余总时长取模分钟，剩余的时间即分钟的毫秒数
+        interval = interval % oneMin;
+        var senconds = fillZero(parseInt(interval / oneSecond));//相隔天数之外的时间即分钟
+
+        dayTxt.innerHTML = days;
+        hourTxt.innerHTML = hours;
+        minTxt.innerHTML = mins;
+        secTxt.innerHTML = senconds;
+    }
+    
+    function fillZero(time){
+        //传进来的时间都是数字类型，需要将其转为字符串类型，才能使用length，进行补零（或者可以判断time<10时即可补零）
+        // time = '' + time;
+        time = time<10 ? '0' + time: '' + time;
+        return time;
+    }
+    
+})();
+</script>
+</body>
+</html>

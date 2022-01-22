@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>封装jsonp</title>
+</head>
+<body>
+    <button>发送请求</button>
+    <script type="module">
+        import ajax from './js/ajax_jsonp.js';
+        
+        let btn = document.querySelector("button");
+        btn.onclick = function(){
+            // 发送jsonp请求
+            ajax({
+                url:"http://localhost:4000/getInfo",
+                // jsonp只能使用get请求方式
+                data:{
+                    name:"zs",
+                    age:20
+                },
+                // 通过dataType区分是普通ajax请求还是jsonp请求
+                dataType:"jsonp",
+                // 回调函数名
+                jsonp:"callback",
+                success(res) {
+                    console.log(res);
+                }
+            })
+            
+        }
+
+    </script>
+</body>
+</html>

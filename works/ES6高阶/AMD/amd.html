@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 引入AMD的require.js -->
+    <script src="https://cdn.bootcss.com/require.js/2.3.6/require.js"></script>
+</head>
+
+<body>
+    <script>
+        // ["a"]表示引入 a.js文件
+        // require(["a"], function () {
+        //     // 调用后直接可以执行a.js文件中的log打印
+        //     // 要调用a.js中的变量直接调用即可
+        //     console.log(b);//20
+        // });
+        // 必须在require()方法模块范围中才能调用引入文件中的内容，否则报错
+        // console.log(b);//Uncaught ReferenceError: b is not defined
+
+        // 定义无依赖模块的使用
+        // define模块的参数，通过function的参数进行获取
+        // require(["a"], function (obj) {
+        //     console.log(obj);//{name: "LMF", age: 28, method1: ƒ, method2: ƒ}
+        //     obj.method1();//method1...
+        //     obj.method2();//method2...
+
+        // });
+
+        // 定义有依赖模块的使用
+        require(["a"], function (obj) {
+            // 会打印b.js
+            console.log(obj);//{method3: ƒ}
+            obj.method3();//a.js中的有依赖模块method3执行
+            // b.js文件中methodFn()方法没有在define范围内，由a.js文件引入后，a.js和amd.html中都可以使用methodFn
+            methodFn();//b.js 文件中的methodFn执行
+
+        });
+
+        // 如果b.js文件中methodFn1()方法在define范围内，必须引入b.js文件，才能使用methodFn1()方法
+        require(['b'],function(obj){
+            obj.methodFn1();//b.js 文件中的methodFn1执行
+        })
+
+
+
+
+    </script>
+</body>
+
+</html>

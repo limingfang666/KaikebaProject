@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div id="box">
+      <div id="left">
+        <img src="images/img.png" id="img1" />
+        <div id="mask"></div>
+      </div>
+      <div id="right">
+        <div id="border">
+          <img src="images/img.png" id="img2" />
+        </div>
+      </div>
+    </div>
+<script>
+{
+  /*
+    思路：
+      1：显示mask层，并设置鼠标跟随事件
+      2：设置过界处理
+      3：显示放大镜border区域：mask/原始图 = border/放大背景图
+      4: 根据图片1的top/left 设置图片2的top/left,并乘以img1宽/img2宽的比例
+  */
+  //
+  let box = document.querySelector("#box");
+  let mask = box.querySelector("#mask");
+  let left = box.querySelector("#left");
+  let right = box.querySelector("#right");
+  let border = box.querySelector("#border");
+  let img1 = box.querySelector("#img1");
+  let img2 = box.querySelector("#img2");
+
+  let getOffsetDis = (el) =>{
+    let t = el.offsetTop;
+    let l = el.offsetLeft;
+    if(el.offsetParent){
+      el = el.offsetParent;
+      t += el.offsetTop;
+      l += el.offsetLeft;
+    }
+    return {t:t,l:l}
+  }
+  
+  left.addEventListener("mouseenter",function(){
+    mask.style.display = "block";
+    right.style.display = "block";
+    //设置鼠标移动时，mask跟随鼠标移动
+    left.addEventListener('mousemove',function(e){
+      //获取鼠标移动位置
+      //mask位置 = 鼠标位置 - (left+父级可视区宽高) - mask自身宽高/2
+      let maskT = e.clientY - getOffsetDis(left).t - mask.offsetWidth/2;
+      let maskL = e.clientX - getOffsetDis(left).l - mask.offsetHeight/2;
+
+      //对mask进行过界处理
+      maskT = Math.max(0,maskT);
+      maskL = Math.max(0,maskL);
+
+      //根据 mask宽高/img1 = border宽高/img2 的等比条件得出mask的绝对宽高
+      maskW = border.offsetWidth/img2.offsetWidth * img1.offsetWidth;
+      maskH = border.offsetHeight/img2.offsetHeight * img1.offsetHeight;
+
+      maskT = Math.min(maskT,left.offsetHeight-maskW);
+      maskL = Math.min(maskL,left.offsetWidth-maskH);
+
+      mask.style.top = maskT + 'px';
+      mask.style.left = maskL + 'px';
+      mask.style.width = maskW + 'px';
+      mask.style.height = maskH + 'px';
+
+      //直接使用mask的top/left ，并乘以 border和mask的图片宽度比例，就能得到对应尺度的img2的top/left
+      let imgScale = border.offsetWidth/mask.offsetWidth;
+            
+      img2.style.left = -maskL*imgScale + 'px';
+      img2.style.top = -maskT*imgScale + 'px';
+      
+    });
+    
+  });
+
+  //鼠标移出left区域后，隐藏mask
+  left.addEventListener('mouseleave',function(){
+      mask.style.display = "none";
+      right.style.display = "none";
+      
+  });
+}
+</script>
+  </body>
+</html>

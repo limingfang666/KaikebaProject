@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="css/login.css" />
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="loginContainer">
+    <h1>登录</h1>
+    <form action="/checkUser" method="post">姓名：
+      <input class="inputStyle" type="text" name="username" />
+      <div class="exchange">用户名错误</div>
+      <br />密码：
+      <input class="inputStyle" type="password" name="pwd" /><br />
+      <input class="loginStyle" type="submit" value="登录" />
+    </form>
+  </div>
+  <script>
+{
+  //鼠标失去焦点时，进行无刷新验证
+  let username = document.querySelectorAll("input");
+  let exchange = document.querySelector(".exchange");
+ //使用焦点时验证用户名和密码
+ 
+  username[0].onblur = function(){
+    let xhr = new XMLHttpRequest();
+    xhr.open("get","/checkUser?username="+this.value,true);//true表示异步发送请求，false同步发送请求
+    xhr.onload = function() {
+      //注意返回数据是从XMLHttpRequest对象中获得的，xhr.responseText和xhr.response都可以获取返还数据
+      let res = JSON.parse(xhr.responseText);
+      console.log(JSON.parse(xhr.responseText).msg);
+      console.log(xhr.response);
+      exchange.style.display = "block";
+      //获取到的数据是JSON格式的，需要将其转为对象
+      exchange.innerHTML = JSON.parse(xhr.responseText).msg;
+      console.log(res.status);
+      
+      if(res.status === 1){
+        exchange.style.color = "green";
+      }else{
+        exchange.style.color = "red";
+      }
+    }
+    // 必须调用send()方法
+    xhr.send();
+  }
+}
+  </script>
+</body>

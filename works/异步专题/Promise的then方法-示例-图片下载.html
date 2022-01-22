@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    let p = new Promise((resolve,reject)=>{
+        let img = new Image();
+        img.src = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1565026842061&di=796e2653d34dfe2c98a7b8538fae2aca&imgtype=0&src=http%3A%2F%2Fimages.cnblogs.com%2Fcnblogs_com%2Fidotnet8%2Fchina.gif";
+        
+        img.onload = function(){
+            resolve("图片加载成功");
+        };
+        img.onerror = function(){
+            reject("图片加载失败");
+        };
+    });
+
+    //
+    p.then(success=>{
+        console.log(success);//图片加载成功
+    },error=>{
+        console.log(error);//图片加载失败
+    });
+}
+</script>
+</body>
+</html>

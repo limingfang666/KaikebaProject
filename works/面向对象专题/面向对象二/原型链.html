@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    //原型链
+    function Parent(){
+        this.name = "张三";
+    }
+    Parent.prototype.name = "李四";
+    Object.prototype.name = "王五";
+    let parent = new Parent();
+    //此处：首先在实例化对象parent本身的构造函数Parent上查找name,如果没有找到，会到实例化对象parent的原型上即Parent.prototype上查找，还是没有找到就到底层Object.prototype上查找，最终都没有找到就返回undefined
+    console.log(parent.name);
+    
+}
+</script>
+</body>
+</html>

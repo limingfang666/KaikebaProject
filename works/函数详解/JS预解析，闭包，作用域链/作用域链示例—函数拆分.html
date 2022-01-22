@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>作用域链示例-函数拆分</title>
+</head>
+<body>
+<script>
+    // function fn(){
+    //     var b = 0;
+    //     return function(){
+    //         b++;
+    //         console.log(b);
+    //     };
+    // }
+    // var f = fn();
+    // f();//1
+    // f();//2
+    // f();//3
+    // fn()();//1
+    //这里的var f = fn();是将函数fn()的返回值函数体function(){ b++; console.log(b); };赋给变量f，但是并没有执行该返回值函数体，当f()调用时，便执行了该函数体
+    //即这里的三个f()相当于，在函数fn()中写了三个子函数，再进行调用
+    //由于b变量对于fn1(),fn2(),fn3()都是父级变量，所以每次b++都会将b的值+1,所以最后得到的值即1，2，3
+    function fn(){
+        var b = 0;
+        // function fn1(){
+        //     b++;
+        //     console.log(b);
+        // }
+        // fn1();
+        // function fn2(){
+        //     b++;
+        //     console.log(b);
+        // }
+        // fn2();
+        // function fn3(){
+        //     b++;
+        //     console.log(b);
+        // }
+        // fn3();
+        function fnn(){
+            b++;
+            console.log(b);
+        }
+        fnn();
+        fnn();
+        fnn();
+
+    }
+
+    fn();
+</script>    
+</body>
+</html>

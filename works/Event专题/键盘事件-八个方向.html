@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>键盘事件-八个方向</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            top: 100px;
+            left: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+<script>
+    /*
+        使用键盘按下事件
+        通过键盘的上，下，左，右；控制div往上下左右四个方向移动；
+        通过左上；右上；左下；右下，控制div往左上；右上；左下；右下四个方向移动
+    */
+{
+    let div = document.querySelector("div");
+
+    //用于监控是否同时按下两个不同的方向键，如左上；右上；左下；右下
+    let state = {
+        left:false,
+        up:false,
+        right:false,
+        down:false
+    };
+
+    //设置和获取div计算后样式
+    function css(el,attr,val){
+        if(arguments.length == 3){
+            el.style[attr] = val + 'px';
+        }else{
+            return parseInt(getComputedStyle(el)[attr]);
+        }
+    }
+
+    //注意：keydown，keyup只控制状态，不做具体的操作，否则，可能会同一个按键按下，进行多次操作
+    document.addEventListener("keydown",function(e){
+        //keyCode:左37   上38    右39     下40
+        let keyCode = e.keyCode;
+
+        //通过键盘的上，下，左，右；控制state的状态
+        switch(keyCode){
+            case 37:
+                state.left = true;
+                break;
+            case 38:
+                state.up = true;
+                break;
+            case 39:
+                state.right = true;
+                break;
+            case 40:
+                state.down = true;
+                break;
+        }
+    });
+
+    document.addEventListener('keyup',function(e){
+        let keyCode = e.keyCode;
+        switch(keyCode){
+            case 37:
+                state.left = false;
+                break;
+            case 38:
+                state.up = false;
+                break;
+            case 39:
+                state.right = false;
+                break;
+            case 40:
+                state.down = false;
+                break;
+        }
+    });
+
+    //定时器监控到state对象中的值有变化时，就进行相应操作
+    setInterval(()=>{
+        let t = css(div,"top");
+        let l = css(div,'left');
+        if(state.left){
+            css(div,"left",l-10);
+        }
+        if(state.up){
+            css(div,"top",t-10);
+        }
+        if(state.right){
+            css(div,"left",l+10);
+        }
+        if(state.down){
+            css(div,"top",t+10);
+        }
+    },30);
+
+}
+</script> 
+</body>
+</html>

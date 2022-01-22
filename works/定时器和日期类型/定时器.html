@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>定时器</title>
+</head>
+<body>
+<script>
+//setTimeout()
+setTimeout(function(){
+    console.log(1);
+    //也可以再定时器里嵌套定时器，7秒后再启动一个定时器
+    setTimeout(function(){
+    console.log(2);
+    },3000);
+},2000);
+//想在3秒后继续打印2，可以再写个5秒的定时器，因为前面的定时器需要2秒的时间
+// setTimeout(function(){
+//     console.log(2);
+// },5000);
+</script>    
+</body>
+</html>

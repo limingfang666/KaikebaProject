@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>window</title>
+</head>
+<body>
+<script>
+    //var声明的全局变量和function声明的全局函数，都默认挂载在window上
+    var a = 0;
+    console.log(window);
+
+    function fn(){
+        b = 10;
+        console.log(1);
+    }
+    fn();
+    console.log(b);//此处b没有写声明的var所以，b=10即为window.b = 10;相当于挂载在window上的全局变量
+
+    //在JS中，默认全局数据都会保存在window下
+    //window是浏览器的最顶层对象，所以默认window下的属性和方法都是全局的。所以window下的方法和属性，默认可以不写window
+</script>
+</body>
+</html>

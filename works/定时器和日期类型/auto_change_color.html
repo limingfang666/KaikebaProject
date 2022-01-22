@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自动改变背景颜色</title>
+    <style>
+        div {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+    <button>自动改变颜色</button>
+    <button>停止</button>
+    <div class="box"></div>
+<script>
+'use strict';
+(function(){
+    var colors = ['green','purple','blue','yellow','pink','peru'];
+    var btns = document.querySelectorAll("button");
+    var box = document.querySelector(".box");
+    var num = 0;//记录当前颜色
+    var timer = 0;//记录定时器编号
+    btns[0].onclick = function(){
+        timer = setInterval(function(){
+            //使用%arr.length循环获取数组值
+            console.log(colors[num%colors.length]);
+            num++;
+            box.style.backgroundColor = colors[num%colors.length];
+        },1000);
+    };
+    //点击停止按钮，关闭计时器
+    btns[1].onclick = function(){
+        //使用%arr.length循环获取数组值
+        clearInterval(timer);
+    };
+})();
+</script>
+</body>
+</html>

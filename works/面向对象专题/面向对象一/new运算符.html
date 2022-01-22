@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    //new运算符的功能
+    /*
+        new可以执行函数 
+        自动创建空对象； 
+        把空对象指向另外一个对象
+        this绑定到空对象
+        隐式返还this；
+    */
+    // function Tab(){
+    //     console.log("Tab...");
+    // }
+    //1:new运算符可以执行函数
+    // Tab();//Tab...
+    // new Tab();//Tab...
+    // new Tab;//Tab...
+
+
+    //new运算符可以自动创建空对象，将创建好的空对象和this进行绑定，并隐式返还this
+    function Tab(){
+        //这里创建的空对象就是this绑定的对象
+        // let obj = {};//已经不需要手动创建了
+        this.num = 1000;
+        this.product = function(){
+            console.log("生产产品");
+        }
+        // return this;//因为new运算符会隐式返还this，所以不需要手动返回
+    }
+    let tab1 = new Tab();
+    console.log(tab1);//把空对象指向另外一个对象,即new实例化后，this可以指向实例化后的对象tab1。Tab {num: 1000, product: ƒ}
+    
+    tab1.product();//生产产品
+    let tab2 = new Tab();
+    tab2.product();//生产产品
+
+}
+</script>
+</body>
+</html>

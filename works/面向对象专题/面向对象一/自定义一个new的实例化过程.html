@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    //自定义一个new的实例化过程
+    function MyNew(constructor,...args){
+        //定义一个空对象
+        let obj = {};
+        //将创建好的空对象和实例化的对象关联起来
+        constructor.call(obj,...args);
+        //原型
+        obj.__proto__ = constructor.prototype;
+        return obj;
+    }
+
+    function Tab(){
+        this.tabNum = 4;
+        this.product = function(){
+            console.log("product...")
+        }
+    }
+
+    //此处实例化MyNew后，this就执行了mynew1。
+    //tab传入MyNew后，相当于将Tab的this传给了obj，当调用obj时，就得到了tab的this
+    let mynew1 = new MyNew(Tab);
+    mynew1.product();//product...
+    let mynew2 = new MyNew(Tab);
+    mynew2.product();//product...
+}
+</script>
+</body>
+</html>

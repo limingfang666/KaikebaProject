@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <kkb-component :t="title"></kkb-component>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        const kkbComponent = {
+            props: ['t'],
+            data() {
+                return {
+                    isShow: true
+                }
+            },
+            template: `
+                <div>
+                    <button @click="hide">隐藏</button>
+                    <h1 v-if="isShow">kkbComponent - {{t}}</h1>
+                </div>
+            `,
+            methods: {
+                hide() {
+                    this.isShow = !this.isShow;
+                }
+            }
+        }
+
+        let app = new Vue({
+            el: '#app',
+            data: {
+                title: '开课吧'
+            },
+            components: {
+                'kkb-component': kkbComponent
+            },
+        });
+    </script>
+</body>
+</html>

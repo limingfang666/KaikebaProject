@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>韩雪冬网站效果 - 妙味课堂 - www.miaov.com</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div id="automatic">
+
+	<div class="prev_div"></div>
+    <a class="prev" href="###">
+        <span class="ico1"></span>
+        <span class="ico"></span>
+        <span class="txt"></span>
+    </a>
+	
+	<div class="next_div"></div>
+    <a class="next" href="###">
+        <span class="ico1"></span>
+        <span class="ico"></span>
+        <span class="txt"></span>
+    </a>
+
+	<div class="line"></div>
+
+    <ul>
+        <li class="pos_0"><a href="http://www.miaov.com"><img src="images/8.jpg" width="100" alt="妙味课堂 www.miaov.com" longdesc="http://www.miaov.com" /></a></li>
+        <li class="pos_1"><a href="http://www.miaov.com"><img src="images/1.jpg" width="270" alt="妙味课堂 www.miaov.com" longdesc="http://www.miaov.com" /></a></li>
+        <li class="pos_2"><a href="http://www.miaov.com"><img src="images/2.jpg" width="510" alt="妙味课堂 www.miaov.com" longdesc="http://www.miaov.com" /></a></li>
+        <li class="pos_3"><a href="http://www.miaov.com"><img src="images/3.jpg" width="680" alt="妙味课堂 www.miaov.com" longdesc="http://www.miaov.com" /></a></li>
+        <li class="pos_4"><a href="http://www.miaov.com"><img src="images/4.jpg" width="510" alt="妙味课堂 www.miaov.com" longdesc="http://www.miaov.com" /></a></li>
+        <li class="pos_5"><a href="http://www.miaov.com"><img src="images/5.jpg" width="270" alt="妙味课堂 www.miaov.com" longdesc="http://www.miaov.com" /></a></li>
+        <li class="pos_6"><a href="http://www.miaov.com"><img src="images/6.jpg" width="270" alt="妙味课堂 www.miaov.com" longdesc="http://www.miaov.com" /></a></li>
+        <li class="pos_6"><a href="http://www.miaov.com"><img src="images/7.jpg" width="270" alt="妙味课堂 www.miaov.com" longdesc="http://www.miaov.com" /></a></li>
+    </ul>
+
+</div>
+<p id="footer"><a href="http://www.miaov.com">妙味课堂 - www.miaov.com</a></p>
+<script src="mTween.js"></script>
+<script>
+{
+    /*
+        思路：
+            动态设置图片的width占据整个img的100%;
+            通过数组存储所有的动画效果；
+            通过数组方法在点击时改变数组；
+            上一张，下一张及按钮悬浮动画；
+    */
+
+    let automatic = document.querySelector("#automatic");
+    let lis = automatic.querySelectorAll("ul li");
+    let imgs = automatic.querySelectorAll("ul li a img");
+
+    let prev = automatic.querySelector(".prev_div");
+    let next = automatic.querySelector(".next_div");
+
+
+    //将所有图片存到数组中，点击切换时，操作的是数组中的数据
+    var cssData = [
+        // {
+        //     width: 0,
+        //     left:0,
+        //     zIndex:0,
+        //     opacity : 0,
+        //     top:0
+        // }
+    ];
+    //动态设置图片宽度占据100%
+    let setImgWidth = () =>{
+        //循环所有的图片将图片的width设置为100%
+        lis.forEach(function(item){
+            var img = item.querySelector("img");
+            //获取width属性并设置到style里去
+            var w = img.width;
+            css(item,"width",w);
+            img.style.width = "100%";
+        });
+    }
+    setImgWidth();
+
+    //将lis中所有的样式设置进data数组
+    lis.forEach(item=>{
+        cssData.push({
+            width: css(item,"width"),
+            left:css(item,"left"),
+            zIndex:css(item,"zIndex"),
+            opacity : css(item,"opacity"),
+            top:css(item,"top")
+        });
+    });
+    /*
+        shift() 从头部删除,返回值 删除的这一位
+        unshift() 从头部添加，返回值 添加之后数据的新length
+        pop() 从尾部删除,返回值 删除的这一位
+        push() 从尾部添加, 返回值 添加之后数据的新length
+    */
+    next.addEventListener("click",function(){
+        cssData.unshift(cssData.pop());
+        //循环li，将对应cssData数组中的样式设置到对象li中
+        lis.forEach((item,index)=>{
+            mTween({
+                el:item,
+                attr:{
+                    width:cssData[index].width,
+                    left:cssData[index].left,
+                    zIndex:cssData[index].zIndex,
+                    opacity:cssData[index].opacity,
+                    top:cssData[index].top
+                }
+            });
+        });
+    });
+
+    prev.addEventListener("click",function(){
+        cssData.push(cssData.shift());
+        //循环li，将对应cssData数组中的样式设置到对象li中
+        lis.forEach((item,index)=>{
+            mTween({
+                el:item,
+                attr:{
+                    width:cssData[index].width,
+                    left:cssData[index].left,
+                    zIndex:cssData[index].zIndex,
+                    opacity:cssData[index].opacity,
+                    top:cssData[index].top
+                }
+            });
+        });
+    });
+
+    //给prev和next添加鼠标悬浮动画 
+    //问题：发现悬浮动画移动太快时，文字txt不会消失;解决：每次mouseover或mouseout时，都重新获取一次icon和txt，并且在执行动画前，先清除上一次的动画效果
+    next.addEventListener("mouseover",function(){
+        let ico1 = automatic.querySelector(".next .ico1");
+        let txt = automatic.querySelector(".next .txt");
+        mTween.stop(ico1);
+        mTween.stop(txt);
+        mTween({
+            el:ico1,
+            attr:{
+                opacity:1
+            }
+        });
+        mTween({
+            el:txt,
+            attr:{
+                opacity:1,
+                right:50
+            }
+        });
+    });
+    next.addEventListener("mouseout",function(){
+        let ico1 = automatic.querySelector(".next .ico1");
+        let txt = automatic.querySelector(".next .txt");
+        mTween.stop(ico1);
+        mTween.stop(txt);
+        mTween({
+            el:ico1,
+            attr:{
+                opacity:0
+            }
+        });
+        mTween({
+            el:txt,
+            attr:{
+                opacity:0,
+                right:65
+            }
+        });
+    });
+    prev.addEventListener("mouseover",function(){
+        let prevIco1 = automatic.querySelector(".prev .ico1");
+        let prevTxt = automatic.querySelector(".prev .txt");
+        mTween.stop(prevIco1);
+        mTween.stop(prevTxt);
+        mTween({
+            el:prevIco1,
+            attr:{
+                opacity:1
+            }
+        });
+        mTween({
+            el:prevTxt,
+            attr:{
+                opacity:1,
+                left:50
+            }
+        });
+    });
+    prev.addEventListener("mouseout",function(){
+        let prevIco1 = automatic.querySelector(".prev .ico1");
+        let prevTxt = automatic.querySelector(".prev .txt");
+        mTween.stop(prevIco1);
+        mTween.stop(prevTxt);
+        mTween({
+            el:prevIco1,
+            attr:{
+                opacity:0
+            }
+        });
+        mTween({
+            el:prevTxt,
+            attr:{
+                opacity:0,
+                left:65
+            }
+        });
+    });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件-template选项</title>
+</head>
+<body>
+    <div id="app">
+        <h1>app内容</h1>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let app = new Vue({
+            el:'#app',
+            // el:document.querySelector("#app"),
+            // 如果template没有，会将el内容即<div id="app">app内容</div>作为template
+            // template:`
+            //     <h1>template内容</h1>
+            // `
+
+            render(createElement){//createElement相当于react中的createDOM
+                // createElement返回一个VNode(虚拟DOM)
+                return createElement(
+                    // 创建一个h1标签
+                    'h1',
+                    // attribute数据对象
+                    {
+                        // 接受一个字符串、对象或字符串和对象组成的数组
+                        'class':{
+                            // 为true时显示，为false时不显示
+                            foo: true,
+                            bar: false
+                        },
+                        style: {
+                            color: 'red',
+                            fontSize: '14px'
+                        },
+                        // 普通的 HTML attribute
+                        attrs: {
+                            id: 'foo'
+                        }
+
+                    },
+                    [
+                        //第一个createElement创建的h1的内容
+                        'h1内容',
+                        // 创建子级
+                        createElement('span', {
+                            style: {
+                                color: 'blue',
+                                fontSize: '14px'
+                            }
+                        },'span内容'),
+                    ]
+                );
+            }
+        });
+    </script>
+</body>
+</html>

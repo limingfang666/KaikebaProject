@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button>点击获取XML数据</button>
+    <script>
+    {
+        document.querySelector("button").onclick = function(){
+            let xhr = new XMLHttpRequest();
+            xhr.open("get","/getXMLInfo",true);
+            //如果后台没有设置XML的content-type，前端就必须重写格式
+            xhr.overrideMimeType('text/xml;charset=utf-8');
+            xhr.onload = function(){
+                //获取XML格式数据
+                console.log(xhr.responseXML);
+                console.log(xhr.responseXML.getElementsByTagName("name")[0]);
+                //获取原始数据
+                console.log(xhr.response);
+                
+            }
+            xhr.send();
+        }
+    }
+    </script>
+</body>
+</html>

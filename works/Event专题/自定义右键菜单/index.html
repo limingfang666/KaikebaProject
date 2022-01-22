@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义右键</title>
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: url(imgs/bg.png) no-repeat;
+            background-size: 100% 100%;
+            position: relative;
+        }
+
+        #list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            width: 180px;
+            height: 200px;
+            position: absolute;
+            background-color: #fff;
+            display: none;
+        }
+
+        #logo {
+            width: 200px;
+            height: 48px;
+            background: url(imgs/logo.png) no-repeat;
+            margin: 50px auto;
+            position: absolute;
+            left: 50%;
+            margin-left: -100px;
+            top: 50px;
+        }
+
+        #list li {
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            text-indent: 56px;
+            color: #f5726c;
+        }
+
+        #list li:nth-child(1) {
+            background: url(imgs/download.png) no-repeat 20px 16px;
+        }
+
+        #list li:nth-child(2) {
+            background: url(imgs/remove-icon.png) no-repeat 20px 16px;
+        }
+
+        #list li:nth-child(3) {
+            background: url(imgs/move-icon.png) no-repeat 20px 15px;
+        }
+
+        #list li:nth-child(4) {
+            background: url(imgs/rename-icon.png) no-repeat 20px 14px;
+        }
+
+        #list li:hover {
+            background-color: #fde9e9;
+            color: #e6423c;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="logo"></div>
+    <ul id="list">
+        <li>下载</li>
+        <li>删除</li>
+        <li>移动到</li>
+        <li>重命名</li>
+    </ul>
+    <script src="fns.js"></script>
+<script>
+{
+    let test = document.querySelector("#test");
+    let list = document.querySelector("#list");
+    document.addEventListener('contextmenu',function(e){
+        //取消默认右击菜单事件
+        e.preventDefault();
+        list.style.display = "block";
+
+        //获取鼠标位置：因为有滚动条，所以使用pageX pageY
+        let pageX = e.pageX;
+        let pageY = e.pageY;
+        console.log(pageX,pageY);
+        
+        //右侧和底部右击时仍然完整显示右击菜单  
+        //获取list元素的宽高  offsetWidth包括滚动条和边框；clineWidth不包括滚动条和边框
+        let listW = list.offsetWidth;
+        let listH = list.offsetHeight;
+
+        // //如果由滚动条，还需要加上滚动条的宽高
+        // console.log(document.documentElement.scrollTop,document.documentElement.scrollLeft);
+        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        let scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+        
+        // //innerWidth浏览器的可视宽高
+        // //注意：innerWidth不兼容低版本IE
+        // // pageX = pageX>(innerWidth-listW)?innerWidth-listW:pageX;
+        // // pageY = pageY>(innerHeight-listH)?innerHeight-listH:pageY;
+
+        let MaxW = document.documentElement.clientWidth-listW;
+        let MaxH = document.documentElement.clientHeight-listH;
+
+        pageX = Math.min(MaxW+scrollLeft,pageX);
+        pageY = Math.min(MaxH+scrollTop,pageY);
+        
+        
+        //将右击菜单的位置设置到鼠标位置
+        list.style.top = pageY + 'px';
+        list.style.left = pageX + 'px';
+
+    });
+    document.addEventListener("click",function(){
+        list.style.display = "none";
+    });
+}
+</script>
+</body>
+
+</html>

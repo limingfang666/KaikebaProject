@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双向数据流text和textarea</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="title">
+        <textarea v-model="context" cols="30" rows="10"></textarea>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 创建根组件
+        let app = new Vue({
+            el: '#app',
+            data: {
+                title:'我的标题',
+                context:'hello,这是数据双向绑定textarea的数据内容'
+            }
+        });
+    </script>
+</body>
+
+</html>

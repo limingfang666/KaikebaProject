@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    let arr = [1,2,3,4,5];
+    //查找数组中满足要求的第一个元素的值​​​​​​​
+    let item = arr.find((item,index,arr)=>{
+        console.log(item,index,arr);
+        return item>4;
+        
+    });
+    console.log(item);//5
+    
+    //查找数组中满足要求的第一个元素的值​​​​​​​的索引
+    let index = arr.findIndex((item,index,arr)=>{
+        console.log(item,index,arr);
+        return item>4;
+        
+    });
+    console.log(index);//4
+    
+}
+    
+</script>
+</body>
+</html>

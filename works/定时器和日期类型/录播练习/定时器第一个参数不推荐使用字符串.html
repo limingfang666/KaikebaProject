@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>定时器第一个参数不推荐使用字符串</title>
+</head>
+<body>
+    <input type="text">
+    <button>点击执行对应函数</button>
+<script>
+(function(){
+    function fn(){
+        console.log("这是一个定时器");
+    }
+    setTimeout('fn()',1000);
+})();
+
+// function fn(){
+//         console.log("这是一个定时器");
+// }
+// //setTimeout(fn,1000);//这是一个定时器
+// setTimeout('fn()',1000);//这是一个定时器
+
+// var input = document.querySelector("input");
+// var btn = document.querySelector("button");
+// btn.onclick = function(){
+//     var text = input.value;
+//     setTimeout(text);
+// };
+
+// function fn1(){
+//     alert("这是fn1");
+// }
+// function fn2(){
+//     alert("这是fn2");
+// }
+// function fn3(){
+//     alert("这是fn3");
+// }
+</script>    
+</body>
+</html>

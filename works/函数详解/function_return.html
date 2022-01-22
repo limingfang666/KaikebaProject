@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>函数返回值</title>
+</head>
+<body>
+    <script>
+        function func1(){
+           console.log("函数func1执行内容");
+        } 
+        function func2(){
+           console.log("函数func2执行内容");
+           return 1;
+           var a = 2;
+           console.log(a);
+        } 
+        //如果没有定义默认返回undefined
+        console.log("func1返回结果："+func1());//undefined
+        console.log("func2返回结果"+func2());//1
+    </script>
+</body>
+</html>

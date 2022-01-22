@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    let arr = [
+        ["小明",12],
+        ["小芳",23]
+    ];
+    //arr.flatMap()值能处理一层，可在回调函数中处理数据，相当于map()方法和arr.flat(1)结合的方法
+    let arr2 = arr.flatMap((item,index,arr)=>{
+        item = item.filter((item,index)=>{
+            if(index == 1){
+                return item;
+            }
+        });
+        return item;
+    });
+    console.log(arr2);// [12, 23]
+    
+}
+    
+</script>
+</body>
+</html>

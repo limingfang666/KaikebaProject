@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件-$mount延迟实例加载</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let app = new Vue({
+            template:`
+            <div id="app">
+                <h1>$mount延迟加载内容</h1>
+            </div>
+            `
+        });
+        app.$mount("#app");
+    </script>
+</body>
+</html>

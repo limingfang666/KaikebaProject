@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<input type="text" value="kaikeba">
+<div>
+    kaikebakaikebakaikebakaikebakaikebakaikebakaikebakaikebakaikebakaikebakaikebakaikeba
+</div>
+<script>
+{
+    //selectstart选中事件:用于禁止选择网页中的文字:另外ff/opera不支持此事件，ff可以用css控制：css: body { -moz-user-select: none; }。webkit浏览器可以使用“-khtml-user-select”，当然也可以使用onselectstart事件来阻止用户选定元素内文本。
+// 　　注意此事件不支持对input和textarea无效。
+    let input = document.querySelector("input");
+    // //对input和textarea使用：可以监听到Ctrl+A的全选功能，但是鼠标左键全选无效
+    // input.addEventListener("selectstart",function(e){
+    //     console.log("input");
+    //     e.preventDefault();
+    // }); 
+
+    //selectstart使用到非input和textarea标签上时，不会监听到Ctrl+A。会监听到鼠标左键开始选中时触发。这里e.preventDefault()会阻止默认选中
+    // let div = document.querySelector("div");  
+    // div.addEventListener("selectstart",function(e){
+    //     console.log("div");
+    //     e.preventDefault();
+    // });
+
+    // select:此事件在选择textarea或input内的内容后触发。因此只有input和textarea标签支持。
+    input.addEventListener("select",function(e){
+        console.log("select");
+        e.preventDefault();
+    }); 
+}
+</script>
+</body>
+</html>

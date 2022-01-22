@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title 错误页面
+    body
+        h1 登录错误
+        span.val 5
+        span 秒之后自动跳转。。。。。。
+        br
+        a(href="/login") 点击直接跳转
+    //- js定时器控制倒计时5秒后自动跳转
+    script.
+        let time = 5;
+        let timer = setInterval(function(){
+            time--;
+            //- 如果time倒计时到0自动跳转
+            document.querySelector(".val").innerHTML = time;
+            if(time<1){
+                window.location.href = "/login";
+                clearInterval(timer);
+            }
+        },1000);

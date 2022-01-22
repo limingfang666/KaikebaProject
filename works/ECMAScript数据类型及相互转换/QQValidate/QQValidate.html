@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>QQ号验证</title>
+    <style>
+        body { margin: 0; padding: 0; }
+        .wrap { width: 764px; height: 265px; background: url('img/bg.png') no-repeat; margin: 30px auto; position: relative;}
+        .txt, .btn { height: 40px; line-height: 40px; border-radius: 4px; outline: none; border:none; position: absolute; top:114px; }
+        .txt { width: 180px; background: #ffffff; left:310px; text-indent: 20px; }
+        .btn { width: 70px; background:none; background: #000000; color: #ffffff; left:500px; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <input type="text" class="txt">
+        <input type="button" class="btn" value="验证">
+    </div>
+    <script>
+        var txt = document.querySelector(".txt");
+        var btn = document.querySelector(".btn");
+        btn.onclick = function(){
+            var txtVal = txt.value;
+            // 不能为空；
+            if(txtVal == ''){
+                alert("QQ号不能为空");
+
+            // 只能输入5-10位；
+            //注意：不能获取txt元素的length而是获取txt.value的length
+            }else if(txtVal.length < 5 || txtVal.length > 10){
+
+                alert("QQ号必须在5-10位之间");
+                
+            // 不能以0开始；
+            }else if(txtVal[0]=='0'){
+                alert("QQ号首位不能为0");
+
+            // isNaN 方法中，传入的数据 能被转换成 合法数字时，就会返回 false，当传入的数据不能被转换成 合法数字( 也就是NaN) 时，isNaN 就会返回 true
+            }else if(isNaN(txtVal)
+                    || txtVal != String(parseInt(txtVal)) //代表txtVal本身有小数点，将数据转换成String，再进行比较。此时它会一位一位进行比较
+                    || txtVal<0){
+                alert("QQ号必须是一个合法的正整数");
+
+            }else{
+                alert("您输入的QQ正确");
+            }
+        };
+    </script>
+</body>
+</html>

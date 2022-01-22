@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var arr = ['a','b','c','d'];
+        //通过Math.random()实现随机排序。Math.random()的返回值是0~1（包含0不包含1）。由于sort的排序规则是a-b需要大于0，等于0，小于0三种情况，所以只需要使用Math.random()-0.5就可以得到两个数的值在-0.5到+0.5之间。即可实现随机排序
+        arr.sort(function(n1,n2){
+            return Math.random()-0.5;
+        });
+        console.log(arr);
+    </script>
+</body>
+</html>

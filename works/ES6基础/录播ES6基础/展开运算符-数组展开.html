@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+let arr = [1,2,3,4];
+// let arr2 = ['a','b',...arr,'c']
+// console.log(arr2);//["a", "b", 1, 2, 3, 4, "c"]
+
+//和结构赋值配合使用——剩余参数
+//把指定的数据以外的，所有arr数组中的其它参数结构到c中
+let [a,b,...c] = arr;
+console.log(a,b,c);//1 2 [3, 4]
+
+
+</script>
+</body>
+</html>

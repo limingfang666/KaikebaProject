@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    function* gen() { 
+        yield 1;
+        yield 2;
+        yield 3;
+    }
+
+    //调用Generator函数不会立即执行
+    let g = gen(); 
+    console.log(g.next());//{value: 1, done: false}
+}
+
+</script>
+</body>
+</html>

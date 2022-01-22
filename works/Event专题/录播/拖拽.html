@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            top: 50px;
+            left: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+<script>
+{
+    //需求：鼠标拖拽div到其他位置
+    /*
+        思路：
+            1,获取元素div的初始位置（left,top）
+            2,获取鼠标初始位置
+            3,获取鼠标当前位置
+            4,元素当前位置 = (鼠标当前位置-鼠标初始位置)+元素初始位置
+            5,解决超出边界问题
+    */
+    let div = document.querySelector("div");
+     //获取元素div的初始位置
+     let divInitPos = {};
+
+    //获取鼠标初始位置
+    let initPos = {};
+    div.addEventListener('mousedown',function(e){
+        //获取元素初始位置必须在mousedown里，否则记录不到每次点击mousedown时元素的位置
+        divInitPos.t = div.offsetTop;
+        divInitPos.l = div.offsetLeft;
+
+        initPos.x = e.clientX;
+        initPos.y = e.clientY;
+        
+        //监听鼠标移动,鼠标移动事件设置在document上，才不会甩出去
+        document.addEventListener('mousemove',drag);
+
+        //鼠标放下时，停止移动，即清除鼠标移动事件
+        //因为mouseup是在每次mousedown注册事件时就会进行注册，所以每点一次，以后就会进行累加，所以需要设置每次点击mousedown后，只执行一次mouseup
+        div.addEventListener('mouseup',function(e){
+            document.removeEventListener('mousemove',drag);
+        },{
+            once:true
+        });
+    });
+
+    function drag(e){
+            //获取移动时鼠标的当前位置
+            let curPos = {};
+            curPos.x = e.clientX;
+            curPos.y = e.clientY;
+
+            let divFinalPos = {};
+            divFinalPos.t = (curPos.y-initPos.y)+divInitPos.t;
+            divFinalPos.l = (curPos.x-initPos.x)+divInitPos.l;
+            //解决：拖拽时超出边界问题
+            //小于0时设置为0
+            divFinalPos.t = Math.max(0,divFinalPos.t);
+            divFinalPos.l = Math.max(0,divFinalPos.l);
+
+            //超过宽高后，等于宽高。获取浏览器可视宽高
+            let maxL = document.documentElement.clientWidth - div.offsetWidth;
+            let maxT = document.documentElement.clientHeight - div.offsetHeight;
+            divFinalPos.t = Math.min(maxT,divFinalPos.t);
+            divFinalPos.l = Math.min(maxL,divFinalPos.l);
+
+            //设置鼠标移动时，div位置跟着变化
+            div.style.top = divFinalPos.t + "px";
+            div.style.left = divFinalPos.l + "px";
+        }
+    
+}
+</script>
+</body>
+</html>

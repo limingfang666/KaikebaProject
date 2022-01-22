@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input class="input1" type="text">
+    +
+    <input class="input2" type="text">
+    <button class="plus">=</button>
+    <span class="result"></span>
+    <script>
+        var input1 = document.querySelector('.input1');
+        var input2 = document.querySelector('.input2');
+        var plus = document.querySelector('.plus');
+        var result = document.querySelector('.result');
+
+        plus.onclick = function(){
+            console.log(input1.value + input2.value);
+            console.log(typeof input1.value);
+            result.innerHTML = input1.value + input2.value ;           
+        };
+    </script>
+</body>
+</html>

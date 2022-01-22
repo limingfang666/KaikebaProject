@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background: red;
+            display: none;
+            
+            transition: .5s;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <button>显示</button>
+    <script>
+        var box = document.querySelector("#box");
+        var btn = document.querySelector("button");
+
+        //如果元素事先隐藏，会监听到两次
+         btn.onclick = function(){
+            box.style["display"] = "block";
+            setTimeout(function(){
+                box.style["width"] = "400px";
+                box.style["background"] = "blue";
+            },20);
+        };
+        //监听事件ontransitionend方法没有效果
+        btn.ontransitionend = function(){
+            console.log("ontransitionend执行完成");//不会进行打印（没有监听到）
+        };
+        //监听transition执行结束事件transitionend
+        box.addEventListener('transitionend',function(){
+            console.log("addEventListener transitionend执行完成");
+        });
+    </script>
+</body>
+</html>

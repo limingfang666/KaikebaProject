@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>百度音乐榜单</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <section id="wrap">
+      <h2 class="title">百度音乐榜单</h2>
+      <ul id="list">
+        <!-- <li>
+          <input type="checkbox" />
+          <span>第一条信息</span>
+          <a href="javascript:;" class="collect">收藏</a>
+          <a href="javascript:;" class="cancelCollect">取消收藏</a>
+          <a href="javascript:;" class="remove">删除</a>
+        </li> -->
+      </ul>
+      <footer class="footer">
+        <label><input type="checkbox" id="checkAll" />全选/全不选</label>
+        <a href="javascript:;" id="remove">删除</a>
+        <input type="text" id="newInfo" />
+        <a href="javascript:;" id="add">添加</a>
+      </footer>
+    </section>
+    <script>
+      
+        let data = [
+            {
+              id: 0,
+              title: "残酷月光 - 费启鸣", 
+              checked: true,
+              collect: false
+            },{
+              id: 1,
+              title: "兄弟 - 艾热", 
+              checked: true,
+              collect: false
+            },{
+              id: 2,
+              title: "毕生 - 夏增祥", 
+              checked: false,
+              collect: true
+            },{
+              id: 3,
+              title: "公子向北去 - 李春花", 
+              checked: false,
+              collect: false
+            },{
+              id: 4,
+              title: "战场 - 沙漠五子", 
+              checked: true,
+              collect: false //是否收藏 true 收藏 false 没有收藏
+            }
+        ];
+  {
+    
+    let list = document.querySelector("#list");
+    //渲染页面
+    let gender = (data) =>{
+      let cont = '';
+      data.forEach(item=>{
+        cont += `
+          <li>
+            <input type="checkbox" ${item.checked?'checked':''}/>
+            <span>${item.title}</span>
+            ${item.collect?
+              '<a href="javascript:;" class="cancelCollect">取消收藏</a>' :
+              '<a href="javascript:;" class="collect">收藏</a>'
+            }
+            <a href="javascript:;" class="remove">删除</a>
+          </li>
+        `;
+      });
+      list.innerHTML = cont;
+      //各种操作都是在data数据下，并且保证所有数据都渲染完了
+      //数组的每条数据会生成一个li,所以循环数组，就会得到每个li
+      let lis = list.querySelectorAll("li");
+      let footer = document.querySelector(".footer");
+      
+      lis.forEach((item,index)=>{
+          //点击收藏和取消收藏
+          let cancelCollect = lis[index].querySelector(".cancelCollect");
+          let collect = lis[index].querySelector(".collect");
+          
+          //当存在取消收藏时才能点击取消收藏按钮，否则因为页面没有渲染，所以获取不到
+          cancelCollect && (cancelCollect.onclick = () =>{
+            //点击取消收藏，将数据中collect设置为 false，且页面显示为收藏
+            data[index].collect = false;
+            gender(data);
+          });
+          collect && (collect.onclick = () =>{
+            //点击取消收藏，将数据中collect设置为 false，且页面显示为收藏
+            data[index].collect = true;
+            gender(data);
+          });
+
+          //删除
+          let remove = lis[index].querySelector(".remove");
+          let checkAll_btn = footer.querySelector("#checkAll");
+          remove.onclick = () =>{
+            //删除数组中某一个，删除后会改变原数组
+            data.splice(index,1);
+
+            //单个删除后，如果所有数据的checked都为true,要选中全选按钮
+            checkAll_btn.checked = data.every(item=>item.checked);
+            gender(data);
+            
+          };
+          //列表控制全选和全不选
+          let input = lis[index].querySelector("input");
+          let checkAll = footer.querySelector("#checkAll");
+          input.onchange = () =>{
+            //复选框本身有视图标识是否选中，这里可以不用特意再渲染视图
+            data[index].checked = input.checked?true:false;
+            //当改变复选框后，要根据复选框的值，决定是否选中全选全部选按钮
+            checkAll.checked = data.every(item=>item.checked)?true:false;
+          };
+      });
+
+      //全选和全不选控制列表
+      let checkAll = footer.querySelector("#checkAll");
+      checkAll.onclick = () =>{
+        //如果checkAll.checked为真，将所有项的checked改为真，反之相反
+        data.forEach((item,index)=>{
+          item.checked = checkAll.checked?true:false;
+          gender(data);
+        });
+      };
+
+      //批量删除
+      let removeMany = footer.querySelector("#remove");
+      removeMany.onclick = () =>{
+        //筛选出没有被选中的数据，把没选中的数据再次进行渲染
+        let uncheckedData = data.filter((item)=>!item.checked);
+        //批量删除后，再次控制全选全不选
+        if(!uncheckedData.length){
+          checkAll.checked = false;
+        }
+        gender(uncheckedData);
+      };
+
+      //添加
+      let newInfo = footer.querySelector("#newInfo");
+      let add = footer.querySelector("#add");
+      add.onclick = () =>{
+        let newInfoVal = newInfo.value;
+        if(newInfoVal===''){
+          alert("请输入添加内容");
+          return;
+        }
+        let id = data.length?data.length+1:1;
+        let addCont = {
+          id: id,
+          title: newInfoVal, 
+          checked: false,
+          collect: false 
+        };
+        data.push(addCont);
+        newInfo.value = '';
+        gender(data);
+        
+      };
+
+    };
+    gender(data);
+
+  }
+
+</script>
+  </body>
+</html>

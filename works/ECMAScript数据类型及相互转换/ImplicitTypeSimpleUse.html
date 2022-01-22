@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>巧妙利用运算符进行隐式类型转换</title>
+</head>
+<body>
+    <script>
+        //想要进行运算，但是有变量是字符串时
+        var num1 = "123";
+        var num2 = 2;
+        //如果直接num1+num2会进行字符串拼接 得到1232
+        console.log("num1+num2直接相加后结果为："+(num1+num2));//1232
+        //传统方法：要想让其以数字类型进行计算需要使用Number()进行转换(注意：不能使用Number(num1+num2),这样会先进行字符串拼接，再转换)
+        console.log("Number(num1)+num2使用Number进行转换类型后结果为："+(Number(num1)+num2));//125
+
+        //巧妙利用运算符进行隐式类型转换:可以直接使用+号一元运算符进行隐式类型转换
+        console.log("(+num1)+num2使用+号隐式类型转换后结果为："+((+num1)+num2));//125
+
+        //想要进行字符串拼接但是变量都是数字类型时
+        var num3 = 10;
+        var num4 = 20;
+        // 两个数字类型直接相加，得到的是两个数之和
+        console.log("num3+num4两个数字类型直接相加后结果："+(num3+num4));//30
+
+        //传统方法：通过String()方法让其转换为字符串，再进行拼接
+        console.log("String(num3)+String(num4)两个数字类型直接相加后结果："+(String(num3)+String(num4)));//1020
+
+        //使用隐式类型转换：注意此处+ ''必须在两个变量中间，因为加法运算是从左到右依次进行计算，如果+''在最后，会先进行和计算再转为字符串
+        console.log("num3+ '' +num4两个数字类型直接相加后结果："+(num3 + '' + num4));//1020
+    </script>
+</body>
+</html>

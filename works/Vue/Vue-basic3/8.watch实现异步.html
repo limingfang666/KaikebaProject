@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>watch</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="keyWord"/>
+        <hr>
+        <ul>
+            <li v-for="user of showUsers" :key="user.id">{{user.username}}</li>
+        </ul>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        let app = new Vue({
+            el: "#app",
+            data: {
+                keyWord:'',
+                users: [
+                    { id: 1, username: 'baogege', gender: '男'},
+                    { id: 2, username: 'mt', gender: '男'},
+                    { id: 3, username: 'haigege', gender: '男'},
+                    { id: 4, username: 'zMouse', gender: '男'},
+                    { id: 5, username: 'reci', gender: '女'},
+                    { id: 6, username: 'lisi', gender: '女'}
+                ],
+                // 因为watch是只有执行过程没有返回，所以需要设置showUsers接收过滤后的数据（computed是直接返回到showUsers作为结果所以不需要）
+                showUsers:[]
+            },
+            watch: {
+                // 注意watch中方法名是v-model监听的值keyWord
+                keyWord(newVal,oldVal){
+                    console.log(newVal,oldVal);
+                    setTimeout(() => {
+                            if(this.keyWord!=""){
+                                this.showUsers = this.users.filter(user=>user.username.includes(this.keyWord));
+                            }
+                        }, 1000);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

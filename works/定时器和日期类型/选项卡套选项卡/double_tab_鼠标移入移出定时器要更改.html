@@ -1,0 +1,189 @@
+<!DOCTYPE html >
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>选项卡套选项卡</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+    <div class="wrap">
+        <div id="box">
+            <ul class="navs">
+                <li class="active">暖色调</li>
+                <li>金色夕阳</li>
+                <li>灰色格调</li>
+                <li>baby</li>
+            </ul>
+            <div style="display: block;">
+                <img src="images/1.png" style="display: block">
+                <img src="images/2.png">
+                <img src="images/3.png">
+                <img src="images/4.png">
+                <ul>
+                    <li class="active">暖色键盘</li>
+                    <li>惬意时光</li>
+                    <li>午后</li>
+                    <li>一杯苦咖啡</li>
+                </ul>
+            </div>
+            <div>
+                <img src="images/5.png" style="display: block">
+                <img src="images/1.png">
+                <ul>
+                    <li class="active">街边夕阳</li>
+                    <li>金色稻草</li>
+                </ul>
+            </div>
+            <div>
+                <img src="images/2.png" style="display: block">
+                <img src="images/3.png">
+                <img src="images/4.png">
+                <img src="images/5.png">
+                <ul>
+                    <li class="active">灰色通讯</li>
+                    <li>咖啡'配'饼干</li>
+                    <li>孤单键盘</li>
+                    <li>枯树</li>
+                </ul>
+            </div>
+            <div>
+                <img src="images/1.png" style="display: block">
+                <img src="images/2.png">
+                <ul>
+                    <li class="active">baby素材一</li>
+                    <li>baby素材二</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+<script>
+    /*
+        嵌套选项卡需求：
+            1,大的外层的选项卡；
+            2,大的选项卡内部有一个小的选项卡；
+            3,功能：   
+                - 自动切换；   
+                - 鼠标经过切换
+        */
+(function(){
+    var wrap = document.querySelector(".wrap");
+    var box = wrap.querySelector("#box");
+    var outLis = box.querySelectorAll(".navs li");
+    var outDiv = box.querySelectorAll("div");
+
+    var outerNum = 0; //控制外层选项卡
+    var innerNum = 0; //控制内层选项卡
+    var inLis = []; //将内层的所有li放进inLis
+    var imgs = []; //将内层所有img放进imgs
+
+    var timer = null;
+
+    init();
+
+    //设置定时器自动播放:定时器需要在初始化之后执行所以需要写在init()方法后面，因为初始化中有判断innerNum和outNum的取值是否合理
+    auto();
+    function auto(){
+        timer = setInterval(function(){
+            innerNum++;
+            //必须在内层渲染之前判断innerNum范围
+            if(innerNum>=inLis[outerNum].length){
+                //当内层选项卡切换完后，切换外层选项卡
+                innerNum = 0
+                outerNum++;
+                setOutTab(); 
+            }
+            setInnerTab();
+        },1000);
+    }
+
+    function init(){
+         //outerNum控制外层选项卡
+        //  for (var i = 0; i < outLis.length; i++) {
+            //设置外层选项卡
+            setOutTab();
+        //  }
+
+        //innerNum控制内层选项卡
+        for (var i = 0; i < outLis.length; i++) {
+            //将获取到的所有li放到二维数组里，再通过外层选项卡的outerNum就可以获取内层选卡是第几组
+            inLis[i] = outDiv[i].querySelectorAll("li");
+            imgs[i] = outDiv[i].querySelectorAll("img");
+        }
+        //设置内层选项卡
+        setInnerTab();
+    }
+
+    function setOutTab(){
+        for (var i = 0; i < outLis.length; i++) {
+            //设置当outerNum范围超出时，默认回到0
+            if(outerNum>outerNum%outLis.length){
+                outerNum=0;
+            }
+            //清除所有选项卡已有样式
+            for (var i = 0; i < outLis.length; i++) {
+                outLis[i].classList.remove("active");
+                outDiv[i].style.display = "none";
+            }
+            //将当前的outerNum选项卡设置active
+            outLis[outerNum].classList.add("active");
+            outDiv[outerNum].style.display = "block";
+        }
+    }
+    function setInnerTab(){
+        //通过outerNum获取到该内层选项卡是第几组，再通过innerNum显示这组（即内层选卡）选中
+        // 循环获得的内层选卡，将所有选卡active和img清空
+        for (var j = 0; j < inLis[outerNum].length; j++) {
+            inLis[outerNum][j].classList.remove("active");
+            imgs[outerNum][j].style.display = "none";
+        }
+        //给当前innerNum设置选中状态
+        //innerNum可能超出选卡length，超出了就设置为0
+        if(innerNum>=inLis[outerNum].length){
+            innerNum=0;
+        }
+        //通过inLis[outerNum][innerNum]获取到当前选中的设置选中样式
+        inLis[outerNum][innerNum].classList.add("active");
+        imgs[outerNum][innerNum].style.display = "block";
+    }
+
+    //外层选项卡实现鼠标经过事件
+    for (var i = 0; i < outLis.length; i++) {
+        outLis[i].index = i;
+        outLis[i].onmouseover = function(){
+            //清除外层选项卡的样式，给当前选项卡设置选中（和初始化方法中一致，可共用）
+            outerNum = this.index;
+            setOutTab();
+
+            //内层选项卡鼠标经过事件
+            //需要在外层显示时，才有。可以通过外层的当前tab即inLis[outerNum]找到内层的当前tab
+            for (var j = 0; j < inLis[outerNum].length; j++) {
+                //每次鼠标移入后，再移入时，将内层选项卡默认设置为0
+                innerNum = 0
+                setInnerTab();//innerNum设置为0后，需要再次进行渲染
+
+                inLis[outerNum][j].index = j;
+                inLis[outerNum][j].onmouseover = function(){
+                    innerNum = this.index;
+                    setInnerTab();
+                };
+                
+            }
+            
+        };
+    }
+
+    //鼠标移入，清除定时器
+    box.onmouseover = function(){
+        clearInterval(timer);
+    };
+    //鼠标移出，添加定时器
+    box.onmouseout = function(){
+        auto();
+    };
+
+})();
+</script>
+</body>
+</html>

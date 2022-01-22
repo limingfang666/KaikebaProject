@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //预解析完后
+        /*
+        var x,y;
+        function add(n)
+        {
+            return n = n + 1;
+        }
+        function add(n)
+        {
+            return n = n + 3;
+        }
+        x = 1, y = z = 0;
+        y = add(x);
+        z = add(x);
+        */
+        var x = 1, y = z = 0;
+        function add(n)
+        {
+            return n = n + 1;
+        }
+        y = add(x);
+        function add(n)
+        {
+            return n = n + 3;
+        }
+        z = add(x);
+
+    </script>
+</body>
+</html>

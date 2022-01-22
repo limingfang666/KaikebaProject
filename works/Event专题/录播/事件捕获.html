@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            border: 1px solid green;
+        }
+        #box {
+            width: 400px;
+            height: 400px;
+            border: 1px solid black;
+        }
+        p {
+            display: block;
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <p></p>
+</div>
+<script>
+{
+    let box = document.querySelector("#box");
+    let p = box.querySelector("p");
+    let body = document.querySelector("body");
+
+    //事件捕获：通过addEventListener(type, listener[, options|useCapture])的第三个参数进行控制，如果是true就是捕获执行，是false就是不捕获执行，即事件默认为冒泡执行
+    body.addEventListener('click',()=>{
+        console.log("body");//只点击body时，只会打印body
+    },true);
+
+    box.addEventListener('click',()=>{
+        console.log("div");//在div范围内p标签范围外，点击会打印body div
+    },true);
+    p.addEventListener('click',()=>{
+        console.log("p");//会打印 body div p 
+    },true);
+
+}
+</script>
+</body>
+</html>

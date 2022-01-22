@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    //数组：根据顺序进行解构
+    // 要求顺序必须一致
+    var arr = [1,2,3];
+    let [e,f,g] = arr;
+    console.log(e,f,g);
+
+    //需求：快速交换a,b的值
+    let a = 0;
+    let b = 1;
+    console.log(a,b);//0,1
+    [a,b] = [b,a];
+    console.log(a,b);//1,0
+    
+</script>
+</body>
+</html>

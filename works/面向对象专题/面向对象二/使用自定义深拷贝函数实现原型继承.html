@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    //继承：子类继承父类的所有属性和行为，父类不受影响
+    function Parent(name){
+        this.eyes = 2;
+        this.name = name;
+        this.legs = 2;
+    } 
+    function Son(name){
+        Parent.call(this,name);
+        this.hobby = "打篮球";
+    } 
+
+    //继承：只会继承父类的构造函数，而不会继承父类的原型
+    Parent.prototype.job = function(){
+        console.log("程序员");
+    }
+    //自定义深拷贝实现原型继承
+    function deepCopy(obj){
+        let newObj = Array.isArray(obj)?[]:{};
+        for(let key in obj){
+            if(obj.hasOwnProperty(key)){
+                if(typeof obj[key] == "object"){
+                    newObj[key] = deepCopy(obj[key]);
+                }else{
+                    newObj[key] = obj[key];
+                }
+            }
+        }
+        return newObj;
+    }
+    Son.prototype = deepCopy(Parent.prototype);
+    //实例化后的对象有构造函数和原型构成，如果只拷贝原型会丢失构造函数，所以还需要将构造函数返回
+    //有时候会通过constructor来判断实例化后的对象是属于哪个构造函数，如果Son.prototype.constructor = Son;不写就判断不了
+    // Son.prototype.constructor = Son;
+    let parent = new Parent("老张");
+    let son = new Son("小明");
+    Son.prototype.job = function(){
+        console.log("销售");
+    }
+    parent.job();//程序员
+    son.job();//销售
+    //如果不写Son.prototype.constructor = Son;时
+    console.log(son.constructor);// Object() { [native code] }
+    Son.prototype.constructor = Son;
+    console.log(son.constructor);//Son(name){Parent.call(this,name);this.hobby = "打篮球";}
+    //需要追加constructor的作用：可以通过constructor来判断，其属于哪个构造器
+    console.log(son.constructor === Son);//true
+    let str = 'abc';
+    console.log(str.constructor === String);//true
+    
+}
+</script>
+</body>
+</html>

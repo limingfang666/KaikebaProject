@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义拖拽指令</title>
+    <style>
+        .box {
+            position: absolute;
+            left: 100px;
+            top: 100px;
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="canDrag = !canDrag">Drag : {{canDrag}}</button>
+        <div class="box" v-drag.limit="canDrag"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 自定义指令用于拖拽
+        Vue.directive('drag', {
+            // v-drag="canDrag"给指令加值了才能从binding中获取值
+            bind(el, { modifiers, value }) {
+                // 获取拖拽前鼠标位置
+                let disX = 0;
+                let disY = 0;
+
+                // 使用isStartDarg控制是否开始或结束拖拽
+                let isStartDarg = false;
+
+                // 获取按钮绑定值和传给指令的修饰符组成的对象(注意此处value是初始化value的值)
+                el.canDrag = value;
+
+                // 注意是给当前组件加监听，所以是el，如果自己通过document.querySelector("div")获取div控制不了
+                el.addEventListener("mousedown", e => {
+                    // 如果按钮值canDrag切换了，会通过componentUpdated进行更改el.canDrag的值
+                    console.log(el.canDrag);
+                    if (!el.canDrag) return;
+
+                    //box的left距离 = e.clientX(鼠标位置x) - el.offsetLeft(鼠标据box边框外侧到body外侧位置) 
+                    disX = e.clientX - el.offsetLeft;
+                    disY = e.clientY - el.offsetTop;
+
+                    isStartDarg = true;
+                    e.preventDefault();
+                });
+
+                // 鼠标移动时给box位置赋值
+                document.addEventListener("mousemove", e => {
+                    // 判断可拖拽才能开始拖拽
+                    if (isStartDarg) {
+                        let x = e.clientX - disX;
+                        let y = e.clientY - disY;
+
+                        // modifiers.limit不会有值，只会有真假表是否存在，此处如果有limit指令修饰符，就限定拖拽范围
+                        if (modifiers.limit) {
+                            x = Math.max(0,x);
+                            y = Math.max(0,y);
+
+                            el.style.left = x + 'px';
+                            el.style.top = y + 'px';
+                        }
+                    }
+                });
+
+                // 鼠标移动时给box位置赋值
+                document.addEventListener("mouseup", e => {
+                    isStartDarg = false;
+                });
+            },
+            // 因为bind()方法只在第一次调用时有效，所以在按钮值更改后需要通过componentUpdated更改canDrag的值，
+            // 且通过bind和componentUpdated都具有的属性el进行共享数据
+            componentUpdated(el, { value }) {
+                console.log('componentUpdated', value);
+                el.canDrag = value;
+            }
+        });
+        let app = new Vue({
+            el: '#app',
+            data: {
+                canDrag: false
+            },
+        });
+    </script>
+</body>
+
+</html>

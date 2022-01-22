@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>员工列表</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body
+        a{
+            text-decoration: none;
+            color: #0d3a4b;
+        }
+        .active{
+            color: #ffffff;
+        }
+
+        .wrap {
+            width: 700px;
+            height: 500px;
+            background-image: url(./images/bg.png);
+            background-repeat: no-repeat;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .wrap #table {
+            width: 460px;
+            border-radius: 12px;
+            position: absolute;
+            left: 50%;
+            top: 160px;
+            transform: translateX(-50%);
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .wrap #table thead {
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            color: #fff;
+            background: #4cbfe5;
+        }
+
+        .wrap #table thead a {
+            color: #fff;
+        }
+
+        .wrap #table tbody {
+            color: #19c2ff;
+        }
+
+        .wrap #table tbody a {
+            color: #19c2ff;
+        }
+
+        .wrap #table tbody tr {
+            background: #fff;
+        }
+
+        .ctrl {
+            position: absolute;
+            left: 200px;
+            top: 100px;
+        }
+
+        .ctrl div {
+            width: 300px;
+            line-height: 30px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="ctrl">
+        <div class="age_sort nu">
+            <a href="javascript:;">年龄从小到大</a>
+            <a href="javascript:;">年龄从大到小</a>
+            <a href="javascript:;" class="active">默认排序</a>
+        </div>
+        <div class="gender_show">
+            <a href="javascript:;">只显示男性</a>
+            <a href="javascript:;">只显示女性</a>
+            <a href="javascript:;" class="active">默认</a>
+        </div>
+    </div>
+    <table id="table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>性别</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- <tr>
+                <th>0</th>
+                <th>小明</th>
+                <th>24</th>
+                <th>男</th>
+            </tr>      -->
+        </tbody>
+    </table>
+</div>
+<script>
+// 数据    
+let data = [
+    {
+        id: 0,
+        name: '小明',
+        age: 24,
+        gender: '男'
+    },
+    {
+        id: 1,
+        name: '小芳',
+        age: 30,
+        gender: '女'
+    },
+    {
+        id: 2,
+        name: '小美',
+        age: 31,
+        gender: '女'
+    },
+    {
+        id: 3,
+        name: '小刚',
+        age: 21,
+        gender: '男'
+    },
+    {
+        id: 4,
+        name: '小琪',
+        age: 18,
+        gender: '女'
+    }
+];
+
+{
+    //渲染视图
+    //首次渲染和排序后渲染是不同的数组，所以不同地方调用传入参数不同
+    let gender = (data) =>{
+        var tbody = document.querySelector("#table tbody");
+        let cont = '';
+        data.forEach(item=>{
+            cont += `
+                <tr>
+                    <th>${item.id}</th>
+                    <th>${item.name}</th>
+                    <th>${item.age}</th>
+                    <th>${item.gender}</th>
+                </tr>
+            `;
+        });
+        tbody.innerHTML = cont;
+    };
+    gender(data);
+
+    //排序
+    let ctrl = document.querySelector(".ctrl");
+    let age_sortA = ctrl.querySelectorAll(".age_sort a");
+    let sortData = [
+        ()=>{data.sort((n1,n2)=>n1.age-n2.age)},
+        ()=>{data.sort((n1,n2)=>n2.age-n1.age)},
+        ()=>{data.sort((n1,n2)=>n1.id-n2.id)},
+    ];
+    let sortAge = (sort_data)=>{
+        age_sortA.forEach((item,index)=>{
+            item.onclick = () =>{
+                console.log(sort_data);
+                //清除所有点击样式，给当前加上选中
+                age_sortA.forEach((item,index)=>{
+                    //注意箭头函数里的this 指向的是window，所以不能使用this
+                    item.classList.remove("active");
+                });
+                item.classList.add("active");
+                
+                //进行排序
+                //注意：需要在排序时获取年龄。且不需要循环整个数组再排序
+                // data.sort((n1,n2)=>n1.age-n2.age);
+                // data.sort((n1,n2)=>n2.age-n1.age);
+                //默认以id进行排序
+                // data.sort((n1,n2)=>n1.id-n2.id);
+
+                //把所有的排序方法都放在数组里，然后获取到数组对应下标的对应方法即可进行，相应的排序 
+                //a标签index为0时即以年龄从小到大排序，执行排序数组中的方法1；为1时从大到小，执行数组方法2；为2时默认，执行数组方法3
+                sortData[index]();
+
+                //排序完成后，需要重新渲染视图
+                gender(sort_data);
+            };
+        });
+    }
+    sortAge(data);
+    //显示性别
+    let gender_showA = ctrl.querySelectorAll(".gender_show a");
+    let filterData = [
+        //这里必须return 才能将函数的值返回
+        ()=>{return data.filter((item)=>item.gender === '男')},
+        ()=>{return data.filter((item)=>item.gender === '女')},
+        ()=>{return data.filter((item)=>true)}
+        // data.filter((item)=>item.gender === '男'),
+        // data.filter((item)=>item.gender === '女'),
+        // data.filter((item)=>true)
+    ];
+    gender_showA.forEach((item,index)=>{
+        item.onclick = () =>{
+            //清除所有点击样式，给当前加上选中
+            gender_showA.forEach((item,index)=>{
+                //注意箭头函数里的this 指向的是window，所以不能使用this
+                item.classList.remove("active");
+            });
+            item.classList.add("active");
+
+            //性别筛选
+            //**filter方法返回的是符合条件的新数组，且不会改变原数组
+            // let newData = data.filter((item)=>item.gender === '女');
+            // let newData = data.filter((item)=>item.gender === '男');
+            // let newData = data.filter((item)=>true);//返回真时，所有的数据都会全部返回
+
+            //把所有的排序方法都放在数组里，然后获取到数组对应下标的对应方法即可进行，相应的排序 
+            //a标签index为0时即以年龄从小到大排序，执行排序数组中的方法1；为1时从大到小，执行数组方法2；为2时默认，执行数组方法3
+            let newData = filterData[index]();
+            gender(newData);
+
+        }
+    });
+}
+
+</script>
+</body>
+
+</html>

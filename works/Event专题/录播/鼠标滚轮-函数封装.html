@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<div></div>
+<script>
+{
+    let div = document.querySelector("div");
+    let h = div.offsetHeight;//Height原始高度
+
+    toWheel(div,function(){
+        h+=5;
+        //这里可以使用this，是因为封装函数时，将其this指向进行了更改
+        this.style.height = h + 'px';
+    },function(){
+        h-=5;   
+        this.style.height = h + 'px';
+    });
+
+    function toWheel(el,downFn,upFn){
+        el.addEventListener('mousewheel',function(e){
+            if(e.wheelDelta>0){
+                //向上
+                //如果直接调用this执行window，可以改变其this指向
+                upFn&&upFn.call(this);
+            }else{
+                //向下
+                downFn&&downFn.call(this);
+            }
+        });
+        el.addEventListener('DOMMouseScroll',function(e){
+            if(e.detail>0){
+                //向上
+                upFn&&upFn.call(this);
+            }else{
+                //向下
+                downFn&&downFn.call(this);
+            }
+        });
+    }
+}
+</script>
+</body>
+</html>

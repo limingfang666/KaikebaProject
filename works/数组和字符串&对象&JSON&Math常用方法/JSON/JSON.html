@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var jsonStr = '{"name":"lmf","age":"18","gender":"female"}';
+
+        //JSON.parse将字符串转为对象
+        var str = JSON.parse(jsonStr);
+        console.log(typeof str);//object
+
+        //将对象转为字符串
+        var obj = JSON.stringify(str);
+        console.log(typeof obj);//string
+        
+    </script>
+</body>
+</html>

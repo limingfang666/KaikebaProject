@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* animation是基于动画帧实现 */
+        @keyframes move{
+            0%{
+                width: 0;
+                height: 0;
+            }
+            25%{
+                width: 150px;
+                height: 100px;
+            }
+            50%{
+                width: 300px;
+                height: 100px;
+            }
+            75%{
+                width: 150px;
+                height: 100px;
+            }
+            100%{
+                width: 0;
+                height: 0;
+            }
+        }
+
+        #box {
+            width: 100px;
+            height: 100px;
+            background: red;
+            animation: move 2s linear 6; 
+            animation-fill-mode: both;
+        }
+        #box:hover {
+            animation-play-state:paused;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <script>
+        var box = document.querySelector("#box");
+        box.addEventListener("animationstart",function(){
+            console.log("动画开始了");
+        });
+        box.addEventListener("animationend",function(){
+            console.log("动画结束了");
+        });
+        box.addEventListener("animationstart",function(){
+            console.log("动画又开始了");
+        });
+    </script>
+</body>
+</html>

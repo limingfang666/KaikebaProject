@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件——组件通信</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>父组件：{{p_quantity}}</p>
+        <!-- 给子组件传入父级数量 -->
+        <child-btn @add="incrementSum" :quantity="p_quantity"></child-btn>
+        <br />
+        <!-- @后面的事件名称自定义，需要和子组件中this.$emit("add")中参数一致 -->
+        <child-btn @add="incrementSum" :quantity="p_quantity"></child-btn>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        let childBtn = {
+            // props中quantity为父级传入的值
+            props: ['quantity'],
+            data() {
+                return {
+                    // 子组件中直接修改父组件的值不被允许，所以通过props将父级传入的值作为初始值传递给子组件
+                    c_quantity: this.quantity
+                };
+            },
+            template: `
+                <div>
+                    子组件：{{c_quantity}}
+                    <button @click="increment">按钮</button>
+                </div>
+            `,
+            methods: {
+                increment(){
+                    // 子组件按钮点击c_quantity++
+                    // 子组件中直接修改父组件的值this.quantity++;，是不允许的会直接报错。
+                    // 所以需要子组件得到父组件的初始值c_quantity: this.quantity，再进行修改
+                    this.c_quantity++;
+
+                    // 子组件通过$emit()将累加的值this.c_quantity修改后，
+                    // 再通过在父组件中 @事件名称 来注册绑定事件函数回传给父组件
+                    // 此处直接调用incrementSum会直接报错：此处不是一个方法
+                    // 所以需要this.$emit("add")自动监听到incrementSum方法
+                    this.$emit("add",this.c_quantity);
+                }
+            }
+        };
+
+        let app = new Vue({
+            el: "#app",
+            data: {
+                // 父组件
+                p_quantity: 0
+            },
+            components: {
+                // 定义子组件
+                childBtn
+            },
+            methods:{
+                // 子组件会回调父组件方法
+                incrementSum(v){
+                    // 子组件中回传过来的值以V进行接收，这里的v只代表某个子组件的值
+                    // 而要计算综合需要累加this.p_quantity。子组件的$emit会通过@add绑定的这个函数自动更新父级数据，所以直接this.p_quantity++
+                    this.p_quantity++;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

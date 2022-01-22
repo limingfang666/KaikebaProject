@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //需求：将所有的key和value获取出来分别组成数组
+        var obj = {
+            name:'lmf',
+            age:18,
+            gender:"female"
+        };
+        //通过for...in实现
+        var keys = [];
+        var values = [];
+        for (var o in obj) {
+            keys.push(o);
+            //注意for...in中使用obj[key]获取到值
+            values.push(obj[o]);
+        }
+        console.log(keys);//["name", "age", "gender"]
+        console.log(values);//["lmf", 18, "female"]
+        
+    </script>
+</body>
+</html>

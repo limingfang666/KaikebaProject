@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>parseInt()测试</title>
+</head>
+<body>
+    <script>
+    //parseInt从左向右一位一位进行转换，遇到非数字就停止，然后把之前的数字提取出来，转成一个完成的数字
+    var str = "10.1";
+    console.log("10.1在 parseInt后的结果为："+parseInt(str)); //10
+
+    //遇到非数字就停止，然后把之前的数字提取出来，转成一个完成的数字
+    var str1 = "111abc";
+    console.log("111abc在 parseInt后的结果为："+parseInt(str1));//111 
+
+    //parseInt如果从第0位开始就不是数字,就直接返回NaN（不是一个数字）
+    var str2 = "abc11";
+    console.log("abc11在 parseInt后的结果为："+parseInt(str2));//NaN 
+
+    //parseInt进行进制转换,不能定义转换成几机制，只是告诉parseInt方法定义的数据是几进制
+    //如此处，0xf是16进制，第二个参数只能写16（用于告诉parseInt方法定义的数据是几进制），写成其他的进制，都会返回0
+    var str3 = "0xf";
+    console.log("0xf在 parseInt后的结果为："+parseInt(str3));//15
+
+    //parseInt如果接受的是一个数字类型的数据，就只做取整，不去做进制转换
+    var str4 = 0xf;
+    console.log("0xf直接是数字类型时，在 parseInt转换后的结果为："+parseInt(str4));//15
+
+    //parseInt如果接收的是其他类型的数据（字符串以外类型），会先转换成字符串，再执行parseInt。
+    //如果是数组，会直接去掉[],返回里面的数据；如果是空数组[]，返回NaN；如果数组的第一位就不是合法数字,['a','1']，返回NaN
+    var arr1 = ['1','1'];
+    console.log("数组['1','1']parseInt后返回的数据为："+parseInt(arr1));
+    //如果是空数组[]，返回NaN
+    var arr2 = [];
+    console.log("空数组[]parseInt后返回的数据为："+parseInt(arr2));
+    //如果数组的第一位就不是合法数字,['a','1']，返回NaN
+    var arr3 = [];
+    console.log("数组的第一位就不是合法数字,['a','1']parseInt后返回的数据为："+parseInt(arr3));
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue对象拦截存在的问题</title>
+</head>
+<body>
+    <script>
+
+        // 对一个对象属性进行监听
+        // let obj = {
+        //     x:1
+        // };
+
+        // // obj的代理对象
+        // let _obj = {
+        //     x:obj.x
+        // };
+        // Object.defineProperty(obj,'x',{
+        //     get(){
+        //         console.log("访问了obj.x");
+        //         return _obj.x;
+        //     }
+        // });
+
+        // 对多个对象属性进行监听（需要对Object.defineProperty()进行封装）
+        let obj = {
+            x:1,
+            y:2,
+            z:3
+        }
+
+        function fn(source){
+            let _obj = Object.assign({},source);
+            Object.keys(_obj).forEach(k=>{
+                Object.defineProperty(source,k,{
+                    get(){
+                        console.log(`监听到了obj的值${_obj[k]}`);
+                        return _obj[k];
+                    }
+                });
+            });
+
+        }
+        fn(obj);
+
+    </script>
+</body>
+</html>

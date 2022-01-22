@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Boolean(val)转换成布尔值</title>
+</head>
+<body>
+    <script>
+        //  - 数字类型：非零的合法数字转换为 true, 零代表 false, NaN 代表 false
+        var b = 1;
+        console.log("1使用Boolean转换类型后为："+Boolean(b));//true
+        var b2 = -1;
+        console.log("-1使用Boolean转换类型后为："+Boolean(b2));//true
+        var b3 = 0;
+        console.log("0使用Boolean转换类型后为："+Boolean(b3));//false
+        var b4 = NaN;
+        console.log("NaN使用Boolean转换类型后为："+Boolean(b4));//false
+
+        // - 字符串类型：空字符串转换为false，非空字符串转换为true
+        var str1 = "";
+        console.log("空字符串使用Boolean转换类型后为："+Boolean(str1));//false
+        var str2 = "abcd";
+        console.log("非空字符串使用Boolean转换类型后为："+Boolean(str2));//true
+
+        // - null：转换为false
+        console.log("null使用Boolean转换类型后为："+Boolean(null));//false
+
+        // - 对象：转换为true，即使是空的，如object空对象，空数组，空函数，一组元素(未获得一组元素返回NodeList [])，Symbol都为true，但没有获取到一个元素是null，Boolean转换后为false
+        var obj = {};
+        console.log("对象object使用Boolean转换类型后为："+Boolean(obj));//true
+        var arr = [];
+        console.log("arr数组使用Boolean转换类型后为："+Boolean(arr));//true
+        var box = document.querySelector(".box");
+        console.log("box未获取到一个元素:"+box);
+        console.log("一个元素使用Boolean转换类型后为："+Boolean(box));//元素box不存在返回false
+        var boxs = document.querySelectorAll(".box");
+        console.log("box未获取到一组元素:"+boxs);//NodeList []
+        console.log("一组元素使用Boolean转换类型后为："+Boolean(boxs));//true
+        var f = function(){};//true
+        console.log("函数使用Boolean转换类型后为："+Boolean(f));//true
+        var s = Symbol();
+        console.log("唯一值Symbol使用Boolean转换类型后为："+Boolean(s));//true
+
+
+    </script>
+</body>
+</html>

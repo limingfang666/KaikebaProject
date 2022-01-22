@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./css/slot.css">
+    <title>插槽</title>
+</head>
+
+<body>
+    <div id="app">
+        <kkb-dialog title="标题" content="这是内容">
+            <table>
+                <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+            </table>
+        </kkb-dialog>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        const Dialog = {
+            props: ['title', 'content'],
+            // 在组件模板中，通过 <slot name="插槽名字"> 来使用
+            template: `
+                <div class="dialog">
+                    <i class="dialog_close_btn"></i>
+                    <div class="dialog_header">
+                        {{title}}
+                    </div>
+                    <div class="dialog_content">
+                        {{content}}
+                    </div>
+                </div>
+            `
+        };
+
+        new Vue({
+            el: '#app',
+            components: {
+                'kkb-dialog': Dialog
+            }
+        });
+    </script>
+</body>
+
+</html>

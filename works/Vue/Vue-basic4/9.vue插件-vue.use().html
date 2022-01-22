@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="send">按钮</button>
+        <kkb></kkb>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        function axios() {
+            console.log("axios");
+        }
+
+        function JQ() {
+            console.log("JQ");
+        }
+
+        function http(_Vue) {
+            // Vue.prototype.http = axios;
+            // Vue.use(function(Vue, options) {
+            //     Vue.prototype.http = axios;
+            // });
+
+            _Vue.mixin({
+                beforeCreate() {
+                    // 判断根组件有adaptor，就给根组件增加$http方法
+                    if (this.$options.adaptor) {
+                        this.$http = this.$options.adaptor;
+                    }
+                    // 其他子组件就判断父级有没有adaptor，如果有，就将父级的$http方法赋给子组件,通过层层递进给子组件赋值
+                    if (this.$options.parent && this.$options.parent.$http) {
+                        this.$http = this.$options.parent.$http;
+                    }
+                }
+            });
+        }
+
+        Vue.use(http);
+
+        // Vue.component实质上也是在实例上创建
+        const kkb = Vue.component("kkb", {
+            template: `
+                <div><button @click="post">按钮</button></div>
+            `,
+            methods: {
+                post() {
+                    console.log("子组件调用-----");
+                    this.$http();
+                }
+            },
+            beforeCreate() {
+                console.log("子组件beforeCreate");
+            },
+        });
+
+        new Vue({
+            el: "#app",
+            // 挂载到data里其实也能实现，只是不太好
+            // data:{
+            //     adaptor: axios
+            // },
+            methods: {
+                send() {
+                    console.log("根组件调用-----");
+                    this.$http();
+                }
+            },
+            beforeCreate() {
+                console.log("根组件beforeCreate");
+            },
+            components: {
+                kkb
+            },
+            // adaptor: axios
+            // 此时如果再想使用一个JQ的插件，直接实例上给出adaptor值即可。后期router,vuex的store都是采用这种方式
+            adaptor: JQ
+        });
+    </script>
+</body>
+
+</html>

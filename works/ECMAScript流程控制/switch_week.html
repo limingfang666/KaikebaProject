@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Switch分支结构：判断今天星期几</title>
+</head>
+<body>
+    <input type="text">
+    <button>今天星期几？</button>
+    <Script>
+        var txt = document.querySelector("input");
+        var btn = document.querySelector("button");
+        btn.onclick = function(){
+            var txtVal = txt.value;
+            //switch是将括号里面的内容和case后面的条件进行全等判断，因此类型和数值都必须相等
+            switch(txtVal){
+                case '1':
+                    console.log("今天是星期一");
+                    break;
+                case '2':
+                    console.log("今天是星期二");
+                    break;
+                case '3':
+                    console.log("今天是星期三");
+                    break;
+                case '4':
+                    console.log("今天是星期四");
+                    break;
+                case '5':
+                    console.log("今天是星期五");
+                    break;
+                case '6':
+                    console.log("今天是星期六");
+                    break;
+                case '7':
+                    console.log("今天是星期天");
+                    break;
+                default:
+                    console.log("您输入的日期不合法！");
+                    break;
+            }
+        };
+    </Script>
+</body>
+</html>

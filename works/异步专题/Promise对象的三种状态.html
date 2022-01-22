@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    let p = new Promise((resolve,reject)=>{
+        resolve("执行成功");
+        // reject("执行失败");
+    });
+
+    //创建Promise对象时，即没有执行成功也没有执行失败，则状态为pending
+    // console.log(p);//Promise {<pending>}
+
+    //创建Promise对象时，如果对象中是执行成功方法resolve，则返回状态为resolved
+    console.log(p);//Promise {<resolved>: "执行成功"}
+    
+    //创建Promise对象时，如果对象中是执行失败方法reject，则返回状态为rejected,且报错
+    // console.log(p);//Promise {<rejected>: "执行失败"}
+
+}
+</script>
+</body>
+</html>

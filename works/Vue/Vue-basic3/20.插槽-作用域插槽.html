@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./css/slot.css">
+    <title>作用域插槽</title>
+</head>
+
+<body>
+    <div id="app">
+        <kkb-dialog>
+            <template v-slot:title>
+                <h1>用户列表 - {{title}}</h1>
+            </template>
+            <!-- <template v-slot:default="data"> -->
+            <!-- 注意 作用域插槽传递给父级组件的数据是以对象进行接收，所以必须data.user才能获取-->
+            <template v-slot="data">
+                <p>用户的姓名: {{data.user.username}}</p>
+            </template>
+
+            <!-- <template v-slot="data">
+                <p>第二种方式：</p>
+                <p v-for="user of data.users">用户的姓名: {{user.username}}</p>
+            </template> -->
+
+            <!-- { "a": 1, "b": 2 } -->
+            <!-- <template v-slot="data">
+                {{data}}
+            </template> -->
+
+        </kkb-dialog>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        const Dialog = {
+            props: ['title'],
+            data() {
+                return {
+                    users: [{
+                        id: 1,
+                        username: 'baogege',
+                        gender: '男',
+                        checked: false
+                    }, {
+                        id: 2,
+                        username: 'mt',
+                        gender: '男',
+                        checked: false
+                    }, {
+                        id: 3,
+                        username: 'haigege',
+                        gender: '男',
+                        checked: false
+                    }, {
+                        id: 4,
+                        username: 'zMouse',
+                        gender: '男',
+                        checked: false
+                    }, {
+                        id: 5,
+                        username: 'reci',
+                        gender: '女',
+                        checked: false
+                    }, {
+                        id: 6,
+                        username: 'lisi',
+                        gender: '女',
+                        checked: false
+                    }]
+                }
+            },
+            // 第一种方式：
+            template: `
+                <div class="dialog">
+                    <i class="dialog_close_btn"></i>
+                    <div class="dialog_header">
+                        <slot name="title"></slot>
+                    </div>
+                    <div class="dialog_content">
+                        <slot v-for="user of users" :user="user"></slot>
+                        <!-- <slot :a="1" :b="2"></slot>-->
+                        <!-- <slot :users="users"></slot> -->
+                    </div>
+                </div>
+                `
+        };
+
+        new Vue({
+            el: '#app',
+            data: {
+                title: '开课吧'
+            },
+            components: {
+                'kkb-dialog': Dialog
+            }
+        });
+    </script>
+</body>
+
+</html>

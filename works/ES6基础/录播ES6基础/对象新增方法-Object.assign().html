@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    let obj1 = {
+        a:1,
+        b:2
+    };
+    let obj2 = {
+        //使用展开运算符合并对象
+        // ...obj1,
+        c:3,
+        d:4
+    };
+    // console.log(obj2);//{a: 1, b: 2, c: 3, d: 4}
+
+    //使用Object.assign()方法合并对象
+    //将obj1合并到obj2中
+    Object.assign(obj2,obj1);
+    console.log(obj2);//{c: 3, d: 4, a: 1, b: 2}
+
+    //将obj2合并到obj1中
+    Object.assign(obj1,obj2);
+    console.log(obj1);//{a: 1, b: 2, c: 3, d: 4}
+
+    //将obj1合并到obj2中，并且obj1的数据在前面：利用空对象
+    obj2 = Object.assign({},obj1,obj2);
+    console.log(obj2);//{a: 1, b: 2, c: 3, d: 4}
+    
+    
+    
+}
+</script>
+</body>
+</html>

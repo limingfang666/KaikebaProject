@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        @keyframes dot {
+            0% {
+                opacity: 1;
+            }
+            20% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        #wrap {
+           margin: 100px auto;
+           width: 700px; 
+           display: flex;
+        }
+        .num {
+            margin: 0 10px;
+            width: 80px;
+            height: 120px;
+            overflow: hidden;
+        }
+        .num-inner div {
+            width: 78px;
+            height: 118px;
+            font: 50px/118px "宋体";
+            color: #fff;
+            background: #000;
+            border: 1px solid #fff;
+            text-align: center;
+            border-radius: 20px;
+        }
+        .dot {
+            font: bold 50px/120px "楷体";
+            /* 通过opacity操作点的动画 */
+            animation: 1s dot linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <div class="num">
+            <div class="num-inner">
+                <div>0</div>
+                <div>0</div>
+            </div>
+        </div>
+        <div class="num">
+            <div class="num-inner">
+                <div>0</div>
+                <div>0</div>
+            </div>
+        </div>
+        <div class="dot">:</div>
+        <div class="num">
+            <div class="num-inner">
+                <div>0</div>
+                <div>0</div>
+            </div>
+        </div>
+        <div class="num">
+            <div class="num-inner">
+                <div>0</div>
+                <div>0</div>
+            </div>
+        </div>
+        <div class="dot">:</div>
+        <div class="num">
+            <div class="num-inner">
+                <div>0</div>
+                <div>0</div>
+            </div>
+        </div>
+        <div class="num">
+            <div class="num-inner">
+                <div>0</div>
+                <div>0</div>
+            </div>
+        </div>
+    </div>
+<script src="mTween.js"></script>    
+<script>
+    {
+        /*
+            思路：
+                使用动画，让点动起来；
+                获取当前时间，并进行补零操作；
+                设置定时器；
+                设置动画让时间div进行翻转；
+                只翻转值改变的div:记录下当前时间每次动画变化时更改oldTime=curTime；
+        */
+        let wrap = document.querySelector("#wrap");
+        let num = wrap.querySelectorAll(".num");
+        let numInner = wrap.querySelectorAll(".num-inner");
+        let oldTime = '000000';
+        let timer = null;
+        let fillZero = (time) =>{
+            return time<10?'0'+time:''+time;
+        };
+        let getTime = () =>{
+            let date = new Date();
+            let hour = fillZero(date.getHours());
+            let minute = fillZero(date.getMinutes());
+            let second = fillZero(date.getSeconds());
+            
+            let curTime = hour+''+minute+''+second;
+
+            /* 使时间所在的div向Y轴移动-120px */
+            numInner.forEach((item,index)=>{
+                css(item,"translateY",0);
+                let divs = item.querySelectorAll(".num-inner div");
+                divs[0].innerHTML = curTime[index];
+                divs[1].innerHTML = curTime[index];
+                
+                //判断如果时间没有改变的div就不进行移动
+                if(!(oldTime[index]===curTime[index])){
+                    //向Y轴移动-120px
+                    mTween({
+                        el:numInner[index],
+                        fx:"easeIn",
+                        attr:{
+                            translateY:-120
+                        }
+                    });
+                }
+            });
+            oldTime = curTime;
+        };
+        //通过定时器刷新时间
+        getTime();
+        clearInterval(timer);
+        timer = setInterval(()=>{
+            getTime();
+        },1000);
+    }
+</script>    
+</body>
+</html>

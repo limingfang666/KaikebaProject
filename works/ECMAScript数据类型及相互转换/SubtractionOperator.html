@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>加性操作符之减法运算符</title>
+</head>
+<body>
+    <script>
+        // 当左右两侧都为Number类型时，按照如下规则返回结果：
+            // 若左右两侧均为数值，执行常规的减法计算；
+            var num1 = 3 - 2;
+            console.log("3 - 2 结果为："+num1);//1
+
+            // 若其中一个操作数为NaN，则返回NaN；
+            var num2 = 3 - NaN;
+            console.log("3 - NaN 结果为："+num2);//NaN
+
+            //若减法运算符的减数为负数，会转为加法运算符进行计算
+            var num3 = 3 - (-2);
+            console.log("3 - (-2) 结果为："+num3);//5
+
+            //减法运算符没有字符串拼接，所以当其中一个数为字符串时会转为Number类型再进行计算
+            var num4 = '3' - (-2);
+            console.log("'3' - (-2) 结果为："+num4);//5
+            var num5 = 3 - (-'2');
+            console.log("3 - (-'2') 结果为："+num5);//5
+
+            //如果左右两侧都是负数，正常进行负数运算
+            var num6 = -5 - 6;
+            console.log("-5 - 6 结果为："+num6);//5
+
+        // 如果操作数是Boolean、String、undefined、null，则会先通过Number将其转为数字类型，然后再进行计算，如果其中转换结果为NaN，则结果为NaN。
+            var num7 = 4 - true;
+            console.log("4 - true 结果为："+num7);//3
+
+            var num8 = 4 - undefined;
+            console.log("4 - undefined 结果为："+num8);//NaN   Number(undefined)结果为NaN，如果其中转换结果为NaN，则结果为NaN
+
+            var num9 = 4 - null;
+            console.log("4 - null 结果为："+num9);//4  Number(null)结果为0
+
+            var num10 = 4 - '3';
+            console.log("4 - '3' 结果为："+num10);//3 String进行减法运算，会将其转为Number类型
+    </script>
+</body>
+</html>

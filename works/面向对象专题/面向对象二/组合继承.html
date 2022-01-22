@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    function Parent(name){
+        this.eyes = 2;
+        this.name = name;
+        this.legs = 2;
+    } 
+    function Son(name){
+        Parent.call(this,name);
+    } 
+    Parent.prototype.job = function(){
+        console.log("程序员");
+    }
+
+    //写一个空的构造函数；
+    // 把父级原型赋值给这个空的构造函数；
+    // 再把实例化这个空构造函数并赋值给自己的原型
+    let Link = function(){};
+    Link.prototype = Parent.prototype;
+    Son.prototype = new Link();
+    //无论哪种方式实现继承都需要设置会子类的构造函数
+    Son.prototype.constructor = Son;
+
+    let parent = new Parent("张三");
+    let son = new Son("李四");
+    Son.prototype.job = function(){
+        console.log("销售");
+    }
+    parent.job();//程序员
+    son.job();//销售
+
+}
+</script>
+</body>
+</html>

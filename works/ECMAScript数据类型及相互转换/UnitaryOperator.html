@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>一元运算符之一元加运算符</title>
+</head>
+<body>
+    <script>
+        // 如果操作数是Number类型时，正号放在数值前面，对其没有任何影响；
+        console.log("+5的结果是:"+(+5));//5
+        // 如果操作数是非Number类型即String，true，false，null，undefined，则（根据对应规则Number）将其转为数字类型（隐式类型转换），再进行运算。
+        console.log("+'5'的结果是:"+(+'5'));//5
+        //如果String里不是数值类型，使用+会直接转为NaN
+        console.log("+'abc'的结果是:"+(+'abc'));//NaN
+
+        console.log("+true的结果是:"+(+true));//1
+        console.log("+false的结果是:"+(+false));//0
+        console.log("+null的结果是:"+(+null));//0
+        console.log("+undefined的结果是:"+(+undefined));//0
+
+        // 无论正号还是负号对NaN，都是没有影响的，结果都为NaN；
+        console.log("+NaN的结果是:"+(+NaN));//NaN
+        console.log("-NaN的结果是:"+(-NaN));//NaN
+    </script>
+</body>
+</html>

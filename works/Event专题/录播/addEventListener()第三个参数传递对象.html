@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            border: 1px solid green;
+        }
+        #box {
+            width: 400px;
+            height: 400px;
+            border: 1px solid black;
+        }
+        p {
+            display: block;
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <p></p>
+</div>
+<script>
+{
+    let box = document.querySelector("#box");
+    let p = box.querySelector("p");
+    let body = document.querySelector("body");
+
+    //addEventListener(type, listener[, options|useCapture])第三个参数传递对象时，有三个值
+    /*
+        - capture  是否在捕获阶段执行,true时为捕获执行
+        - once   是否只执行一次。
+        - passive  阻止取消默认事件 
+    */
+    body.addEventListener('click',()=>{
+        console.log("body");
+    },{
+        capture:true,
+        once:true
+    });
+
+    box.addEventListener('click',()=>{
+        console.log("div");
+    },{
+        capture:true
+    });
+    p.addEventListener('click',()=>{
+        console.log("p");
+    },{
+        capture:true//此处为捕获执行，但是body中设置了once:1，第一次点击p时会执行body div p;第二次以后就只会执行div p 
+    });
+
+}
+</script>
+</body>
+</html>

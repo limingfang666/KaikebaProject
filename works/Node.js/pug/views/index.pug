@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title pug演示
+        style.
+            .mydiv1{
+                width:100px;
+                height:100px;
+                background:green;
+            }
+    body
+        h1 我是pug标题
+        //- class属性
+        div(class="mydiv1") 我是mydiv1
+        //- id属性
+        div(id="mydiv2") 我是id为mydiv2的div
+        //- style行间样式属性
+        div(style={width:"100px",height:"100px","background-color":"red"}) 
+
+        //- div简写
+        .mydiv3 我是mydiv3
+        #mydiv4 我是id为mydiv4的div
+
+        //- 其他标签简写：a标签内class="btn"
+        a.btn
+        img#myImg
+
+        //- 内联书写层级,a: img
+        a: img(alt="这是图片")
+
+        //- 文本通过在 字前 添加竖线符号“|”使原样输出
+        div
+            //- 我是div 文本包含中文会直接报错
+
+            //- 文本全英文会直接生成<hello>标签
+            hello
+            //- 想让文本原样输出，必须使用 “|”转义
+            | hello my dear!
+
+            //- 在html标签标记后通过添加引号“.”添加块级文本 ；
+            div ".我爱你" ".我爱你" ".我爱你"".我爱你"
+
+        //- 使用”-”来定义变量。两种输出方式：使用“=”把变量输出到元素内，如p=str； 使用插值表达式 #{变量}
+        - let str = "你好"
+        p #{str}
+        p=str
+
+        //- 注释
+        //- html原有注释方式，可以在生成的html中看到
+        // 这是html单行注释
+        //
+            这是html多行注释第一行
+            这是html多行注释第二行
+        
+        //- pug自带注释方式
+        //- 这是pug单行注释
+        //- 
+            这是pug多行注释第一行
+            这是pug多行注释第二行
+        
+        //- each in 循环
+        ul
+            each user,index in users
+                li 姓名是：#{user.name}; 年龄是：#{user.age} --------------#{index}
+        
+        //- for 循环
+        - for(let i=0;i<4;i++)
+            span 我是for循环的 #{i}
+
+        //- if else 判断
+        - let num = 3;
+        if num > 10
+            div num大于10
+        else
+            div num小于10
+        
+        //- case when default 判断
+        case num
+            when 1
+                p num为1
+            when 2
+                p num为2
+            when 3
+                p num为3
+            default
+                p num是其他值
+
+        //- 宏模式（混合模式）mixin
+        //- 定义宏
+        mixin mydiv
+            div 我是公共div，通过宏模式创建
+        //- 调用宏
+        +mydiv
+        +mydiv
+        //- 宏模式灵活使用
+        mixin pet(name,sex)
+            p 这是一只#{name}，它是#{sex}的。
+        +pet("狗狗","公")
+        +pet("猫咪","母")
+
+        //- include引入外部文件
+        include common.pug
+
+        //- script标签
+        script(type="text/javascript").
+            console.log("js输出内容");//js输出内容

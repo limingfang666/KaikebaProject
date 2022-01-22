@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../index.js"></script>
+    <title>getComputedStyle(el)</title>
+    <style>
+        #box { width: 100px; height: 100px; background: red; transition:.5s;}
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <script>
+        //需求：点击div，div的width在原有基础上+100px
+        var box = _id("box");
+
+        box.onclick = function(){
+            //直接获取box.style.width是获取不到的，因为样式时写到style标签，而非行间样式
+            //console.log(box.style.width);//获取不到值
+
+            //使用getComputedStyle(el)['样式名']即可获取到当前显示出来的样式
+            // var curStyle = getComputedStyle(box)['width'];
+            var curStyle = currStyle(box,'width');
+            //获取到的结果是“100px”，需要将其进行转为数字。width最后有可能会有小数点，所以最好使用parseFloat()。大多数情况下parseInt()亦可
+            //但是parseInt(curStyle);才能去掉px进行相加
+            //注意px前面的数字千万不要加引号
+            this.style.width = parseInt(curStyle) + 100 + 'px';
+        };
+    </script>
+</body>
+</html>

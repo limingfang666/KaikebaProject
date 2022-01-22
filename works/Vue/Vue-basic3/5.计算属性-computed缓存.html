@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算属性</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{now}}</p>
+        <button @click="showDate=!showDate">showDate</button>
+        <!-- 此处打印的是缓存后的 now-->
+        <p v-if="showDate">{{now}}</p>
+        <hr>
+
+        <p>{{getNow()}}</p>
+        <button @click="showDate = !showDate">getNow</button>
+        <p v-if="showDate">{{getNow()}}</p>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        let a = 1;
+        let app = new Vue({
+            el: "#app",
+            data: {
+                b:1,
+                showDate: false
+            },
+            computed: {
+                now() {
+                    // 如果计算属性依赖的数据没有发生任何变化，该计算属性的get是不会调用的（即缓存）
+                    // 这里监听的数据是其依赖的data里的showDate数据，如果showDate数据变了就会重新计算（并不是data里的任何数据变了都会computed监听）
+                    // 如果监听的是let a =1这种数据，此处now()方法里根本没有依赖这个数据，即使a和b改变了，也不会重新计算
+                    return Date.now();
+                }
+            },
+            methods:{
+                getNow(){
+                    return Date.now();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

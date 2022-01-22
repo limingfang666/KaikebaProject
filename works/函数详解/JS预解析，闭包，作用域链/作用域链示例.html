@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>作用域链示例</title>
+</head>
+<body>
+<script>
+    function fn(){
+        var b = 0;
+        return function(){
+            b++;
+            console.log(b);
+        };
+    }
+    var f = fn();
+    console.log(f);//ƒ (){ b++; console.log(b); }
+    f();//1
+    f();//2
+    f();//3
+    fn()();//1
+</script>    
+</body>
+</html>

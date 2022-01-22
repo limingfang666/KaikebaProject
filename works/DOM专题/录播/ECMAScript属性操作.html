@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box" class="box" kkb="DOM"></div>
+<script>
+{
+    //. 和 [] 都是 ECMAScript的属性操作，通过 ECMAScript的属性操作都是存在内存中，而通过DOM属性操作，属性及值存在DOM文档中
+
+    //直接通过. 和 [] 获取到的是存在内存中的属性及值
+    let box = document.querySelector("div");
+    console.log(box.id);//box
+    console.log(box.className);//获取class的值时，为避免冲突，必须使用className
+
+    //使用ECMAScript的属性操作 . 和 [] 获取或设置w3c规定之外的非合法属性，会返回undefined
+    console.log(box.kkb);//undefined
+
+}    
+</script>
+</body>
+</html>

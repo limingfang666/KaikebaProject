@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<button>双击</button>
+<form action="">
+    <input type="text" id="txt">
+    <br>
+    <input type="submit" value="提交" id="sub">
+    <input type="reset" value="重置" id="res">
+</form>
+<script>
+{
+    let btn = document.querySelector("button");
+    let txt = document.querySelector("#txt");
+    let sub = document.querySelector("#sub");
+    let res = document.querySelector("#res");
+    
+    btn.addEventListener('dblclick',function(){
+        alert("双击了");
+    });
+    //blur、focus、change、input、submit、reset事件
+    txt.addEventListener('focus',function(){
+        console.log("获取焦点");
+    });
+    txt.addEventListener('blur',function(){
+        console.log("失去焦点");
+    });
+    txt.addEventListener('input',function(){
+        console.log("内容修改时");
+    });
+    txt.addEventListener('change',function(){
+        console.log("内容修改，且失去光标后");
+    });
+
+    //必须内容有改变才能提交
+    sub.addEventListener('submit',function(e){
+        e.preventDefault();
+        console.log("提交");
+        return false;
+    });
+    res.addEventListener('reset',function(){
+        console.log("重置");
+    });
+
+    //blur()、focus()、select()
+    //当按下空格键32时，获取光标；alt 18时失去光标；16 shift键选中文本
+    document.addEventListener('keydown',function(e){
+        console.log(e.keyCode);
+        let code = e.keyCode;
+        if(e.keyCode == 9){
+            txt.blur();
+        }
+        if(e.keyCode == 32){
+            txt.focus();
+        }
+        if(e.keyCode == 16){
+            txt.select();
+        }
+    });
+}
+</script>
+</body>
+</html>

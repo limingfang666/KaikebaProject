@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="wrap">
+    <p>p1</p>
+    <p>p2</p>
+    <!-- 注释 -->
+    <h3>h2</h3>
+    <p>p3</p>
+    <p>p4</p>
+    <h3>h2</h3>
+    <p>p5</p>
+    <h3>h2</h3>
+    <p>p6</p>
+</div>
+<script>
+{
+    /*
+        - firstChild 第0个子节点
+        - firstElementChild 第0个子元素
+        - lastChild 最后一个子节点
+        - lastElementChild 最后一个子元素
+    */
+    let wrap = document.querySelector("#wrap");
+    console.log(wrap.firstChild,wrap.firstElementChild);//#text  <p>p1</p>
+    console.log(wrap.lastChild,wrap.lastElementChild);//#text  <p>p6</p>
+    
+    
+}
+</script>
+</body>
+</html>

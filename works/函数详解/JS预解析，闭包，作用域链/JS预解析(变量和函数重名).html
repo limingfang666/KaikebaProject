@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JS预解析(变量和函数重名)</title>
+</head>
+<body>
+<script>
+    /*
+        解析过程：先预解析var声明的a,再预解析函数体a，后面覆盖前面，所以最后结果是function函数体
+        var a;
+        function a(){console.log("函数a");};//此函数体解析后会覆盖变量a
+    */
+    console.log(a);
+    var a = 0;
+    function a(){
+        console.log("函数a");
+    }
+</script>    
+</body>
+</html>

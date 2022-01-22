@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style id="css">
+        #box {
+            margin: 100px auto;
+            width: 800px;
+            /* 高度由内容撑开 */
+            /* 由于动画执行的是ul即list,所以景深应该加载其父级上 */
+            perspective: 1000px;
+            
+        }
+        .list {
+            list-style: none;
+            /* 动画效果是整个ul */
+            transform-style: preserve-3d;
+            /* ul的整体高度，必须定义，否则最上面的span显示不出来 */
+            height: 360px;
+            /* 设置margin为0，让ul和li总宽度一致 */
+            margin: 0;
+			padding: 0;
+            
+        }
+        .list li {
+            width: 25px;
+			height: 360px;
+            /* 一定要设置li的宽高，并且设置float */
+            float: left;
+            position:relative;
+            transform-style: preserve-3d;
+            transition: .5s;
+            list-style: none;
+        }
+        /* span和em都是针对父级li进行绝对定位 */
+        .list span, .list em {
+            position: absolute;
+            display: block;
+            height: 360px;
+            float: left;
+        }
+        .list span {
+            width: 25px;
+            left: 0;
+            top: 0;
+        }
+        .list em {
+            width: 360px;
+            /* 因为宽度问题，需要margin设置为-180px */
+            margin: 0 0 0 -180px;
+            
+        }
+        
+        /*6面体：对各个span和em分别进行样式设置 */
+        .list span:nth-of-type(1) {
+            background: url(img/1.jpg);
+            transform: rotateX(0deg) translateZ(180px);
+        }
+         .list span:nth-of-type(2) {
+            background: url(img/2.jpg);
+            transform: rotateX(90deg) translateZ(180px);
+        }
+        .list span:nth-of-type(3) {
+            background: url(img/3.jpg);
+            transform: rotateX(180deg) translateZ(180px);
+        }
+        .list span:nth-of-type(4) {
+            background: url(img/4.jpg);
+            transform: rotateX(270deg) translateZ(180px);
+        } 
+        .list em:nth-of-type(1){
+            transform: rotateY(-90deg) translateZ(-12.5px);
+        }
+        .list em:nth-of-type(2){
+            transform: rotateY(90deg) translateZ(-12.5px)
+        }
+        /* 按钮 */
+        #btns{
+            padding: 50px;
+			height: 30px;
+        }
+        #btns li {
+            height: 30px;
+			width: 30px;
+			background: #000;
+			color: #fff;
+			font-size: 16px;
+			text-align: center;
+			line-height: 30px;
+			margin: 0 10px;
+			float: left;
+			border-radius: 50%;
+			list-style: none;
+        }
+        #btns .active {
+            background: rgb(247, 199, 43);
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <ul class="list">
+        <!-- <li>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <em></em>
+            <em></em>
+        </li> -->
+    </ul>
+    <ol id="btns">
+            <li class="active">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+    </ol>
+</div>
+<script src="mTween.js"></script>
+<script>
+{
+    /*
+        思路：
+            1,实现一个6面体：使用手动方式实现一个li，li下通过css transform实现一个6面体
+            2,实现多个6面体：通过JS方式计算总宽高和li的宽高，实现多个6面体
+            3,JS中写CSS样式：实现所有6面体背景图位置
+            4,调整距离：给li整体移动translateZ -180，使其和原始图片大小保持一致
+            5,设置点击事件：动画是在整理ul上进行，使用定时器让所有li间隔翻转
+
+    */
+    let box = document.querySelector("#box");
+    let list = box.querySelector(".list");
+    let btns = box.querySelector("#btns");
+    //获取总的box宽度, box宽度/spanW即为要生成的li个数
+    let boxW = css(box,"width");
+    let spanW = 25;
+    let len = boxW/spanW;
+
+    //通过JS写css样式
+    let cssStyle = document.querySelector("#css");
+    let cssInner = '';
+
+    let inner = '';
+    for (let i = 0; i < len; i++) {
+        inner += `
+            <li>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <em></em>
+                <em></em>
+            </li>
+        `;
+        //通过JS写css样式:给每个list下面的li的第一个span加上图片背景
+        cssInner += '.list li:nth-child('+(i+1)+') span { background-position: '+ (-i*spanW) +'px 0px}';
+    }
+    list.innerHTML = inner;
+    cssStyle.innerHTML += cssInner;
+
+    //给这个ul后移180，回到原来位置之后，大小也一样大，就不会有间隔
+    let lis = list.querySelectorAll("li");
+    lis.forEach((item,index)=>{
+        css(item,"translateZ",-180);
+    });
+
+    //点击按钮切换幻灯片
+    let btnLis = btns.querySelectorAll("li");
+    let allLis = list.querySelectorAll("li");
+    btnLis.forEach((item,index)=>{
+        item.onclick = function(){
+            btnLis.forEach(item=>{
+                item.classList.remove("active");
+            });
+            item.classList.add("active");
+            //点击按钮时旋转整个ul,每个相对旋转-index*90
+            //使用定时器，让ul的li一个接一个进行旋转
+            allLis.forEach(item=>{
+                let timer = 0;
+                let num = 0;
+                timer = setInterval(function(){
+                    // num = Math.max(0,allLis.length);
+                    if(num>=allLis.length-1){
+                        clearInterval(timer);
+                    }
+                    mTween.stop(allLis[num]);
+                    css(allLis[num++],"rotateX",-index*90);
+                },30);
+            });
+        };
+    });
+    
+}
+</script>
+</body>
+</html>

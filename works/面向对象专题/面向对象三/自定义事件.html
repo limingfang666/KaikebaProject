@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<button>点击</button>
+
+<body>
+    <script>
+        {
+            //需求：自定义事件,一次触发执行多个事件。把函数当事件执行
+            let btn = document.querySelector("button");
+
+            function event1() {
+                console.log("event1...");
+            }
+            function event2() {
+                console.log("event2...");
+            }
+            function event3() {
+                console.log("event3...");
+            }
+            //1.按照原始写法，多个事件执行需要进行分别调用
+            // event1();
+            // event2();
+
+            //2.事件监听，本来就可以实现一次触发执行多个事件
+            // btn.addEventListener("click",event1);
+            // btn.addEventListener("click",event2);
+
+            //3.自定义事件：实现一次触发执行多个事件
+            //原理：先将多个事件存放在对象的数组里，当触发时循环执行对象的数组里的事件；需要移出事件时，也可以循环找到对应事件进行移出
+            let eventObj = {
+                // event:[event1,event2]
+            };
+            //将所有事件存到数组中
+            function addEvent(eventName, fn) {
+                //如果typeof event[eventName]为undefined证明数组中方法不存在
+                if (typeof eventObj[eventName] == "undefined") {
+                    eventObj[eventName] = [];
+                }
+                eventObj[eventName].push(fn);
+            }
+
+            //事件触发
+            function triggerEvent(eventName) {
+                if (typeof eventObj[eventName] == "undefined") {
+                    return;
+                }
+
+                eventObj[eventName].forEach(item => {
+                    item();
+                });
+
+            }
+
+            //移出事件
+            function removeEvent(eventName, fn) {
+                //判断事件不存在就不移出
+                if (!fn in eventObj[eventName]) {
+                    return;
+                }
+                //循环数组eventObj[eventName]，如果数组中有方法为fn的就删除
+                for (let i = 0; i < eventObj[eventName].length; i++) {
+                    //保证删除的是指定的事件
+                    if (eventObj[eventName][i] === fn) {
+                        eventObj[eventName].splice(i, 1);
+                        //删除了就不再继续循环
+                        break;
+                    }
+                }
+            }
+            btn.addEventListener("click",function(){
+                addEvent("event", event1);
+                addEvent("event", event2);
+                
+                removeEvent("event", event2);
+    
+                triggerEvent("event");
+            });
+
+        }
+    </script>
+</body>
+
+</html>

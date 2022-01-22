@@ -1,0 +1,28 @@
+meta(charset='UTF-8')
+meta(name='viewport', content='width=device-width,initial-scale=1')
+meta(http-equiv='X-UA-Compatible', content='ie=edge')
+link(rel='stylesheet', href='../index.css')
+title 文章信息展示
+.wrap
+  ul.news-list
+    each item in curData
+      li.news
+        a(href='javascript:;')
+          img(src='../img.png', alt)
+        div
+          h3
+            a(href='/news/detail?id='+item.id) #{item.title}
+          .info
+            span.tips
+              span #{item.publisher}
+            //  <span class="line"></span> 
+            span.time |   #{item.time}
+.pagination
+  - let p = parseInt(pageNum);
+    a.prev(href=`/news/index?p=${Math.max(1,p-1)}`) ⌜
+      - for(let i=1;i<=pageTotal;i++)
+        - if(p == i)
+          a(href='/news/index?p='+i class="active") #{i}
+        - else
+          a(href='/news/index?p='+i) #{i}
+    a.next(href=`/news/index?p=${Math.min(pageTotal,p+1)}`) ⌝

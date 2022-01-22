@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./css/slot.css">
+    <title>不使用插槽</title>
+</head>
+
+<body>
+    <div id="app">
+        <kkb-dialog title="标题" content="这是内容">
+            <p>这是内容</p>
+        </kkb-dialog>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        const Dialog = {
+            props: ['title', 'content'],
+            template: `
+                <div class="dialog">
+                    <i class="dialog_close_btn"></i>
+                    <div class="dialog_header">
+                        <span class="dialog_title">{{title}}</span>
+                    </div>
+                    <div class="dialog_content">
+                        {{content}}
+                    </div>
+                </div>
+                `
+        };
+
+        new Vue({
+            el: '#app',
+            components: {
+                'kkb-dialog': Dialog
+            }
+        });
+    </script>
+</body>
+
+</html>

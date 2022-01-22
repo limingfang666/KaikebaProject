@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+  class Dad{
+      name = "张三";
+      age = 40;
+      constructor(height){
+          this.height = height;
+      }
+      hobby(){
+          console.log("喜欢篮球");
+      }
+  }
+  class Son extends Dad{
+      constructor(height){
+          //表示父类的构造函数
+          super(height);
+      }
+      hobby(){
+          super.hobby();
+          console.log("也喜欢足球");
+      }
+  }
+  let son1 = new Son("178cm");
+  son1.hobby();//喜欢篮球 也喜欢足球
+  console.log(son1.height);//178cm
+</script>
+</body>
+</html>

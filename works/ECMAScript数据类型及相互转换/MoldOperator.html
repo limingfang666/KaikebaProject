@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>乘性操作符之取模运算符</title>
+</head>
+<body>
+    <script>
+        // 如果左右两侧均为Number类型时，按照如下规则返回结果：
+            // 如果左右两侧均为数值，按照常规除法进行计算，返回余数；
+            console.log("12%7 结果为："+(12%7));//5
+
+            // 如果有一侧是NaN，则返回NaN；
+            console.log("12%NaN 结果为："+(12%NaN));//NaN
+            console.log("NaN%7 结果为："+(NaN%7));//NaN
+
+            // 如果除数是0，则结果返回NaN；
+            console.log("7%0 结果为："+(7%0));//NaN
+
+            //如果被除数是0，则结果返回0；
+            console.log("0%7 结果为："+(0%7));//0
+
+        // 如果任意一侧不是Number类型（String，Boolean，null，undefined等），则（根据对应的规则Number）转为数字类型，然后再进行计算。
+            console.log("'1'%7 结果为："+('1'%7));//Number('1')%7 = 1
+            console.log("true%7 结果为："+(true%7));//Number(true)%7 = 1
+            console.log("false%7 结果为："+(false%7));//Number(false)%7 = 0
+            console.log("null%7 结果为："+(null%7));//Number(null)%7 = 0
+            console.log("undefined%7 结果为："+(undefined%7));//Number(undefined)%7 = NaN
+    </script>
+</body>
+</html>

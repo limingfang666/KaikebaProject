@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        nav {
+            margin: 100px;
+        }
+        a {
+            perspective: 50px;
+            float: left;
+            margin: 0 10px;
+            border: 1px solid black;
+            height: 30px;
+            font: 16px/30px "宋体";
+            text-decoration: none;
+        }
+        span {
+            transform-style: preserve-3d;
+            /* **由于a设置了浮动，所以这里必须设置浮动，才能不脱离文档流 */
+            float: left;
+            height: 30px;
+            border: 1px solid black;
+            transition: .5s;
+            transform-origin: center center -15px;
+
+        }
+        em {
+            font-style: normal;
+            display: block;
+            backface-visibility: hidden;
+            /* 隐藏背面：加给 3d 每一个面
+                背面：和父级角度相对面
+             */
+        }
+
+        span em:nth-child(1){
+            color: black;
+            transform: rotateX(0deg);
+        }
+        span em:nth-child(2){
+            color: red;
+            transform-origin: top;
+            transform: rotateX(-90deg);
+        }
+        a:hover span {
+            transform: rotateX(90deg);
+        }
+    </style>
+</head>
+<body>
+   <nav>
+        <a href="#">
+            <span>
+                <em>首页</em>
+                <em>首页</em>
+            </span>
+        </a>
+        <a href="#">
+            <span>
+                <em>妙味</em>
+                <em>妙味</em>
+            </span>
+        </a>
+        <a href="#">
+            <span>
+                <em>开课吧</em>
+                <em>开课吧</em>
+            </span>
+        </a>
+   </nav> 
+</body>
+</html>

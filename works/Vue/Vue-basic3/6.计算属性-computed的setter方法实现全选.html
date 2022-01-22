@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算属性</title>
+</head>
+
+<body>
+    <div id="app">
+        <label><input type="radio" v-model="gender" value="" />全部</label>
+        <label><input type="radio" v-model="gender" value="男" />男</label>
+        <label><input type="radio" v-model="gender" value="女" />女</label>
+        <hr>
+        <ul>
+            <!-- 使用v-model将复选框和数据进行双绑定 -->
+            <li v-for="user in showUsers" :key="user.id"><input type="checkbox" v-model="user.checked"/>{{user.username}} ---- {{user.gender}}</li>
+        </ul>
+        <!-- 使用v-model将checkAll和复选框进行双绑 -->
+        <input type="checkbox" v-model="checkAll"/> 全选
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        let app = new Vue({
+            el: "#app",
+            data: {
+                gender: '',// 用于存储checked的性别
+                users: [
+                    { id: 1, username: 'baogege', gender: '男' ,checked:false},
+                    { id: 2, username: 'mt', gender: '男' ,checked:false},
+                    { id: 3, username: 'haigege', gender: '男' ,checked:false},
+                    { id: 4, username: 'zMouse', gender: '男' ,checked:false},
+                    { id: 5, username: 'reci', gender: '女' ,checked:false},
+                    { id: 6, username: 'lisi', gender: '女' ,checked:false}
+                ]
+            },
+            // 注意：computed是vue实例的一个属性，不是data中的属性
+            computed: {
+                showUsers(){
+                    return this.gender === "" ? this.users : this.users.filter(user => this.gender == user.gender);
+                },
+                // checkAll是返回的派生数据（真假check）
+                checkAll:{
+                    // 当this.users里面的数据发生改变时出发get()方法，产生新的checkAll的值
+                    get(){
+                        // 全选函数every  user.checked==true可以直接写为user.checked
+                        return this.users.every(user=>user.checked);
+                    },
+                    // 如果使用v-bind:checked="checkAll"不会反向绑定
+                    // v-model会双向绑定，computed如果没有set()方法，但是使用v-model设置值就会报错;
+                    // 有set()方法时会自动将当前最新的值传入，注意不能通过this.checkAll得到
+                    // 当对checkAll进行赋值时，触发set()
+                    set(newVal){
+                        // 设置当全选按钮点击时，同时更新data数据，将所有checked取反
+                        // this.users.forEach(user => {
+                        //     user.checked = !user.checked;
+                        // });
+
+                        // map()：接收一个函数，将原数组中的所有元素用这个函数处理后放入新数组返回。
+                        this.users = this.users.map(user=>{
+                            return {//...user生成新数组
+                                ...user,checked:newVal
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

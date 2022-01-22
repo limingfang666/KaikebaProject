@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            position: absolute;
+        }
+        #div1 {
+            background: red;
+            top: 20px;
+            left: 50px;
+        }
+        #div2 {
+            background: green;
+            top: 200px;
+            left: 500px;
+        }
+    </style>
+</head>
+<body>
+<div id="div1"></div>
+<div id="div2"></div>
+<script>
+{
+    //需求：拖动div1或者div2，两者碰到其中一个div颜色就变化
+    /*
+        没有碰到的情况：
+            div1.right < div2.left ||
+            div1.bottom < div2.top ||
+            div1.left > div2.right ||
+            div1.top > div.bottom
+        碰到的情况：
+            div1.right > div2.left &&
+            div1.bottom > div2.top &&
+            div1.left < div2.right &&
+            div1.top < div.bottom
+    */
+    let div1 = document.querySelector("#div1");
+    let div2 = document.querySelector("#div2");
+
+    //获取/设置元素的样式
+    function css(el,attr,val){
+        if(arguments.length == 3){
+            el.style[attr] = val;
+        }else{
+            return parseInt(getComputedStyle(el)[attr]);
+        }
+    }
+
+    let isConcat = (div1,div2) =>{
+        //判断是否碰撞
+        let div1Dis = div1.getBoundingClientRect();
+        let div2Dis = div2.getBoundingClientRect();
+        if(div1Dis.right < div2Dis.left ||
+            div1Dis.bottom < div2Dis.top ||
+            div1Dis.left > div2Dis.right ||
+            div1Dis.top > div2Dis.bottom){
+                css(div2,"background","green");
+                
+        }else{
+            css(div2,"background","yellow");
+        }
+    }
+    
+    //拖动div1
+    div1.addEventListener("mousedown",function(e){
+        //获取鼠标起始位置
+        let startPos = {};
+        startPos.x = e.clientX;
+        startPos.y = e.clientY;
+        let top = css(div1,"top");
+        let left = css(div1,"left");
+
+        //鼠标移动时，获取移动时鼠标的当前位置
+        function move(e){
+            let curPos = {};
+            curPos.x = e.clientX;
+            curPos.y = e.clientY;
+            //解决超出边界问题
+            let t = curPos.y - startPos.y + top;
+            let l = curPos.x - startPos.x + left;
+            t = Math.max(0,t);
+            l = Math.max(0,l);
+            let maxL = document.documentElement.clientWidth - div1.offsetWidth;
+            let maxT = document.documentElement.clientHeight - div1.offsetHeight;
+
+            t = Math.min(t,maxT);
+            l = Math.min(l,maxL);
+
+            //通过 鼠标当前位置 - 起始位置 + div的起始top/left 得到当前div的位置
+            div1.style.top = t + 'px';
+            div1.style.left = l + 'px';
+            isConcat(div1,div2);
+            e.preventDefault();
+        }
+        document.addEventListener("mousemove",move);
+        //鼠标放开时，清除移动
+        document.addEventListener("mouseup",function(){
+            document.removeEventListener("mousemove",move);
+        },{
+            once:true
+        });
+
+    });
+}
+</script>
+</body>
+</html>

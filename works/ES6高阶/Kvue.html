@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="Kvue-new-Proxy.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        {{message}}外层
+        <div>
+            <span>{{message}}</span>
+        </div>
+        {{code}}
+        <!-- 注意所有v-html或 v-model都必须在el属性范围内-->
+        <div v-html="htmlData"></div>
+        <!-- 数据双绑定——输入框输入内容的数据也会被劫持 -->
+        <input v-model="modelData"/> {{modelData}}
+
+    </div>
+    <script>
+        let kVue = new Kvue({
+            el: '#app',
+            data: {
+                message: "这是我的Kvue!",
+                code: 303,
+                // 注意此处属性值必须和布局中v-html 和v-model后面的属性值保持一致
+                htmlData:"html数据",
+                modelData:"数据双绑定"
+            }
+        });
+        //监听获取数据
+        // console.log(kVue.data);
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="send">按钮</button>
+        <kkb></kkb>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        function axios() {
+            console.log("axios");
+        }
+
+        Vue.prototype.http = axios;
+
+        // Vue.component实质上也是在实例上创建
+        const kkb = Vue.component("kkb", {
+            template: `
+                <div><button @click="post">按钮</button></div>
+            `,
+            methods: {
+                post() {
+                    console.log("子组件调用-----");
+                    this.http();
+                }
+            }
+        });
+
+        new Vue({
+            el: "#app",
+            methods: {
+                send() {
+                    console.log("根组件调用-----");
+                    this.http();
+                }
+            },
+            components: {
+                kkb
+            }
+        });
+    </script>
+</body>
+
+</html>

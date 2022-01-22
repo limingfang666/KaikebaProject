@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+{
+    //需求：三个数据请求，请求1依赖请求2，请求2请求3。即请求1必须在请求2执行完成后才能执行，请求2必须在请求3执行完了才能执行
+    //Promise异步即以同步的方式实现异步
+    async function fn(){
+        await new Promise((resolve,reject)=>{
+            setTimeout(function(){
+                console.log("请求3");
+                resolve();
+            },1000);
+        });
+        await new Promise((resolve,reject)=>{
+            setTimeout(function(){
+                console.log("请求2");
+                reject();
+            },1000);
+        });
+        await new Promise((resolve,reject)=>{
+            setTimeout(function(){
+                console.log("请求1");
+                resolve();
+            },1000);
+        });
+    }
+
+    fn();
+}
+</script>
+</body>
+</html>

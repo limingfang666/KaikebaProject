@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>闭包</title>
+</head>
+<body>
+<script>
+    function fn(){
+        var a = 0;
+        function fn2(){
+            console.log(a);//fn2是fn的子函数，所以可以访问父级作用域的a
+        }
+        fn2();
+    }
+    fn();
+    console.log(a);//在fn函数作用域外，不能访问其子级作用域fn中的变量a
+</script>
+</body>
+</html>

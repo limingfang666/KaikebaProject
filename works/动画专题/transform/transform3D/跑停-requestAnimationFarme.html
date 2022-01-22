@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background: red;
+            margin-bottom: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <button>跑</button>
+    <button>停</button>
+    <script>
+        var box = document.querySelector("#box");
+        var l = 0;
+        var btns = document.querySelectorAll("button");
+        var runner = 0;
+        btns[0].onclick = function(){
+            cancelAnimationFrame(runner);
+            runner = requestAnimationFrame(setTranslateX);
+            function setTranslateX(){
+                l +=1;
+                box.style.transform = 'translateX('+ l +'px)';
+                runner = requestAnimationFrame(setTranslateX);
+            }
+        };
+
+        btns[1].onclick = function(){
+            cancelAnimationFrame(runner);
+        };
+    </script>
+</body>
+</html>

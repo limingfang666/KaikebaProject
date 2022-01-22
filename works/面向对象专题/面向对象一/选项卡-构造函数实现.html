@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .cont div {
+            display: none;
+        }
+        .active {
+            background: red;
+        }
+        .cont .show {
+            display: block;
+        }
+        .next {
+            margin: 20px 0 50px 0;
+        }
+    </style>
+</head>
+<body>
+<div id="wrap1">
+    <div class="btns">
+        <button class="active">选卡一</button>
+        <button>选卡二</button>
+        <button>选卡三</button>
+    </div>
+    <div class="cont">
+        <div class="show">内容一</div>
+        <div>内容二</div>
+        <div>内容三</div>
+    </div>
+    <button class="next">第一个选项卡实现下一页</button>
+</div>
+<div id="wrap2">
+    <div class="btns">
+        <button class="active">选卡一</button>
+        <button>选卡二</button>
+        <button>选卡三</button>
+        <button>选卡四</button>
+        <button>选卡五</button>
+    </div>
+    <div class="cont">
+        <div class="show">内容一</div>
+        <div>内容二</div>
+        <div>内容三</div>
+        <div>内容四</div>
+        <div>内容五</div>
+    </div>
+    <button class="play">开始轮播</button>
+</div>
+<script>
+{
+    /*
+        构造方法实现多个不同数量的选项卡
+            思路：btns保留为Tab的属性
+                psFor保留为Tab原型上的方法
+                可以封装一个添加事件监听的方法去为元素添加各种事件
+        面向对象的基本思想：尽量少用函数嵌套，降低耦合；构造函数中一般只写属性或者初始化方法，其他方法一般都不写在构造函数里，以节省内存空间
+    */
+    //需求：选项卡数量使用构造方法实现
+    //构造函数和原型里的this都指的是实例化后的tab1或者tab2对象
+    function Tab(btns,cont){
+        this.btns = btns;
+        this.cont = cont;
+        this.tabNum = btns.length;
+        //因为每个选项卡都需要循环，所以写在构造函数中
+        this.tabFor();
+    }
+    //循环选项卡
+    Tab.prototype.tabFor = function(){
+        this.btns.forEach((item,index)=>{
+            item.onclick = ()=>{
+                //因为都使用箭头函数，所以最后的this，指向最外层作用域的Tab
+                this.changeTab(index);
+            };
+        });
+    }
+    //切换选项卡时更改样式
+    Tab.prototype.changeTab = function(num){
+        this.btns.forEach((item,index)=>{
+            item.classList.remove("active");
+            this.cont[index].classList.remove("show");
+        });
+        this.btns[num].classList.add("active");
+        this.cont[num].classList.add("show");
+    }
+    //轮播或下一页时，获取点击切换的index
+    Tab.prototype.getIndex = function(){
+        //可以通过this获取到所有实例化后的对象，即可以得到所有选项卡，就能获取到被选中的index
+        //注意forEach循环的返回值是undefined，不能使用forEach循环返回
+        for (let i = 0; i < this.btns.length; i++) {
+            if(this.btns[i].classList.value === "active"){
+                return i;
+            }
+        }
+    }
+
+    //第一个选项卡私有方法：下一页
+    let wrap1 = document.querySelector("#wrap1");
+    let btns = wrap1.querySelectorAll(".btns button");
+    let cont = wrap1.querySelectorAll(".cont div");
+    let next = wrap1.querySelector(".next");
+    let tab1 = new Tab(btns,cont);
+    let num1 = 0;
+    next.onclick = function(){
+        num1 = tab1.getIndex();
+        //这有选项卡1和2点击下一页或轮播私有，其他时候没有，所以不能写在原型上
+        num1++;
+        num1 = num1>tab1.tabNum-1?0:num1;
+        tab1.changeTab(num1);
+    };
+    
+    //第一个选项卡私有方法：自动播放
+    let wrap2 = document.querySelector("#wrap2");
+    let btns2 = wrap2.querySelectorAll(".btns button");
+    let cont2 = wrap2.querySelectorAll(".cont div");
+    let tab2 = new Tab(btns2,cont2);
+    let playBtn = wrap2.querySelector(".play");
+    let timer = 0;
+    playBtn.onclick = function(){
+        let num2 = 0;
+        clearInterval(timer);
+        timer = setInterval(()=>{
+            num2 = tab2.getIndex();
+            num2++;
+            num2 = num2>tab2.tabNum-1?0:num2;
+            tab2.changeTab(num2);
+        },1000);
+    };
+}
+</script>
+</body>  
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            height: 200px;
+            width: 2000px;
+            border: 1px solid black;
+        }
+        #ad {
+            width: 200px;
+            height: 200px;
+            background: black;
+            color: white;
+            font: 30px/200px "宋体";
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            /* transition: 1s; */
+        }
+    </style>
+</head>
+<body>
+    <div id="ad">这是一个广告</div>
+    <div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div><div>1</div>
+<script>
+    //需求：将广告定位到浏览器正中间。拖动滚动条和缩放窗口时，仍然保持中心位置
+{
+    let ad = document.querySelector("#ad");
+    //弹窗在可视区：居中：距离顶部的距离（整个可视区高度-ad弹窗高度）/2和距离左侧距离（整个可视区宽度-ad弹窗宽度的）/2
+    //浏览器可视区宽高
+    // let windowW = innerWidth;
+    // let windowH = innerHeight;
+
+    //广告弹窗本身宽高
+    // let adW  = ad.offsetWidth;
+    // let adH = ad.offsetHeight;
+
+    let setPos = ()=>{
+        //设置决定定位位置
+        let l = (innerWidth-ad.offsetWidth)/2;
+        let t = (innerHeight-ad.offsetHeight)/2;
+
+        //获取滚动条位置：在滚动条滚动时，加上滚动条位置即可居中
+        let scrollL = document.documentElement.scrollLeft || document.body.scrollLeft;
+        let scrollT = document.documentElement.scrollTop || document.body.scrollTop;
+
+        ad.style.left = l + scrollL + "px";
+        ad.style.top = t + scrollT + "px";
+    }
+    //页面第一次刷新时设置定位
+    setPos();
+
+    //监听到窗口缩放时，需要设置
+    window.onresize = () =>{
+        ad.style.transition = "1s";
+        setPos();
+    };
+
+    //监听到滚动条位置发生变化时，需要设置
+    window.onscroll = () =>{
+        ad.style.transition = "1s";
+        setPos();
+    };
+    
+}
+</script>
+</body>
+</html>

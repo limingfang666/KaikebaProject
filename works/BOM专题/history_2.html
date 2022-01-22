@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <a href="history_1.html">视图1</a>
+    <a href="history_2.html">视图2</a>
+    <a href="history_3.html">视图3</a>
+    <br>
+    <button>上一页</button>
+    <button>跳转到</button>
+    <input type="text">
+    <button>下一页</button>
+    <div>这个第二页</div>
+<script>
+{
+    let btn = document.querySelectorAll("button");
+    btn[0].onclick = () =>{
+        // history.go(-1);
+        history.back();//下一页
+    };
+    btn[1].onclick = () =>{
+        let page = document.querySelector("input");
+        history.go(parseInt(page.value));
+    };
+    btn[2].onclick = () =>{
+        history.forward();
+    };
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<ul id="list">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+</ul>
+<script>
+{
+    let list = document.querySelector("#list");
+    //发现li之前和li之间的换行，都是一个文本节点
+    // console.log(list.childNodes);//NodeList(11) [text, li, text, li, text, li, text, li, text, li, text]
+
+    //发现document下有两个子节点，文档声明也是一个子节点
+    console.log(document.childNodes);//NodeList(2) [html, html]
+    
+}
+</script>
+</body>
+</html>

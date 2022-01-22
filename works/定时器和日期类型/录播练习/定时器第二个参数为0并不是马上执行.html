@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        setTimeout(function(){
+            console.log("setTimeout in");
+        },0);
+        console.log("setTimeout out");
+        for(var i=0;i<5;i++){
+            setTimeout(function(){
+                console.log(i);//5 5 5 5 5 
+            },0)
+        }
+    </script>
+</body>
+</html>

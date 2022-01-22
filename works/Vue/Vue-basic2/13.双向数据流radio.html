@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双向数据流radio</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="radio" v-model="gender" value="男"/>男
+        <input type="radio" v-model="gender" value="女"/>女
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 创建根组件
+        let app = new Vue({
+            el: '#app',
+            data: {
+                gender:'男'
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>parseInt特殊处</title>
+</head>
+<body>
+    <script>
+        /*
+        parseInt(data,基数):
+        data:接收的是要转成数字的字符串，如果data不是一个字符串类型，会先转成字符串后再进行转换
+        基数：标明了String中存储的数字是几进制(2-36)
+        */
+        console.log("0xf结果为："+0xf);
+        console.log("parseInt(0xf)结果为："+parseInt(0xf));//默认将十进制的0xf转为字符串的十进制，再将字符串的十进制转为数字的十进制  "15"->15
+        console.log("parseInt(0xf,10)结果为："+parseInt(0xf,10));//标明将十进制的0xf转为字符串的十进制，再将字符串的十进制转为数字的十进制  "15"->15
+        console.log("parseInt(0xf,16)结果为："+parseInt(0xf,16));//标明将十六进制的0xf转为字符串的十进制，再将字符串的十六进制转为数字的十进制  "15"->21
+        console.log("parseInt('25',16)结果为："+parseInt("25",16));//把十六进制转为十进制：2*16+5 = 37
+    </script>
+</body>
+</html>

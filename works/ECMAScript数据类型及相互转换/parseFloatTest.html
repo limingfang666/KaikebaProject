@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>parseFloat()测试</title>
+</head>
+<body>
+<script>
+    // 转换规则参考parseInt()，比parseInt()可以多转换一个小数点，如果有多个小数点也只会转一位，parseFloat()不能进行精度计算（保留小数）；
+    var num1 = "10.0092";
+    console.log("10.0092进行parseFloat()后的数据为："+parseFloat(num1));//10.0092
+    //如果有多个小数点也只会转一位
+    var num2 = "10.009.3452";
+    console.log("10.009.3452进行parseFloat()后的数据为："+parseFloat(num2));//10.009
+    // parseFloat()不能转进制（因为小数不能进行进制转换）；
+    // JS中小数的计算会有精度问题，需要使用toFixed(位数)方法进行解决；
+    var a = "0.1";
+    var b = "0.2";
+    console.log("a*b为："+parseFloat(a*b));//0.020000000000000004
+    console.log("a*b toFixed后为："+parseFloat(a*b).toFixed(2));//0.020000000000000004 toFixed方法会进行四舍五入
+    // 小数不能进行进制转换
+</script>  
+</body>
+</html>

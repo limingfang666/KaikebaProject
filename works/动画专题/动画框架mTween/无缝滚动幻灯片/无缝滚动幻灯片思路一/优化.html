@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<style>
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    /* transition: .2s linear; */
+} 
+img {
+    vertical-align: top;
+}
+#wrap {
+    margin: 40px auto;
+    position: relative;
+    width: 600px;
+    height: 400px;
+    border: 2px solid #000;
+    overflow: hidden;
+}    
+#pics {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    height: 400px;
+    z-index: 1;
+}
+#pics li{
+    width: 600px;
+    height: 400px;
+    overflow: hidden;
+}
+#pics img {
+    width: 600px;
+    height: 400px;
+}
+.btn {
+    position: absolute;
+    top: 170px;
+    z-index: 2;
+    width: 60px;
+    font: 40px/60px "宋体";
+    text-align: center;
+    background: rgba(255, 255, 255, .6);
+    text-decoration: none;
+    color: #000;
+}
+.btn:hover {
+    background: #fff;
+}
+.prev {
+    left: 0;
+}
+.next {
+    right: 0;
+}
+#navs {
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+    z-index: 3;
+    width: 100%;
+    text-align: center;
+}
+#navs a {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+}
+#navs .active {
+    background: #f60;
+}
+</style>
+</head>
+<body>
+<div id="wrap">
+    <ul id="pics">
+        <li>
+            <img src="img2/img (1).jpg" />
+        </li>
+        <li>
+            <img src="img2/img (2).jpg" />
+        </li>
+        <li>
+            <img src="img2/img (3).jpg" />
+        </li>
+        <li>
+            <img src="img2/img (4).jpg" />
+        </li>
+        <li>
+            <img src="img2/img (5).jpg" />
+        </li>
+        <li>
+            <img src="img2/img (1).jpg" />
+        </li>
+    </ul>
+    <a href="javascript:;" class="btn prev"><</a>
+    <a href="javascript:;" class="btn next">></a>
+    <nav id="navs">
+        <a class="active"></a>
+        <a></a>
+        <a></a>
+        <a></a>
+        <a></a>
+    </nav>
+</div>
+<script src="mTween.js"></script>
+<script>
+    /*
+        无缝滚动幻灯片思路一：
+            每次图片切换到最后一张再进行点击时，就没有图片了；
+            所以加一张图片和第一张图片一样，也就是第二组第一张图片（实际就是加完图片后的最后一张）；
+            每次点击到这张图片时，将图片的索引序号瞬间切换到第一张（设置等于第一张的序号），因为图片一样的所以形成无缝的感觉
+            重点:切换图片索引序号时，必须同时切换图片的位置
+            注意这里的navs.length一定不要和lis.length混用，长度不一样
+    */
+    {
+      var wrap = document.querySelector("#wrap");
+      var navs = wrap.querySelectorAll("#navs a");
+      var prev = wrap.querySelector(".prev");
+      var next = wrap.querySelector(".next");
+      var ul = wrap.querySelector("#pics");
+      var lis = wrap.querySelectorAll("#pics li");
+       //通过改变translateX切换图片
+      var img = lis[0].querySelector("img");
+      var imgW = css(img,"width");
+
+      css(ul,"translateX",0);
+      var num = 0;//用于记录当前索引
+      navs.forEach((item,index) => {
+          item.onclick = () => {
+               //首先清空所有的当前样式
+               num = index;
+               //切换图片并改变位置
+                changePic();
+          };
+
+        //点击上一张
+        prev.onclick = function(){
+            //无缝处理：当点击上一张时，如果是第一组第0张，瞬间切换到第二组最后一张
+            if(num==0){
+                num = navs.length;
+                //切换num同时还要切换图片位置
+                css(ul,"translateX",-imgW * num);
+            }
+            num--;
+            //切换图片并改变位置
+            changePic();
+        };
+        
+          //点击下一张:通过改变left值或者translateX切换图片
+        next.onclick = function(){
+            num++;
+            //无缝处理：当切换到第二组第一张时，瞬间切换到第一组第一张
+            //这里添加后就没有无缝效果了
+            // if(num>=navs.length){
+            //     num = 0;
+            //     //切换num同时还要切换图片位置
+            //     css(ul,"translateX",-imgW * num);
+            // }
+            
+            //切换图片并改变位置
+            changePic();
+        };
+
+        let changePic =()=>{
+            //处理nav
+            navs.forEach((item,index) =>{
+                navs[index].classList.remove("active");
+            });
+            //给当前选中项加上active，需要加上过界处理
+            navs[num%navs.length].classList.add("active");
+
+            //点击nav时需切换到对应图片
+            mTween({
+                   el:ul,
+                   attr:{
+                    translateX:-imgW * num
+                   },
+                    cb(){
+                        if(num >= navs.length){ //如果现在已经是 第二个第0张了,后边就空了
+                            num = 0; // 这时回到第一个第0张，然后，继续往下走
+                            css(ul,"translateX",0);
+                        }   
+                    }
+               });
+        };
+      });
+    }
+</script>
+</body>
+</html>

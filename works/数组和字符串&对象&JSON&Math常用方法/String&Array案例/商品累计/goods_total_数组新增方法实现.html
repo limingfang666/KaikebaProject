@@ -1,0 +1,100 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>商品累计</title>
+    <link rel="stylesheet" href="./index.css" />
+    
+  </head>
+  <body>
+    <div class="box">
+      <div class="container">
+        <ul id="list">
+          <li>
+            <div class="list-left">
+              <input type="button" class="minus" value="-" />
+              <span class="n">0</span>
+              <input type="button" class="plus" value="+" />
+            </div>
+            <div class="list-right">
+              <span>单价：</span>
+              <em class="price">12.5元</em>
+              <span>小计：</span>
+              <em class="count">0元</em>
+            </div>
+          </li>
+          <li>
+            <div class="list-left">
+              <input type="button" class="minus" value="-" />
+              <span class="n">0</span>
+              <input type="button" class="plus" value="+" />
+            </div>
+            <div class="list-right">
+              <span>单价：</span>
+              <em class="price">13.5元</em>
+              <span>小计：</span>
+              <em class="count">0元</em>
+            </div>
+          </li>
+          <li>
+            <div class="list-left">
+              <input type="button" class="minus" value="-" />
+              <span class="n">0</span>
+              <input type="button" class="plus" value="+" />
+            </div>
+            <div class="list-right">
+              <span>单价：</span>
+              <em class="price">14.5元</em>
+              <span>小计：</span>
+              <em class="count">0元</em>
+            </div>
+          </li>
+          <li>
+            <div class="list-left">
+              <input type="button" class="minus" value="-" />
+              <span class="n">0</span>
+              <input type="button" class="plus" value="+" />
+            </div>
+            <div class="list-right">
+              <span>单价：</span>
+              <em class="price">15.5元</em>
+              <span>小计：</span>
+              <em class="count">0元</em>
+            </div>
+          </li>
+          <li>
+            <div class="list-left">
+              <input type="button" class="minus" value="-" />
+              <span class="n">0</span>
+              <input type="button" class="plus" value="+" />
+            </div>
+            <div class="list-right">
+              <span>单价：</span>
+              <em class="price">16.5元</em>
+              <span>小计：</span>
+              <em class="count">0元</em>
+            </div>
+          </li>
+        </ul>
+        <p>商品合计共：<strong class="totalItem">0</strong>件，共花费了：<strong class="totalVal">0</strong>元</p>
+        <p>其中最贵的已选商品单价是：<strong class="max">0</strong>元</p>
+      </div>
+    </div>
+<script>
+(function(){
+  //使用数组新增方法实现 forEach() reduce()等
+  /*
+    1.循环实现商品件数累计，并通过件数实现单件商品价格累计
+    2.汇总商品总件数、商品总花费、最贵商品单价
+        将商品总件数、商品总花费、最贵商品单价分别放到数组里，汇总时直接使用
+  */
+  var box = document.querySelector(".box");
+  var container = box.querySelector(".container");
+
+  var lis = container.querySelectorAll("li");
+  lis.forEach(function(item,index){
+
+  });
+})();
+</script>
+  </body>
+</html>

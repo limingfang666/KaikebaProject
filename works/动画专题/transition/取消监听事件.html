@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background: red;
+            
+            transition: .5s;
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <script>
+        var box = document.querySelector("#box");
+        //给box添加click监听事件，并给box width+200，然后监听结束后，取消监听
+        box.addEventListener('click',fn);
+        box.addEventListener('click',function(){
+            console.log("click事件2");
+            
+        });
+        boxWidth = parseInt(getComputedStyle(box)["width"]);
+        
+        function fn(){
+            boxWidth += boxWidth;
+            box.style["width"] = boxWidth + 'px';
+            //监听事件结束后，取消监听事件(注意必须写在监听的函数中)
+            box.removeEventListener('click',fn);
+        }
+    </script>
+</body>
+</html>

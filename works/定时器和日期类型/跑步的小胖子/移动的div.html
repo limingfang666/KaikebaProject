@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style> 
+        div{
+            width:240px;
+            height: 240px;
+            background: url(img/run.jpg);
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        button{
+            position: absolute;
+            top: 300px;
+        }
+        button:nth-of-type(1){
+            left: 75px;
+        }
+        button:nth-of-type(2){
+            left: 175px;
+        }
+        span{
+            position: absolute;
+            width: 600px;
+            height: 20px;
+            text-align: right;
+            color: #fff;
+            background: red;
+            left: 75px;
+            top: 218px;
+            padding-right: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+    <button>跑</button>
+    <button>停</button>
+    <span>终点</span>
+<script>
+(function(){
+    //需求：点击跑时开始往前跑（移动的是left的值），点击停时，停下来，一旦到大终点，不再继续跑
+    var btn = document.querySelectorAll("button");
+    //获取到当前left的位置
+    var div = document.querySelector("div");
+    //注意两个方法的格式div.currentStyle["left"] : getComputedStyle(div)["left"]
+    var left = div.currentStyle ? div.currentStyle["left"] : getComputedStyle(div)["left"];
+    //获得的left带有px单位，用于计算时需要将其去掉
+    left = parseInt(left);
+
+    //到终点时，由于是图片，所以需要计算其宽度
+    var divWidth = div.currentStyle ? div.currentStyle["width"] : getComputedStyle(div)["width"];
+    divWidth = parseInt(divWidth);
+
+    var span = document.querySelector("span");
+    var spanWith = span.currentStyle ? span.currentStyle["width"] : getComputedStyle(span)["width"];
+    spanWith = parseInt(spanWith);
+
+    console.log(left);
+    var timer = 0;
+    btn[0].onclick = function(){
+        //直接清除定时器使用clearInterval(timer)会停下来了，但是还是会继续执行后面代码，所以需要return
+        if(timer){
+            return;
+        }
+        timer = setInterval(function(){
+            left += 6;
+            //移动位置，且将图片改为动图
+            div.style.left = left + "px";
+            //当到达终点，即left值>=600px时，需要停止
+            div.style.background = "url(img/download.gif)";
+            if(left>=spanWith-divWidth/2){
+                clearInterval(timer);
+                div.style.background = "url(img/run.jpg)";
+            }
+        },20);
+    };
+
+    btn[1].onclick = function(){
+        clearInterval(timer);
+        div.style.background = "url(img/run.jpg)";
+    };
+
+})();
+</script>   
+</body>
+</html>

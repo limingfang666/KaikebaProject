@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>作用域链示例——函数拆分fn()()</title>
+</head>
+<body>
+<script>
+    // function fn(){
+    //     var b = 0;
+    //     return function(){
+    //         b++;
+    //         console.log(b);
+    //     };
+    // }
+    // var f = fn();
+    // f();//1
+    // f();//2
+    // f();//3
+    // fn()();//1
+
+    //此处的fn()();第一个括号表示执行fn()函数，第二个括号表示执行fn()函数中返回值中的函数，所以fn()()相当于整个fn函数再执行一次
+    //函数每次调用，都相当于把这个代码复制出来执行了一遍。所以fn()();每次执行都是重新执行一遍代码，相当于以下：
+    function fn(){
+        var b = 0;
+        return function(){
+            b++;
+            console.log(b);
+        };
+    }
+    function fnA(){
+        var b = 0;
+        return function(){
+            b++;
+            console.log(b);
+        };
+    }
+    fn()();//1
+    fnA()();//1
+</script>
+</body>
+</html>

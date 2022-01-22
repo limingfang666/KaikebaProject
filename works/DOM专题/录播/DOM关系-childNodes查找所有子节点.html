@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="wrap">
+    <p>p1</p>
+    <p>p2</p>
+    <!-- 注释 -->
+    <h3>h2</h3>
+    <p>p3</p>
+    <p>p4</p>
+    <h3>h2</h3>
+    <p>p5</p>
+    <h3>h2</h3>
+    <p>p6</p>
+</div>
+<script>
+{
+    let wrap = document.querySelector("#wrap");
+    //childNodes获取到所有子节点(包括所有子节点：包括文本节点、元素节点、注释节点...)
+    console.log(wrap.childNodes);//NodeList(21) [text, p, text, p, text, comment, text, h3, text, p, text, p, text, h3, text, p, text, h3, text, p, text]
+
+    //要使用childNodes获取到所有子级元素节点（使用过滤方法，当nodeType == 1时返回）
+    let childrens = wrap.childNodes;
+    childrens = [...childrens].filter(item => item.nodeType == 1 );
+    console.log(childrens);//(9) [p, p, h3, p, p, h3, p, h3, p]成功过滤出所有的元素节点
+    
+}
+</script>
+</body>
+</html>

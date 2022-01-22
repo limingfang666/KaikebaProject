@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="module">
+        // 注意使用import模块化时需要运行在服务器上，否则会报错
+        // 导出方式一对应导入方式一：
+        // import {a,b,c} from './export.js';
+        // console.log(a, b, c);//10 20 30
+
+        // 导出方式二对应导入方式二:
+        // import { aa, b, c } from './export.js';
+        // console.log(aa, b, c);//10 20 30
+
+        // 导出方式三对应导入方式三:
+        // import {d} from './export.js';
+        // console.log(d);
+        // d();//I am d function...
+
+         // 导出方式四对应导入方式四:
+        //  import a from './export.js';
+        // console.log(a);//10
+        //  import b from './export.js';
+        //  console.log(b);//20
+
+        // 导出方式五：可使用通配符*方式导入
+        import * as obj from './export.js';
+        console.log(obj);//得到的是整个模块，Module {Symbol(Symbol.toStringTag): "Module"}可通过obj.a,obj.b获取具体值
+        
+
+
+    </script>
+</body>
+
+</html>

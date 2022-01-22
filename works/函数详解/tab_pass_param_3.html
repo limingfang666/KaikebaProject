@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../index.js"></script>
+    <title>选项卡封装—传参—封装获取元素方法</title>
+    <style>
+        body { margin: 0; padding: 0; }
+        .tab .active { background: red; }
+        .cont div { display: none; }
+        .cont .show { background: #000; font-size: 60px; color: white; width: 220px; height: 220px; display: block;  }
+    </style>
+</head>
+<body>
+<div id="wrap1" class="wrap">
+    <div class="tab">
+        <button class="active">选项卡一</button>
+        <button>选项卡二</button>
+        <button>选项卡三</button>
+    </div>
+    <div class="cont">
+        <div class="show">内容一</div>
+        <div>内容二</div>
+        <div>内容三</div>
+    </div>
+</div>
+
+<div id="wrap2" class="wrap">
+        <div class="tab">
+            <button class="active">选项卡一</button>
+            <button>选项卡二</button>
+            <button>选项卡三</button>
+        </div>
+        <div class="cont">
+            <div class="show">内容一</div>
+            <div>内容二</div>
+            <div>内容三</div>
+        </div>
+</div>
+<div id="wrap3" class="wrap">
+        <div class="tab">
+            <button class="active">选项卡一</button>
+            <button>选项卡二</button>
+            <button>选项卡三</button>
+        </div>
+        <div class="cont">
+            <div class="show">内容一</div>
+            <div>内容二</div>
+            <div>内容三</div>
+        </div>
+</div>
+<script>
+
+    //通过id获取元素
+    /*
+    var wrap1 = _id("wrap1");
+    var wrap2 = _id("wrap2");
+    var wrap3 = _id("wrap3");
+    
+    tab(wrap1);
+    tab(wrap2);
+    tab(wrap3);
+    */
+   //通过数组方式获取一组
+    var wraps = _selectorAll(document,".wrap");//注意这里的parent父级已经是body了， 所以最好使用document
+    console.log(wraps);
+    for (var i = 0; i < wraps.length; i++) {
+        tab(wraps[i]);
+    }
+    function tab(wrap){
+        console.log(wrap);
+        var btn = _selectorAll(wrap,".tab button");
+        var divs = _selectorAll(wrap,".cont div");
+
+        var num = 0;//记录当前样式
+        for (var i = 0; i < btn.length; i++) {
+            btn[i].index = i;
+            btn[i].onclick = function(){
+                //清除当前样式
+                btn[num].classList.remove("active");
+                divs[num].classList.remove("show");
+
+                this.classList.add("active");
+                divs[this.index].classList.add("show");
+
+                num = this.index;
+            };
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>修改this指向-apply方法</title>
+</head>
+<body>
+<script>
+function fn(a,b){
+    console.log(this,a,b);
+}
+//直接调用，this指向window
+console.log("直接调用，this指向window:");
+fn('s','r');
+
+//调用函数的apply方法,更改this指向为document
+console.log("调用函数的apply方法,更改this指向document:");
+fn.apply(document,['2','4']);
+
+//调用函数的apply方法,更改this指向document.body
+console.log("调用函数的apply方法,更改this指向document.body:");
+fn.apply(document.body,['2','4']);
+</script>    
+</body>
+</html>

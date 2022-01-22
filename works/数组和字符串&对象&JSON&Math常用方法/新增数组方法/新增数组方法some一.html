@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div { width:200px; height:200px; margin: 100px auto;}
+    </style>
+</head>
+<body>
+<div>
+    <input type="checkbox" name="" id="">薯片
+    <br>
+    <input type="checkbox" name="" id="">水果
+    <br>
+    <input type="checkbox" name="" id="">衣服
+    <br><br>
+    <button type="submit" disabled>去支付</button>
+    <br>
+</div>
+<script>
+    //需求：全部都没有选中时，去支付按钮不能点击，只有至少有一个选中时才能进行支付
+    var inputs = document.querySelectorAll("input");
+    var btn = document.querySelector("button");
+
+    //通过JS实现
+    for (var i = 0; i < inputs.length; i++) {
+        //通过num++记录是否至少有一个checked被选中
+        var num = 0;
+        inputs[i].onclick = function(){
+            this.checked ? num++:num--;
+            //通过num判断至少有一个checked被选中，"去支付"按钮才能显示
+            btn.disabled = num?false:true;//设置按钮可编辑不能加引号
+        };
+        btn.onclick = function(){
+            alert("去支付");
+        };
+    }
+
+</script>
+</body>
+</html>

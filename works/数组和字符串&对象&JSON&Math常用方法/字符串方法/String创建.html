@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>字符串的创建</title>
+</head>
+<body>
+   <script>
+       //字符串字面量
+       var str1 = "kaikeba";
+       console.log("字符串str1:"+str1);
+       console.log("字符串str1的类型"+(typeof str1));
+
+       //字符串对象创建方式
+       var str2 = new String("kaikeba");
+       console.log("字符串str2:"+str2);
+       console.log("字符串str2的类型"+(typeof str2));
+
+       //可以通过字符串的下标获取字符串的字符
+       console.log("字符串str1的第2个字符"+(str1[1]));
+       console.log("字符串str2的第3个字符"+(str2[2]));
+
+       //这种方式类似数组通过下标获取元素
+       var arr = [1,true,2,5,"3"];
+       console.log("获取数组arr的第三个元素："+(arr[1]));
+
+       //通过字符串对象创建的字符串和数组
+       console.log(str2,arr);
+       //其实字符串就是类数组，类数组即和数组长得非常像，但并不是数组，不具备数组的所有方法
+       //类数组里面有很多方法，可以通过console.dir看到其所有的属性和方法
+       console.dir(str1);//kaikeba
+       console.dir(str2);//返回类数组
+
+       //通过字面量的方式也可以调用字符串对象上的方法，其实在内部是调用的是字符串对象上的方法
+   </script> 
+</body>
+</html>

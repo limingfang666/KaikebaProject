@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue数据拦截方式</title>
+</head>
+<body>
+    <div>div中x的值为：</div>
+    <button>button中x的值为：</button><br>
+    <input type="text" value="input中x的值为：">
+    <script>
+        let div = document.querySelector("div");
+        let btn = document.querySelector("button");
+        let input = document.querySelector("input");
+
+        let obj = {
+            x: 1
+        }
+
+        let v = obj.x;//为避免内存溢出
+        Object.defineProperty(obj, 'x', {
+            set(val) {
+                v = val;
+                div.innerHTML = `div中x的值为：${v}`;
+                btn.innerHTML = `button中x的值为：${v}`;
+                input.value = `input中x的值为：${v}`;
+                console.log("监听到了数据的变化");
+            },
+            get() {
+                console.log("返回监听到的数据");
+                return v;
+            }
+        });
+    </script>
+</body>
+</html>

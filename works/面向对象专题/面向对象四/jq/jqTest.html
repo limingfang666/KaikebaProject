@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.4.1_20190825_115323.js"></script>
+    <title>jquery特性说明</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px; 
+        }
+        #mydiv1 {
+            background-color: red;
+        }
+        #mydiv2 {
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="mydiv1"></div>
+    <div id="mydiv2"></div>
+    <script>
+        // $()的参数可以是字符串/函数/DOM操作三种形式
+        console.log( "参数为字符串",$("div"));
+        $(function(){
+            console.log("参数为函数");
+        });
+        console.log( "参数为DOM操作",$(document.querySelectorAll("div")));
+        
+        // $()方法返回的是一个jquery对象
+        console.log($("div"));//jQuery.fn.init(2) [div#mydiv1, div#mydiv2, prevObject: jQuery.fn.init(1)]
+        // jquery对象上click()方法
+        $("div").click(function(){
+            console.log("div -----click");
+        });
+         // jquery对象上eq()方法
+         console.log("eq",$("div").eq(0));
+         
+         $("div").eq(0).click(function(){
+            console.log("第一个div -----click");
+        });
+         // jquery对象上on()方法
+         $("div").on("mouseover mouseout",function(){
+             console.log("鼠标移入移出");
+         });
+         // jquery对象上css()方法：有三种方式css("width","200px")设置一个样式 css("width")获取样式  css({"width:100px","height:100px"}})设置多个样式
+         $("div").eq(0).css("width","200px");
+         console.log($("div").eq(0).css("width"));//200px
+         $("div").eq(1).css({"background-color":"yellow","height":"200px"});
+        // jquery对象上preObject属性：记录上一次操作的对象；end()获取上一次操作节点
+        console.log($("div").eq(0).end());//jQuery.fn.init(2) [div#mydiv1, div#mydiv2, prevObject: jQuery.fn.init(1)]
+        // cssNumber单位容错
+        // cssHooks()自定义扩展样式
+        $.cssHooks["wh"] = {
+            get(ele){
+                console.log("get()-----");
+                console.log("cssHooks获取后",ele.style["width"]);
+            },
+            set(ele,value){
+                ele.style["width"] = value;
+                ele.style["height"] = value;
+            }
+        };
+
+        // cssHooks设置：自定义扩展
+        $("#mydiv1").css("wh","200px");
+        // $("#mydiv1").css("wh");
+    </script>
+</body>
+</html>

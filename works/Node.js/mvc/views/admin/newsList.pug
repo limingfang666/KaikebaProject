@@ -1,0 +1,53 @@
+meta(charset='UTF-8')
+meta(name='viewport', content='width=device-width,initial-scale=1')
+meta(http-equiv='X-UA-Compatible', content='ie=edge')
+title Document
+style.
+  
+  table {
+        border-left: 1px solid #ebeef5;
+        border-top: 1px solid #ebeef5;
+        margin-top: 40px;
+        width:100%;
+        }
+        table td,
+        th {
+        border-bottom: 1px solid #ebeef5;
+        border-right: 1px solid #ebeef5;
+        }
+        .delBtn {
+        cursor: pointer;
+        }
+        a{
+          text-decoration:none;
+        }
+        .active{
+          color:red;
+        }
+div
+  table(border='0')
+    tbody
+      tr
+        th 标题
+        th 类型
+        th 国家
+        th 缩略图
+        th 操作
+      each item in adminData
+        tr
+          td #{item.title}
+          td #{item.type}
+          td #{item.country}
+          td
+            img(width='140px', src='../..'+item.imgUrl)
+          td
+            span.delBtn 
+              a(href='/admin/delete?id='+item.id+'&p='+parseInt(pageNum)) 删除
+- let p = parseInt(pageNum);
+    a.prev(href=`/admin/admin?p=${Math.max(1,p-1)}`) ⌜ 
+      - for(let i=1;i<=pageTotal;i++)
+        - if(p == i)
+          a(href='/admin/newsList?p='+i class="active") #{i}    
+        - else
+          a(href='/admin/newsList?p='+i) #{i}  
+    a.next(href=`/admin/newsList?p=${Math.min(pageTotal,p+1)}`) ⌝
